@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from '../models/user.model.js';
-import jwt from 'jsonwebtoken';
+import jwt, { decode } from 'jsonwebtoken';
 
 const generateAccessRefreshToken = async (userId) => {
     try {
@@ -101,10 +101,96 @@ const logoutUser = asyncHandler(async(req,res)=>{
     .clearCookie('accessToken',options)
     .clearCookie('refreshToken',options)
     .json(new ApiResponse(200, {}, "User Logged Out"))
+});
+
+const refreshAccessToken = asyncHandler(async(req,res)=>{
+    incomingRequestToken = req.cookies.refreshToken || req.body.refreshToken
+    if(!incomingRequestToken){
+        throw new ApiError(400,"Unauthorized Request")
+    }
+
+    try {
+        const decodedToken = jwt.verify(incomingRequestToken,process.env.REFRESH_TOKEN_SECRET)
+
+        const user = await User.findById(decodedToken._id)
+        if(!user){
+            throw new ApiError(400,"Invalid Refresh Token")
+        }
+
+        if(incomingRequestToken !== user?.refreshToken){
+            throw new ApiError(400,"Refresh token is expired or used")
+        }
+
+        const {accessToken, newRefreshToken} = generateAccessRefreshToken(user._id)
+
+        const options = {
+            httpOnly:true,
+            secure:true
+        }
+
+        return res
+        .status(200)
+        .clearCookie("accessToken",accessToken,options)
+        .clearCookie("refreshToken",refreshToken,options)
+        .json(new ApiResponse(200,{accessToken, refreshToken:newRefreshToken}, "AccessToken refreshed Successfull"))
+    } catch (error) {
+        throw new ApiError(400,error.message || "error while refreshing token")
+    }
+});
+
+const changePassword = asyncHandler(async(req,res)=>{
+    const {oldPassword, newPassword} = req.body
+
+    const user = await User.findById(req.user?._id)
+    const isPasswordValid = await user.isPasswordCorrect(oldPassword)
+    if(!isPasswordValid){
+        throw new ApiError(400,"Invalid password")
+    }
+
+    user.password = newPassword;
+    await user.save({validateBeforeSave:true});
+    
+    return res
+    .status(200)
+    .json(new ApiResponse(200,{},"Password changed successfull"))
+});
+
+const getCurrentUserDetails = asyncHandler(async(req,res)=>{
+    const user = await User.findById(req.user?._id).select("-password")
+    return res
+    .status(200)
+    .json(new ApiResponse(200,user,"User details fetched Successful"))
+});
+
+const updateAccountDetails = asyncHandler(async(req,res)=>{
+    const {name, email, businessName} = req.body
+    if(!name || !email || !businessName){
+        throw new ApiError(400,"All field are required")
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set:{
+                name,
+                email,
+                businessName
+            }
+        },
+        {new : true}
+    ).select("-password")
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User updated successful"))
 })
 
 export {
     registerUser,
     loginUser,
     logoutUser,
-};
+    refreshAccessToken,
+    changePassword,
+    getCurrentUserDetails,
+    updateAccountDetails,
+};  
