@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { Inventory } from './Inventory';
+import { Inventory } from './inventory.model.js';
 
 const salesSchema = new Schema({
     owner: {
@@ -11,15 +11,15 @@ const salesSchema = new Schema({
         ref: 'Inventory',
         required: true
     },
-    productName: {
-        type: String,
-        required: true
-    },
-    Price: {
+    // productName: {
+    //     type: String,
+    //     required: true
+    // },
+    price: {
         type: Number,
         required: true
     },
-    ProfitInPercent: {
+    profitInPercent: {
         type: Number,
         required: true
     },
@@ -30,6 +30,14 @@ const salesSchema = new Schema({
     date: {
         type: Date,
         required: true
+    },
+    sale:{
+        type:Number,
+        required: true
+    },
+    profit:{
+        type:Number,
+        required:true
     }
 }, { timestamps: true });
 
