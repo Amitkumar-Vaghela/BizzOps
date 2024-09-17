@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
-const inventorySchema = new mongoose.Schema({
+
+const inventorySchema = new Schema({
     item: {
         type: String,
         required: true,
@@ -18,6 +19,6 @@ const inventorySchema = new mongoose.Schema({
         type: Date,
         required: true
     }
-});
+}, { timestamps: true });
 
-export const Inventory = mongoose.model('Inventory', inventorySchema)
+export const Inventory = mongoose.model('Inventory', inventorySchema);
