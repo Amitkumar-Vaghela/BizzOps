@@ -59,17 +59,14 @@ const addStock = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid product ID or quantity");
     }
 
-    // Find the inventory item by its ID and ensure it belongs to the current user
     const inventoryItem = await Inventory.findOne({ _id: product, owner });
 
     if (!inventoryItem) {
         throw new ApiError(404, "Inventory item not found or you do not own this item");
     }
 
-    // Update the stockRemain by adding the new quantity
     inventoryItem.stockRemain += newQty;
 
-    // Save the updated inventory item
     await inventoryItem.save();
 
     return res
@@ -89,17 +86,14 @@ const removeStock = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid product ID or quantity");
     }
 
-    // Find the inventory item by its ID and ensure it belongs to the current user
     const inventoryItem = await Inventory.findOne({ _id: product, owner });
 
     if (!inventoryItem) {
         throw new ApiError(404, "Inventory item not found or you do not own this item");
     }
 
-    // Update the stockRemain by adding the new quantity
     inventoryItem.stockRemain -= newQty;
 
-    // Save the updated inventory item
     await inventoryItem.save();
 
     return res
