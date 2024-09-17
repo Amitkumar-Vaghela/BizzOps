@@ -1,9 +1,15 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose';
+import { Inventory } from './Inventory';
 
 const salesSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    product: { 
+        type: Schema.Types.ObjectId,
+        ref: 'Inventory',
+        required: true
     },
     productName: {
         type: String,
@@ -25,16 +31,23 @@ const salesSchema = new Schema({
         type: Date,
         required: true
     }
-}, { timestamps: true })
+}, { timestamps: true });
 
-
+// Post-save hook to update the inventory after sale
 salesSchema.post('save', async function (doc) {
-    const inventoryItem = await Inventory.findById(doc.product); //product from frontEnd
-    inventoryItem.stockRemain -= doc.qtySold;
-    await inventoryItem.save();
-}
-);
+    try {
+        const inventoryItem = await Inventory.findById(doc.product);
+        
+        if (!inventoryItem) {
+            throw new Error('Inventory item not found');
+        }
 
+        inventoryItem.stockRemain -= doc.qty;
 
+        await inventoryItem.save();
+    } catch (error) {
+        console.error('Error updating inventory after sale:', error);
+    }
+});
 
-export const Sales = mongoose.model('Sales', salesSchema) 
+export const Sales = mongoose.model('Sales', salesSchema);
