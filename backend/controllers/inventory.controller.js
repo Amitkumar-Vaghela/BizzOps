@@ -73,6 +73,7 @@ const addStock = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, inventoryItem, "Stock updated successfully"));
 });
+
 const removeStock = asyncHandler(async (req, res) => {
     let { product, newQty } = req.body;  // product is a id of product
     newQty = Number(newQty);
