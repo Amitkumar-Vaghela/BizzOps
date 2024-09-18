@@ -24,4 +24,4 @@ const customerSchema = new mongoose.Schema({
   },
 });
 
-export const CRM = mongoose.model('CRM',customerSchema)
+export const CRM = mongoose.model('CUSTOMER',customerSchema)
