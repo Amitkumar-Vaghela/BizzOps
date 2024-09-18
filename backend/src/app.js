@@ -21,10 +21,12 @@ import userRouter from "../routes/user.routes.js";
 import inventoryRouter from "../routes/inventory.routes.js"
 import salesRouter from "../routes/sales.routes.js"
 import customerRouter from "../routes/customer.routes.js"
+import invoiceRouter from "../routes/invoice.routes.js"
 //routes declaration
 app.use("/api/v1/users",userRouter) // this will become prefix like .../api/v1/users/register
 app.use("/api/v1/inventory",inventoryRouter)
 app.use("/api/v1/sales",salesRouter) 
 app.use("/api/v1/customer",customerRouter)
+app.use("/api/v1/invoice",invoiceRouter)
 
 export {app}
