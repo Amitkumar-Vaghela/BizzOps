@@ -34,6 +34,14 @@ const invoiceSchema = new mongoose.Schema({
     type: true,
     required: true,
     default:false
+  },
+  subTotal: {
+    type: Number,
+    required: true
+  },
+  grandTotal: {
+    type: Number,
+    required: true
   }
 })
 
