@@ -68,10 +68,126 @@ const getSales = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,sales,"sales get successfull"));
 })
 
+const getTotalSalesValueOneDay = asyncHandler(async (req, res) => {
+    const ownerId = req.user?._id;
+
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const result = await Sales.aggregate([
+        { $match: { owner: ownerId, date: { $gte: startOfToday } } },
+        { 
+            $group: {
+                _id: null,
+                totalSalesValue: { $sum: "$sale" },
+            },
+        },
+    ]);
+
+    console.log(result)
+
+    const totalSalesValue = result.length > 0 ? result[0].totalSalesValue : 0;
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { totalSalesValue }, "Total sales value for one day retrieved successfully"));
+});
+
+const getTotalSalesValueLast30Days = asyncHandler(async (req, res) => {
+    const ownerId = req.user?._id;
+
+    const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+
+    const result = await Sales.aggregate([
+        { $match: { owner: ownerId, date: { $gte: thirtyDaysAgo } } },
+        { 
+            $group: {
+                _id: null,
+                totalSalesValue: { $sum: "$sale" }
+            }
+        }
+    ]);
+
+    const totalSalesValue = result.length > 0 ? result[0].totalSalesValue : 0;
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { totalSalesValue }, "Total sales value for past 30 days retrieved successfully"));
+});
+
+const getTotalSalesValueAllTime = asyncHandler(async (req, res) => {
+    const ownerId = req.user?._id;
+
+    const result = await Sales.aggregate([
+        { $match: { owner: ownerId } },
+        { 
+            $group: {
+                _id: null,
+                totalSalesValue: { $sum: "$sale" }
+            }
+        }
+    ]);
+
+    const totalSalesValue = result.length > 0 ? result[0].totalSalesValue : 0;
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { totalSalesValue }, "Total sales value for all time retrieved successfully"));
+});
+
+const getTotalProfitValueOneDay = asyncHandler(async (req, res) => {
+    const ownerId = req.user?._id;
+
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const result = await Sales.aggregate([
+        { $match: { owner: ownerId, date: { $gte: startOfToday } } },
+        { 
+            $group: {
+                _id: null,
+                totalProfitValue: { $sum: "$profit" }, // Summing the profit field
+            },
+        },
+    ]);
+
+    const totalProfitValue = result.length > 0 ? result[0].totalProfitValue : 0;
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { totalProfitValue }, "Total profit value for one day retrieved successfully"));
+});
+
+const getTotalProfitValueLast30Days = asyncHandler(async(req, res)=>{
+    const ownerId = req.user?._id
+    const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+    
+    const result = await Sales.aggregate([
+        {$match:{owner:ownerId, date:{$gte:thirtyDaysAgo}}},
+        {
+            $group:{
+                _id:null,
+                totalProfitValue : {$sum:"$profit"}
+            }
+        }
+    ])
+
+    const totalProfitValue = result.length > 0 ? result[0].totalProfitValue : 0 
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200,{totalProfitValue},"Total profit value for last 30 days retrived successfull"))
+})
+
 
 export { 
     addSale,
     getSales,
+    getTotalSalesValueOneDay,
+    getTotalSalesValueAllTime,
+    getTotalSalesValueLast30Days,
+    getTotalProfitValueOneDay,
+    getTotalProfitValueLast30Days,
 };
 
 
