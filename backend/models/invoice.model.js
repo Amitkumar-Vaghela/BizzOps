@@ -1,15 +1,40 @@
-import mongoose,{Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const invoiceSchema = new mongoose.Schema({
-  fileName: {
-    type: String,
-    required: true,
-    default: ""
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   },
-  fileURL: {
-    type: String,
-    required: true,
+  name: {
+    type: Schema.Types.ObjectId,
+    ref: 'Customer',
+    required: true
   },
-});
+  item: {
+    type: String,
+    required: true
+  },
+  qty: {
+    type: Number,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  total: {
+    type: Number,
+    required: true
+  },
+  tax: {
+    type: Number,
+    required: true
+  },
+  paid: {
+    type: true,
+    required: true,
+    default:false
+  }
+})
 
-export const Invoice = mongoose.model('Invoice',invoiceSchema)
+export const Invoice = mongoose.model('Invoice', invoiceSchema)
