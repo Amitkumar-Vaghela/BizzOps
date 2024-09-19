@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const expenseSchema = new mongoose.Schema({
-    expOn: {
+    name: {
         type: String,
         required: true,
     },
@@ -9,6 +9,9 @@ const expenseSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0,
+    },
+    discription:{
+        type: String,
     },
     date: {
         type: Date,
