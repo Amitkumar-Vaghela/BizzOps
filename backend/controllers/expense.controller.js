@@ -1,38 +1,38 @@
-import {ApiError} from '../utils/ApiError.js'
-import {ApiResponse} from '../utils/ApiResponse.js'
-import {asyncHandler} from '../utils/asyncHandler.js'
-import { Expense } from '../models/expense.model.js'
+import { ApiError } from '../utils/ApiError.js';
+import { ApiResponse } from '../utils/ApiResponse.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
+import { Expense } from '../models/expense.model.js';
 
-const addExpense = asyncHandler(async(req,res)=>{
-    const {name, expAmount, description, date} = req.body
-    const owner = req.user?._id
-    if(!name || !expAmount || !description || !date){
-        throw new ApiError(400,"All fields are required")
+const addExpense = asyncHandler(async (req, res) => {
+    const { name, expAmount, description, date } = req.body;
+    const owner = req.user?._id;
+    if (!name || !expAmount || !description || !date) {
+        throw new ApiError(400, "All fields are required");
     }
-    if(!owner){
-        throw new ApiError(400,"Unauthorized request")
+    if (!owner) {
+        throw new ApiError(400, "Unauthorized request");
     }
 
     const expense = await Expense.create({
         name,
         expAmount,
         description,
-        date
-    })
-    if(!expense){
-        throw new ApiError(400,"Error while creating expense")
+        date,
+        owner
+    });
+    if (!expense) {
+        throw new ApiError(400, "Error while creating expense");
     }
     return res
-    .status(200)
-    .json(new ApiResponse(200,{expense},"expense added successfully"))
-})
+        .status(200)
+        .json(new ApiResponse(200, { expense }, "Expense added successfully"));
+});
 
-const getExpense = asyncHandler(async(req,res)=>{
-    const { timeFilter } = req.params; 
+const getExpense = asyncHandler(async (req, res) => {
+    const { timeFilter } = req.params;
     const ownerId = req.user?._id;
 
-    let filter = { owner: ownerId }; 
-
+    let filter = { owner: ownerId };
 
     switch (timeFilter) {
         case 'oneday':
@@ -50,9 +50,9 @@ const getExpense = asyncHandler(async(req,res)=>{
 
     const expense = await Expense.find(filter);
     return res
-    .status(200)
-    .json(new ApiResponse(200,{expense},"sales get successfull"));
-})
+        .status(200)
+        .json(new ApiResponse(200, { expense }, "Expenses retrieved successfully"));
+});
 
 const getOneDayExpense = asyncHandler(async (req, res) => {
     const ownerId = req.user?._id;
@@ -62,15 +62,13 @@ const getOneDayExpense = asyncHandler(async (req, res) => {
 
     const result = await Expense.aggregate([
         { $match: { owner: ownerId, date: { $gte: startOfToday } } },
-        { 
+        {
             $group: {
                 _id: null,
                 totalExpenseValue: { $sum: "$expAmount" },
             },
         },
     ]);
-
-    console.log(result)
 
     const totalExpenseValue = result.length > 0 ? result[0].totalExpenseValue : 0;
 
@@ -86,7 +84,7 @@ const getLast30DaysExpense = asyncHandler(async (req, res) => {
 
     const result = await Expense.aggregate([
         { $match: { owner: ownerId, date: { $gte: thirtyDaysAgo } } },
-        { 
+        {
             $group: {
                 _id: null,
                 totalExpenseValue: { $sum: "$expAmount" }
@@ -106,10 +104,10 @@ const getAllTimeExpense = asyncHandler(async (req, res) => {
 
     const result = await Expense.aggregate([
         { $match: { owner: ownerId } },
-        { 
+        {
             $group: {
                 _id: null,
-                totalExpenseValue: { $sum: "$sale" }
+                totalExpenseValue: { $sum: "$expAmount" }
             }
         }
     ]);
@@ -127,4 +125,4 @@ export {
     getAllTimeExpense,
     getLast30DaysExpense,
     getOneDayExpense
-}
+};
