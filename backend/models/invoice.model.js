@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const invoiceSchema = new mongoose.Schema({
+const invoiceSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -10,26 +10,18 @@ const invoiceSchema = new mongoose.Schema({
     ref: 'Customer',
     required: true
   },
-  item: {
-    type: String,
-    required: true
-  },
-  qty: {
-    type: Number,
-    required: true
-  },
-  price: {
-    type: Number,
-    required: true
-  },
-  tax: {
-    type: Number,
-    required: true
-  },
+  items: [
+    {
+      itemName: { type: String, required: true },
+      qty: { type: Number, required: true },
+      price: { type: Number, required: true },
+      tax: { type: Number, required: true }
+    }
+  ],
   paid: {
     type: Boolean,
     required: true,
-    default:false
+    default: false
   },
   subTotal: {
     type: Number,
@@ -39,6 +31,6 @@ const invoiceSchema = new mongoose.Schema({
     type: Number,
     required: true
   }
-})
+});
 
-export const Invoice = mongoose.model('Invoice', invoiceSchema)
+export const Invoice = mongoose.model('Invoice', invoiceSchema);
