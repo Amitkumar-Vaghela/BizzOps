@@ -10,13 +10,18 @@ const expenseSchema = new mongoose.Schema({
         required: true,
         default: 0,
     },
-    description:{
+    description: {
         type: String,
     },
     date: {
         type: Date,
         required: true
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 
-export const Expense = mongoose.model('Expense', expenseSchema)
+export const Expense = mongoose.model('Expense', expenseSchema);
