@@ -66,7 +66,7 @@ function Register() {
             </div>
             <div className="w-2/4 m-16 mt-16">
                 <form onSubmit={handleRegister} className="p-8">
-                    <h2 className="text-4xl font-poppins font-bold mb-10">Register</h2>
+                    <h2 className="text-4xl font-poppins font-bold mb-10">Sign Up</h2>
                     <div className="relative mb-4">
                         <FontAwesomeIcon icon={faUser} className="absolute left-3 top-4 text-black" />
                         <input
