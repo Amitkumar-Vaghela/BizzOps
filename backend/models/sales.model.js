@@ -11,10 +11,10 @@ const salesSchema = new Schema({
         ref: 'Inventory',
         required: true
     },
-    // productName: {
-    //     type: String,
-    //     required: true
-    // },
+    productName: {
+        type: String,
+        required: true
+    },
     price: {
         type: Number,
         required: true
@@ -36,6 +36,10 @@ const salesSchema = new Schema({
         required: true
     },
     profit:{
+        type:Number,
+        required:true
+    },
+    cost:{
         type:Number,
         required:true
     }
