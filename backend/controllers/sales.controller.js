@@ -21,24 +21,26 @@ const addSale = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Not enough stock available");
     }
 
-    const totalSale = (price*qty);
-    const totalProfit = (totalSale*profitInPercent)/100;
+    const totalSale = (price * qty);
+    const totalProfit = (totalSale * profitInPercent) / 100;
+    const totalCost = totalSale - totalProfit;
 
     const newSale = await Sales.create({
         owner,
         product,
+        productName: inventoryItem.item,
         price,
         profitInPercent,
         qty,
         sale: totalSale,
         profit: totalProfit,
+        cost: totalCost,
         date: new Date(date)
     });
 
-
     return res
-    .status(201)
-    .json(new ApiResponse(201, newSale, "Sale added successfully"));
+        .status(201)
+        .json(new ApiResponse(201, newSale, "Sale added successfully"));
 });
 
 const getSales = asyncHandler(async(req,res)=>{
