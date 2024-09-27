@@ -20,3 +20,5 @@ const notesSchema = new Schema({
         default:false
     }
 },{timestamps:true})
+
+export const Note = mongoose.model("Note",notesSchema)

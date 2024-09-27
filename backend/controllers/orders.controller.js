@@ -45,3 +45,8 @@ const getOrders = asyncHandler(async(req,res)=>{
     .status(200)
     .json(new ApiResponse(200,orders,"Orders retrived successfully"))
 })
+
+export {
+    addOrder,
+    getOrders
+}
