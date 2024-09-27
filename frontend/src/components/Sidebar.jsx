@@ -6,7 +6,7 @@ import { faChartLine, faClockFour, faDollar, faFileInvoice, faMoneyBill, faNoteS
 function Sidebar(){
     return(
         <>
-            <div className="w-1/6 min-h-screen m-1 rounded-xl bg-gradient-to-r from-blue-100 to-indigo-100">
+            <div className="w-1/6 min-h-screen m-3 rounded-xl bg-white">
                 <img className="pt-10 ml-6 mb-9 w-40 h-20" src={logo} alt="log" />
                 <h1 className="font-poppins font-light text-md ml-7 mt-5"> <FontAwesomeIcon icon={faChartLine} className="text-black pr-2" /> Dashboard</h1>
                 <h1 className="font-poppins font-light text-md ml-7 mt-5"> <FontAwesomeIcon icon={faShop} className="text-black pr-2" /> Inventory</h1>
