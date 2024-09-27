@@ -24,6 +24,9 @@ import customerRouter from "../routes/customer.routes.js"
 import invoiceRouter from "../routes/invoice.routes.js"
 import staffRouter from '../routes/staff.routes.js'
 import expenseRouter from "../routes/expense.routes.js"
+import notesRouter from "../routes/notes.routes.js"
+import ordersRouter from "../routes/orders.routes.js"
+
 //routes declaration
 app.use("/api/v1/users",userRouter) // this will become prefix like .../api/v1/users/register
 app.use("/api/v1/inventory",inventoryRouter)
@@ -32,5 +35,7 @@ app.use("/api/v1/customer",customerRouter)
 app.use("/api/v1/invoice",invoiceRouter)
 app.use("/api/v1/staff",staffRouter)
 app.use("/api/v1/expense",expenseRouter)
+app.use("/api/v1/orders",ordersRouter)
+app.use("/api/v1/notes",notesRouter)
 
 export {app}

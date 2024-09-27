@@ -14,7 +14,7 @@ const notesSchema = new Schema({
         type: String,
         required: true
     },
-    remove : {
+    undo : {
         type: Boolean,
         required : true,
         default:false
