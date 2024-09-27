@@ -31,5 +31,17 @@ const addOrder = asyncHandler(async(req,res)=>{
 })
 
 const getOrders = asyncHandler(async(req,res)=>{
-    
+    const ownerId = req.user?._id
+    if(!ownerId){
+        throw new ApiError(400,"Unauthorized Request")
+    }
+
+    const orders = await Order.find({ownerId})
+    if(!orders){
+        throw new ApiError(400,"Error while fetching orders")
+    }
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200,orders,"Orders retrived successfully"))
 })
