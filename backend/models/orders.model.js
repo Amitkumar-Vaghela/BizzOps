@@ -37,6 +37,11 @@ const orderSchema = new Schema({
     sale:{
         type: Number,
         required: true
+    },
+    done :{
+        type:Boolean,
+        required:true,
+        default:false
     }
 },{timestamps:true})
 

@@ -46,7 +46,20 @@ const getOrders = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,orders,"Orders retrived successfully"))
 })
 
+const getPendingOrder = asyncHandler(async (req, res) => {
+    const ownerId = req.user?._id;
+    if (!ownerId) {
+        throw new ApiError(400, "Unauthorized Request");
+    }
+    const pendingCount = await Order.countDocuments({ owner: ownerId, done: false });
+    
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { pendingCount }, "Pending orders counted successfully"));
+});
+
 export {
     addOrder,
-    getOrders
+    getOrders,
+    getPendingOrder
 }
