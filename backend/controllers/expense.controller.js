@@ -5,6 +5,7 @@ import { Expense } from '../models/expense.model.js';
 
 const addExpense = asyncHandler(async (req, res) => {
     const { name, expAmount, description, date } = req.body;
+    
     const owner = req.user?._id;
     if (!name || !expAmount || !description || !date) {
         throw new ApiError(400, "All fields are required");
