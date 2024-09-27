@@ -34,6 +34,10 @@ const orderSchema = new Schema({
         type: Number,
         required: true
     },
+    sale:{
+        type: Number,
+        required: true
+    }
 },{timestamps:true})
 
 export const Order = mongoose.model('Order',orderSchema)

@@ -1,0 +1,35 @@
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { Order } from "../models/orders.model.js";
+
+const addOrder = asyncHandler(async(req,res)=>{
+    const {item,qty,price,dateToDilivery,profitInPercent} = req.body
+    const owner = req.user?._id
+    if(!item || !qty || !price || !dateToDilivery || !profitInPercent){
+        throw new ApiError(400,"All fields are required")
+    }
+    if(!owner){
+        throw new ApiError(400,"Unauthorized request")
+    }
+
+    const totalSale = (price * qty);
+    const totalProfit = (totalSale * profitInPercent) / 100;
+    const totalCost = totalSale - totalProfit;
+
+    const order = await Order.create({
+        owner,
+        item,
+        qty,
+        price,
+        profitInPercent,
+        dateToDilivery,
+        sale:totalSale,
+        profit:totalProfit,
+        cost:totalCost        
+    })
+})
+
+const getOrders = asyncHandler(async(req,res)=>{
+    
+})
