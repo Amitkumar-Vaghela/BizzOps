@@ -10,14 +10,15 @@ function App() {
 
   return (
     <>
-      {/* <Router>
+      <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/login" element={<Signin />} />
           <Route path="/register" element={<Signup />} />
         </Routes>
-      </Router> */}
-      <Dashboard/>
+      </Router>
+      
     </>
   )
 }

@@ -3,8 +3,10 @@ import axios from "axios"; // Make sure to import axios
 import logo from '../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'; // Import icons
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorPopup, setErrorPopup] = useState("")
@@ -24,6 +26,7 @@ function Login() {
                 if (accessToken) {
                     localStorage.setItem("accessToken", "Bearer " + accessToken);
                 }
+                navigate('/dashboard')
             }
             console.log(response.data.message);
         } catch (error) {

@@ -181,6 +181,104 @@ const getTotalProfitValueLast30Days = asyncHandler(async(req, res)=>{
     .json(new ApiResponse(200,{totalProfitValue},"Total profit value for last 30 days retrived successfull"))
 })
 
+const getDailyTotalSalesValuePast30Days = asyncHandler(async (req, res) => {
+    const ownerId = req.user?._id;
+    const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+    
+    const results = await Sales.aggregate([
+        { 
+            $match: { 
+                owner: ownerId, 
+                date: { $gte: thirtyDaysAgo } 
+            } 
+        },
+        { 
+            $group: {
+                _id: { 
+                    $dateToString: { format: "%Y-%m-%d", date: "$date" } // Group by date
+                },
+                totalSalesValue: { $sum: "$sale" } // Sum of sales
+            } 
+        },
+        {
+            $sort: { _id: 1 } // Sort by date ascending
+        }
+    ]);
+
+    // Format the result as an object with date as key and total sales as value
+    const dailySalesValue = {};
+    results.forEach(item => {
+        dailySalesValue[item._id] = item.totalSalesValue;
+    });
+
+    // Ensure all days in the past 30 days are present in the result, even if sales are 0
+    const today = new Date();
+    for (let i = 0; i < 30; i++) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        const formattedDate = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+        if (!dailySalesValue[formattedDate]) {
+            dailySalesValue[formattedDate] = 0; // Set to 0 if no sales
+        }
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, dailySalesValue, "Daily total sales value for the past 30 days retrieved successfully"));
+});
+
+// Assuming you are using Express and Mongoose
+//const Sales = require('../models/Sales'); // Adjust the import based on your model path
+
+const getDailyProfitLast30Days = asyncHandler(async (req, res) => {
+    const ownerId = req.user?._id;
+    const today = new Date();
+    const past30Days = new Date(today.setDate(today.getDate() - 30));
+
+    const results = await Sales.aggregate([
+        { 
+            $match: { 
+                owner: ownerId, 
+                date: { $gte: past30Days } 
+            } 
+        },
+        { 
+            $group: {
+                _id: { 
+                    $dateToString: { format: "%Y-%m-%d", date: "$date" } // Group by date
+                },
+                totalProfitValue: { $sum: "$profit" } // Sum of profit
+            } 
+        },
+        {
+            $sort: { _id: 1 } // Sort by date ascending
+        }
+    ]);
+
+    // Format the result as an object with date as key and total profit as value
+    const dailyProfitValue = {};
+    results.forEach(item => {
+        dailyProfitValue[item._id] = item.totalProfitValue;
+    });
+
+    // Ensure all days in the past 30 days are present in the result, even if profit is 0
+    const todayFormatted = today.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+    for (let i = 0; i < 30; i++) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        const formattedDate = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+        if (!dailyProfitValue[formattedDate]) {
+            dailyProfitValue[formattedDate] = 0; // Set to 0 if no profit
+        }
+    }
+
+    return res.status(200).json(new ApiResponse(200, dailyProfitValue, "Daily total profit value for the past 30 days retrieved successfully"));
+});
+
+
+
+
+
 
 export { 
     addSale,
@@ -190,4 +288,6 @@ export {
     getTotalSalesValueLast30Days,
     getTotalProfitValueOneDay,
     getTotalProfitValueLast30Days,
+    getDailyTotalSalesValuePast30Days,
+    getDailyProfitLast30Days
 };
