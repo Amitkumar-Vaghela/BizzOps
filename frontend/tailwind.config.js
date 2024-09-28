@@ -11,6 +11,7 @@ export default {
         fontt: ['"JetBrains Mono"', 'monospace'],
         fontt2: ['Arial', 'monospace'],
         fontt3: ['"Space Grotesk"', 'monospace'],
+        font4: ['"Work Sans"', 'monospace'],
       }
     },
   },
