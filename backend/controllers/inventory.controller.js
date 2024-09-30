@@ -37,13 +37,13 @@ const getInventoryItem = asyncHandler(async (req, res) => {
     const inventoryItems = await Inventory.find({ owner });
 
  
-    if (!inventoryItems || inventoryItems.length === 0) {
+    if (!inventoryItems ) {
         throw new ApiError(404, "No inventory items found");
     }
 
     return res
         .status(200)
-        .json(new ApiResponse(200, inventoryItems, "Inventory items fetched successfully"));
+        .json(new ApiResponse(200, inventoryItems || 0, "Inventory items fetched successfully"));
 });
 
 const addStock = asyncHandler(async (req, res) => {

@@ -163,31 +163,31 @@ function Dashboard() {
 
                         <div className="w-1/5">
                             <div className="w-full flex gap-4">
-                                <div className="w-2/4 bg-blue-100 rounded-3xl text-center shadow-md">
+                                <div className="w-2/4 bg-blue-50 rounded-3xl text-center shadow-md">
                                     <p className="font-font4 font-light m-2 text-sm">Orders</p>
                                     <hr />
                                     <h1 className="font-font4 font-normal text-xl m-2">123</h1>
                                 </div>
-                                <div className="w-3/4 bg-blue-100 rounded-3xl text-center shadow-md">
+                                <div className="w-2/4 bg-blue-50 rounded-3xl text-center shadow-md">
                                     <p className="font-font4 font-light m-2 text-sm">Pending Orders</p>
                                     <hr />
                                     <h1 className="font-font4 font-normal text-xl m-2">1234</h1>
                                 </div>
                             </div>
                             <div className="w-full flex gap-4 mt-4">
-                                <div className="w-2/4 bg-blue-100 rounded-3xl text-center shadow-md">
+                                <div className="w-2/4 bg-blue-50 rounded-3xl text-center shadow-md">
                                     <p className="font-font4 font-light m-2 text-sm">Total Invoices</p>
                                     <hr />
                                     <h1 className="font-font4 font-normal text-xl m-2">123</h1>
                                 </div>
-                                <div className="w-2/4 bg-blue-100 rounded-3xl text-center shadow-md">
+                                <div className="w-2/4 bg-blue-50 rounded-3xl text-center shadow-md">
                                     <p className="font-font4 font-light m-2 text-sm">Pending Invoices</p>
                                     <hr />
                                     <h1 className="font-font4 font-normal text-xl m-2">1234</h1>
                                 </div>
                             </div>
-                            <div className="w-full flex justify-center gap-4 mt-4">
-                                <div className="w-2/4 bg-blue-100 rounded-3xl text-center shadow-md">
+                            <div className="w-full flex justify-center gap-4 mt-4 h-24">
+                                <div className="w-2/4 bg-blue-50 rounded-3xl text-center shadow-md">
                                     <p className="font-font4 font-light m-2 text-sm">Total Invoices</p>
                                     <hr />
                                     <h1 className="font-font4 font-normal text-xl m-2">123</h1>
