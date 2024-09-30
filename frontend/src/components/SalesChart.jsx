@@ -13,18 +13,13 @@ const SalesChart = () => {
             try {
                 const response = await axios.get("http://localhost:8000/api/v1/sales/get-daily-sale-30Day", { withCredentials: true });
 
-                // Log the received data for debugging
-                console.log('Sales Data:', response.data.data);
 
-                const labels = Object.keys(response.data.data); // Extract date labels
-                const salesValues = Object.values(response.data.data); // Extract corresponding sales values
-
-                // Destroy the previous chart instance if it exists
+                const labels = Object.keys(response.data.data); 
+                const salesValues = Object.values(response.data.data); 
                 if (chartInstanceRef.current) {
                     chartInstanceRef.current.destroy();
                 }
 
-                // Create the chart instance
                 chartInstanceRef.current = new Chart(chartRef.current, {
                     type: 'line',
                     data: {
@@ -55,33 +50,33 @@ const SalesChart = () => {
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Sales', // Set x-axis title
+                                    text: 'Date', 
                                     font: {
                                         family: 'Helvetica',
                                         size: 14,
                                         style: 'normal',
                                         weight: 'bold', 
                                     },
-                                    color: 'rgba(0, 0, 0, 0.87)', // Dark color for title
+                                    color: 'rgba(0, 0, 0, 0.87)',
                                 },
                                 grid: {
                                     display: false,
                                 },
                                 ticks: {
-                                    display: false, // Hide x-axis labels
+                                    display: false, 
                                 },
                             },
                             y: {
                                 title: {
                                     display: true,
-                                    text: 'Date',
+                                    text: 'Sale',
                                     font: {
                                         family: 'Helvetica',
                                         size: 14,
                                         style: 'normal',
                                         weight: 'bold', 
                                     },
-                                    color: 'rgba(0, 0, 0, 0.87)', // Dark color for title
+                                    color: 'rgba(0, 0, 0, 0.87)', 
                                 },
                                 grid: {
                                     display: false,
@@ -111,7 +106,7 @@ const SalesChart = () => {
         <canvas
             ref={chartRef}
             className="w-80 h-80"
-            style={{ backgroundColor: 'transparent' }} // Set background color to transparent
+            style={{ backgroundColor: 'transparent' }}
         />
     );
 };

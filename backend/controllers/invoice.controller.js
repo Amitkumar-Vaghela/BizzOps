@@ -113,10 +113,27 @@ const getUnpaidInvoices = asyncHandler(async(req, res) => {
         .json(new ApiResponse(200, { totalUnpaidAmount, unpaidInvoices }, "Unpaid invoices retrieved successfully"));
 });
 
+const countInvoices = asyncHandler(async (req, res) => {
+    const owner = req.user?._id;
+
+    if (!owner) {
+        throw new ApiError(401, "Unauthorized request");
+    }
+
+    // Count the number of invoices for the logged-in user
+    const invoiceCount = await Invoice.countDocuments({ owner });
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { invoiceCount }, "Invoice count retrieved successfully"));
+});
+
+
 
 export {
     addInvoice,
     getInvoice,
     getPaidInvoices,
     getUnpaidInvoices,
+    countInvoices
 }

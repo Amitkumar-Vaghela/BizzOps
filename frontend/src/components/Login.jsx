@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios"; // Make sure to import axios
+import axios from "axios";
 import logo from '../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'; // Import icons
+import { faCheck, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -20,7 +20,7 @@ function Login() {
                 withCredentials: true
             });
 
-            if (response.status === 200) { // Use `response.status` instead of `statusCode`
+            if (response.status === 200) {
                 const { accessToken } = response.data;
 
                 if (accessToken) {
@@ -35,11 +35,11 @@ function Login() {
                 const newError = 'Invalid Email Or Password'
                 setErrorPopup(newError)
             }else{
-                setErrorPopup(errorMessage); // Set error message for the popup
+                setErrorPopup(errorMessage);
             }
 
             setTimeout(() => {
-                setErrorPopup(""); // Clear error message after 2 seconds
+                setErrorPopup("");
             }, 2000);
             console.error("Error during login:", error.response?.data || error.message);
         }
@@ -47,7 +47,7 @@ function Login() {
 
     return (
         <>
-            <div className="w-full h-full flex justify-center items-center bg-gradient-to-r from-blue-200 to-indigo-400">
+            <div className="w-full h-screen flex justify-center items-center bg-gradient-to-r from-blue-200 to-indigo-400">
                 <div className="w-3/5 m-20">
                     <div>
                         <img src={logo} alt="" srcset="" />

@@ -7,7 +7,6 @@ const FinancialChart = () => {
   const [chartData, setChartData] = useState(null);
   const [error, setError] = useState("");
 
-  // Fetching data from all APIs
   const fetchData = async () => {
     try {
       const [profitResponse, costResponse, salesResponse, expenseResponse] = await Promise.all([
@@ -101,7 +100,7 @@ const FinancialChart = () => {
                 y: {
                   beginAtZero: false,
                   grid: {
-                    display: false, // Remove grid lines
+                    display: false, 
                   },
                 },
               },

@@ -148,7 +148,7 @@ const getTotalProfitValueOneDay = asyncHandler(async (req, res) => {
         { 
             $group: {
                 _id: null,
-                totalProfitValue: { $sum: "$profit" }, // Summing the profit field
+                totalProfitValue: { $sum: "$profit" }, 
             },
         },
     ]);
@@ -181,6 +181,43 @@ const getTotalProfitValueLast30Days = asyncHandler(async(req, res)=>{
     .json(new ApiResponse(200,{totalProfitValue},"Total profit value for last 30 days retrived successfull"))
 })
 
+const getTotalProfitValueAllTime = asyncHandler(async(req, res)=>{
+    const ownerId = req.user?._id
+    const result = await Sales.aggregate([
+        {$match:{owner:ownerId}},
+        {
+            $group:{
+                _id:null,
+                totalProfitValue : {$sum:"$profit"}
+            }
+        }
+    ])
+
+    const totalProfitValue = result.length > 0 ? result[0].totalProfitValue : 0 
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200,{totalProfitValue},"Total profit  retrived successfull"))
+})
+const getTotalCostValueAllTime = asyncHandler(async(req, res)=>{
+    const ownerId = req.user?._id
+    const result = await Sales.aggregate([
+        {$match:{owner:ownerId}},
+        {
+            $group:{
+                _id:null,
+                totalCostValue : {$sum:"$cost"}
+            }
+        }
+    ])
+
+    const totalCostValue = result.length > 0 ? result[0].totalCostValue : 0 
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200,{totalCostValue},"Total cost retrived successfull"))
+})
+
 const getDailyTotalSalesValuePast30Days = asyncHandler(async (req, res) => {
     const ownerId = req.user?._id;
     const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
@@ -195,30 +232,27 @@ const getDailyTotalSalesValuePast30Days = asyncHandler(async (req, res) => {
         { 
             $group: {
                 _id: { 
-                    $dateToString: { format: "%Y-%m-%d", date: "$date" } // Group by date
+                    $dateToString: { format: "%Y-%m-%d", date: "$date" }
                 },
-                totalSalesValue: { $sum: "$sale" } // Sum of sales
+                totalSalesValue: { $sum: "$sale" } 
             } 
         },
         {
-            $sort: { _id: 1 } // Sort by date ascending
+            $sort: { _id: 1 } 
         }
     ]);
 
-    // Format the result as an object with date as key and total sales as value
     const dailySalesValue = {};
     results.forEach(item => {
         dailySalesValue[item._id] = item.totalSalesValue;
     });
-
-    // Ensure all days in the past 30 days are present in the result, even if sales are 0
     const today = new Date();
     for (let i = 0; i < 30; i++) {
         const date = new Date(today);
         date.setDate(today.getDate() - i);
-        const formattedDate = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+        const formattedDate = date.toISOString().split('T')[0];
         if (!dailySalesValue[formattedDate]) {
-            dailySalesValue[formattedDate] = 0; // Set to 0 if no sales
+            dailySalesValue[formattedDate] = 0; 
         }
     }
 
@@ -226,9 +260,6 @@ const getDailyTotalSalesValuePast30Days = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, dailySalesValue, "Daily total sales value for the past 30 days retrieved successfully"));
 });
-
-// Assuming you are using Express and Mongoose
-//const Sales = require('../models/Sales'); // Adjust the import based on your model path
 
 const getDailyProfitLast30Days = asyncHandler(async (req, res) => {
     const ownerId = req.user?._id;
@@ -245,30 +276,28 @@ const getDailyProfitLast30Days = asyncHandler(async (req, res) => {
         { 
             $group: {
                 _id: { 
-                    $dateToString: { format: "%Y-%m-%d", date: "$date" } // Group by date
+                    $dateToString: { format: "%Y-%m-%d", date: "$date" } 
                 },
-                totalProfitValue: { $sum: "$profit" } // Sum of profit
+                totalProfitValue: { $sum: "$profit" } 
             } 
         },
         {
-            $sort: { _id: 1 } // Sort by date ascending
+            $sort: { _id: 1 } 
         }
     ]);
 
-    // Format the result as an object with date as key and total profit as value
     const dailyProfitValue = {};
     results.forEach(item => {
         dailyProfitValue[item._id] = item.totalProfitValue;
     });
 
-    // Ensure all days in the past 30 days are present in the result, even if profit is 0
-    const todayFormatted = today.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+    const todayFormatted = today.toISOString().split('T')[0]; 
     for (let i = 0; i < 30; i++) {
         const date = new Date(today);
         date.setDate(today.getDate() - i);
-        const formattedDate = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+        const formattedDate = date.toISOString().split('T')[0];
         if (!dailyProfitValue[formattedDate]) {
-            dailyProfitValue[formattedDate] = 0; // Set to 0 if no profit
+            dailyProfitValue[formattedDate] = 0; 
         }
     }
 
@@ -289,30 +318,28 @@ const getDailyTotalCostValuePast30Days = asyncHandler(async (req, res) => {
         { 
             $group: {
                 _id: { 
-                    $dateToString: { format: "%Y-%m-%d", date: "$date" } // Group by date
+                    $dateToString: { format: "%Y-%m-%d", date: "$date" } 
                 },
-                totalCostValue: { $sum: "$cost" } // Sum of costs
+                totalCostValue: { $sum: "$cost" } 
             } 
         },
         {
-            $sort: { _id: 1 } // Sort by date ascending
+            $sort: { _id: 1 } 
         }
     ]);
 
-    // Format the result as an object with date as key and total cost as value
     const dailyCostValue = {};
     results.forEach(item => {
         dailyCostValue[item._id] = item.totalCostValue;
     });
 
-    // Ensure all days in the past 30 days are present in the result, even if cost is 0
     const today = new Date();
     for (let i = 0; i < 30; i++) {
         const date = new Date(today);
         date.setDate(today.getDate() - i);
-        const formattedDate = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+        const formattedDate = date.toISOString().split('T')[0]; 
         if (!dailyCostValue[formattedDate]) {
-            dailyCostValue[formattedDate] = 0; // Set to 0 if no cost
+            dailyCostValue[formattedDate] = 0; 
         }
     }
 
@@ -333,5 +360,7 @@ export {
     getTotalProfitValueLast30Days,
     getDailyTotalSalesValuePast30Days,
     getDailyProfitLast30Days,
-    getDailyTotalCostValuePast30Days
+    getDailyTotalCostValuePast30Days,
+    getTotalProfitValueAllTime,
+    getTotalCostValueAllTime
 };

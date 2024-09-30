@@ -11,8 +11,8 @@ function Register() {
     const [email, setEmail] = useState("");
     const [businessName, setBusinessName] = useState("");
     const [password, setPassword] = useState("");
-    const [showPopup, setShowPopup] = useState(false); // State for success popup
-    const [errorPopup, setErrorPopup] = useState(""); // State for error message
+    const [showPopup, setShowPopup] = useState(false);
+    const [errorPopup, setErrorPopup] = useState(""); 
 
     async function handleRegister(e) {
         e.preventDefault();
@@ -25,32 +25,31 @@ function Register() {
 
             if (response.status === 201) {
                 console.log(response.data.message);
-                setShowPopup(true); // Show the success popup
+                setShowPopup(true);
 
                 setTimeout(() => {
-                    setShowPopup(false); // Hide success popup
-                    navigate('/login'); // Navigate to login page after popup ends
+                    setShowPopup(false); 
+                    navigate('/login'); 
                 }, 2000);
             }
         } catch (error) {
-            // Handle errors (like user already exists)
             const errorMessage = error.response?.data?.message || error.message;
             if(errorMessage === 'Request failed with status code 409'){
               const newError = 'User Already Exists' 
-              setErrorPopup(newError); // Set error message for the popup
+              setErrorPopup(newError); 
             }else{
               setErrorPopup(errorMessage)
             }
 
             setTimeout(() => {
-                setErrorPopup(""); // Clear error message after 2 seconds
+                setErrorPopup(""); 
             }, 2000);
             console.error("Error during registration:", errorMessage);
         }
     }
 
     return (
-        <div className="w-full h-full flex justify-center items-center bg-gradient-to-r from-blue-200 to-indigo-400">
+        <div className="w-full h-screen flex justify-center items-center bg-gradient-to-r from-blue-200 to-indigo-400">
             <div className="w-3/5 m-20">
                 <div>
                     <img src={logo} alt="Logo" />

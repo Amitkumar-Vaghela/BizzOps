@@ -7,10 +7,9 @@ const InventoryChart = () => {
   const [inventoryData, setInventoryData] = useState([]);
   const [error, setError] = useState("");
 
-  // Fetch inventory data from the API
   const fetchInventoryData = async () => {
     try {
-      const accessToken = localStorage.getItem("accessToken"); // Get the token from localStorage
+      const accessToken = localStorage.getItem("accessToken"); 
 
       if (!accessToken) {
         throw new Error("Access token not found. Please login again.");
@@ -31,7 +30,6 @@ const InventoryChart = () => {
     fetchInventoryData();
   }, []);
 
-  // Prepare data for the chart
   const chartData = {
     labels: inventoryData.map((item) => item.item),
     datasets: [

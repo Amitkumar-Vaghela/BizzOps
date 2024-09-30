@@ -6,7 +6,7 @@ function AddInventory() {
     const [category, setCategory] = useState("");
     const [stockRemain, setStockRemain] = useState("");
     const [date, setDate] = useState("");
-    const [isPopupVisible, setPopupVisible] = useState(false); // State for popup visibility
+    const [isPopupVisible, setPopupVisible] = useState(false); 
 
     async function handleAddInventory(e) {
         e.preventDefault();
@@ -15,8 +15,8 @@ function AddInventory() {
         try {
             const response = await axios.post('http://localhost:8000/api/v1/inventory/add-item', data, { withCredentials: true });
 
-            if (response.status === 200) { // Corrected the status check
-                setPopupVisible(true); // Show popup on successful addition
+            if (response.status === 200) { 
+                setPopupVisible(true); 
                 console.log(response.data.message);
             }
         } catch (error) {

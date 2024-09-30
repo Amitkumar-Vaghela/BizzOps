@@ -13,8 +13,6 @@ const ProfitChart = () => {
             try {
                 const response = await axios.get("http://localhost:8000/api/v1/sales/get-daily-profit-30Day", { withCredentials: true });
 
-                console.log('Profit Data:', response.data.data);
-
                 const labels = Object.keys(response.data.data);
                 const profitValues = Object.values(response.data.data);
                 if (chartInstanceRef.current) {
@@ -51,7 +49,7 @@ const ProfitChart = () => {
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Profit',
+                                    text: 'Date',
                                     font: {
                                         family: 'Helvetica',
                                         size: 14,
@@ -70,7 +68,7 @@ const ProfitChart = () => {
                             y: {
                                 title: {
                                     display: true,
-                                    text: 'Date',
+                                    text: 'Profit',
                                     font: {
                                         family: 'Helvetica',
                                         size: 14,

@@ -7,15 +7,15 @@ function AddSales() {
     const [profitInPercent, setProfitInPercent] = useState("");
     const [qty, setQty] = useState("");
     const [date, setDate] = useState("");
-    const [inventory, setInventory] = useState([]); // Store inventory items
-    const [isPopupVisible, setPopupVisible] = useState(false); // Popup visibility state
+    const [inventory, setInventory] = useState([]); 
+    const [isPopupVisible, setPopupVisible] = useState(false); 
 
-    // Fetch inventory items on component mount
+    
     useEffect(() => {
         const fetchInventory = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/v1/inventory/get-item', { withCredentials: true });
-                setInventory(response.data.data); // Assuming the data comes under response.data.data
+                setInventory(response.data.data); 
             } catch (error) {
                 console.error('Failed to fetch inventory items:', error);
             }
@@ -23,7 +23,7 @@ function AddSales() {
         fetchInventory();
     }, []);
 
-    // Function to handle adding a new sale
+    
     async function handleAddSales(e) {
         e.preventDefault();
         const data = { product, price, profitInPercent, qty, date };
@@ -33,7 +33,7 @@ function AddSales() {
 
             if (response.status === 201) {
                 console.log("Product added to sales");
-                setPopupVisible(true); // Show popup
+                setPopupVisible(true); 
             }
             console.log(response.data.message);
             console.log(response.data.data);
@@ -42,10 +42,8 @@ function AddSales() {
         }
     }
 
-    // Function to close the popup
     const handleClosePopup = () => {
         setPopupVisible(false);
-        // Optionally, reset form fields after closing the popup
         setProduct("");
         setPrice("");
         setProfitInPercent("");
@@ -56,7 +54,6 @@ function AddSales() {
     return (
         <>
             <form onSubmit={handleAddSales} className="space-y-4">
-                {/* Dropdown for selecting a product from inventory */}
                 <select 
                     id="product" 
                     value={product} 

@@ -10,7 +10,7 @@ function InventoryTable() {
             try {
                 const response = await axios.get('http://localhost:8000/api/v1/inventory/get-item', { withCredentials: true });
                 if (response.status === 200) {
-                    setInventoryItems(response.data.data); // Assuming your API returns data in response.data.data
+                    setInventoryItems(response.data.data);
                 } else {
                     console.error('Unexpected response structure:', response.data);
                 }
