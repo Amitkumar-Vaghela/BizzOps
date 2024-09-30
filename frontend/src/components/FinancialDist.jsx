@@ -40,7 +40,7 @@ const FinancialDist = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg shadow-lg">
+    <div className="flex flex-col items-center p-4  rounded-lg ">
       {error ? (
         <div className="text-red-500 font-semibold">{error}</div>
       ) : (
@@ -55,7 +55,7 @@ const FinancialDist = () => {
                   position: "top",
                   labels: {
                     font: {
-                      size: 14,
+                      size: 10,
                       weight: 'bold',
                     },
                     color: 'rgba(0, 0, 0, 0.8)',

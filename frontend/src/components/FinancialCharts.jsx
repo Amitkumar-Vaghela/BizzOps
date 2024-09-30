@@ -43,7 +43,7 @@ const FinancialChart = () => {
             borderWidth: 2,
             fill: true,
             tension: 0.4,
-            pointRadius: 2,
+            pointRadius: 1,
           },
           {
             label: "Cost",
@@ -53,7 +53,7 @@ const FinancialChart = () => {
             borderWidth: 2,
             fill: true,
             tension: 0.4,
-            pointRadius: 2,
+            pointRadius: 1,
           },
           {
             label: "Sales",
@@ -63,7 +63,7 @@ const FinancialChart = () => {
             borderWidth: 2,
             fill: true,
             tension: 0.4,
-            pointRadius: 2,
+            pointRadius: 1,
           },
           {
             label: "Expenses",
@@ -73,7 +73,7 @@ const FinancialChart = () => {
             borderWidth: 2,
             fill: true,
             tension: 0.4,
-            pointRadius: 2,
+            pointRadius: 1,
           },
         ],
       });

@@ -31,27 +31,15 @@ const InventoryChart = () => {
     fetchInventoryData();
   }, []);
 
-  // Generate an array of random colors for each bar
-  const generateColors = (length) => {
-    const colors = [];
-    for (let i = 0; i < length; i++) {
-      const color = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
-        Math.random() * 255
-      )}, ${Math.floor(Math.random() * 255)}, 0.6)`;
-      colors.push(color);
-    }
-    return colors;
-  };
-
   // Prepare data for the chart
   const chartData = {
-    labels: inventoryData.map((item) => item.item), // Item names for labels
+    labels: inventoryData.map((item) => item.item),
     datasets: [
       {
         label: "Stock Remaining",
-        data: inventoryData.map((item) => item.stockRemain), // Stock data
-        backgroundColor: generateColors(inventoryData.length), // Different colors for each bar
-        borderColor: "rgba(75, 192, 192, 1)",
+        data: inventoryData.map((item) => item.stockRemain), 
+        backgroundColor: "rgba(86, 248, 209, 1)", 
+        borderColor: "rgba(86, 248, 209, 1)",
         borderWidth: 1,
       },
     ],
@@ -94,7 +82,7 @@ const InventoryChart = () => {
                   text: "Stock Remaining",
                   font: {
                     family: "Helvetica",
-                    size: 14,
+                    size: 10,
                     style: "normal",
                     weight: "bold",
                   },
