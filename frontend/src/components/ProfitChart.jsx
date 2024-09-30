@@ -29,7 +29,7 @@ const ProfitChart = () => {
                             {
                                 label: 'Daily Profit',
                                 data: profitValues,
-                                // fill: true,
+                                fill: true,
                                 borderColor: 'rgba(31, 244, 3, 1)',
                                 tension: 0.4,
                                 pointRadius: 2,
@@ -61,7 +61,7 @@ const ProfitChart = () => {
                                     color: 'rgba(0, 0, 0, 0.87)', 
                                 },
                                 grid: {
-                                    display: true,
+                                    display: false,
                                 },
                                 ticks: {
                                     display: false,
@@ -80,7 +80,7 @@ const ProfitChart = () => {
                                     color: 'rgba(0, 0, 0, 0.87)', 
                                 },
                                 grid: {
-                                    display: true,
+                                    display: false,
                                 },
                                 ticks: {
                                     display: true,

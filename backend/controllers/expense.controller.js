@@ -119,10 +119,40 @@ const getAllTimeExpense = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, { totalExpenseValue }, "Total expense value for all time retrieved successfully"));
 });
 
+const getDailyTotalExpenseValuePast30Days = asyncHandler(async (req, res) => {
+    const ownerId = req.user?._id;
+    
+    const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+    
+    const result = await Expense.aggregate([
+        { $match: { owner: ownerId, date: { $gte: thirtyDaysAgo } } },
+        {
+            $group: {
+                _id: {
+                    $dateToString: { format: "%Y-%m-%d", date: "$date" }
+                },
+                totalExpenseValue: { $sum: "$expAmount" }
+            }
+        },
+        { $sort: { _id: 1 } }
+    ]);
+    
+    const dailyExpenses = result.map(item => ({
+        date: item._id,
+        totalExpenseValue: item.totalExpenseValue
+    }));
+    
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { dailyExpenses }, "Daily total expense value for past 30 days retrieved successfully"));
+});
+
+
 export {
     addExpense,
     getExpense,
     getAllTimeExpense,
     getLast30DaysExpense,
-    getOneDayExpense
+    getOneDayExpense,
+    getDailyTotalExpenseValuePast30Days
 };

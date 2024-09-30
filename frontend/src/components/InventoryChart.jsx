@@ -16,7 +16,7 @@ const InventoryChart = () => {
         throw new Error("Access token not found. Please login again.");
       }
 
-      const response = await axios.get("http://localhost:8000/api/v1/inventory/get-item",{withCredentials:true});
+      const response = await axios.get("http://localhost:8000/api/v1/inventory/get-item", { withCredentials: true });
 
       if (response.status === 200) {
         setInventoryData(response.data.data);
@@ -31,6 +31,18 @@ const InventoryChart = () => {
     fetchInventoryData();
   }, []);
 
+  // Generate an array of random colors for each bar
+  const generateColors = (length) => {
+    const colors = [];
+    for (let i = 0; i < length; i++) {
+      const color = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
+        Math.random() * 255
+      )}, ${Math.floor(Math.random() * 255)}, 0.6)`;
+      colors.push(color);
+    }
+    return colors;
+  };
+
   // Prepare data for the chart
   const chartData = {
     labels: inventoryData.map((item) => item.item), // Item names for labels
@@ -38,7 +50,7 @@ const InventoryChart = () => {
       {
         label: "Stock Remaining",
         data: inventoryData.map((item) => item.stockRemain), // Stock data
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        backgroundColor: generateColors(inventoryData.length), // Different colors for each bar
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
       },
@@ -47,11 +59,62 @@ const InventoryChart = () => {
 
   return (
     <div>
-      <h2>Inventory Stock Levels</h2>
       {error ? (
         <div className="text-red-500">{error}</div>
       ) : (
-        <Bar height={30} width={30} data={chartData} />
+        <Bar
+          height={10}
+          width={15}
+          data={chartData}
+          options={{
+            responsive: true,
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "Items",
+                  font: {
+                    family: "Helvetica",
+                    size: 14,
+                    style: "normal",
+                    weight: "bold",
+                  },
+                  color: "rgba(0, 0, 0, 0.87)",
+                },
+                grid: {
+                  display: false,
+                },
+                ticks: {
+                  display: true,
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "Stock Remaining",
+                  font: {
+                    family: "Helvetica",
+                    size: 14,
+                    style: "normal",
+                    weight: "bold",
+                  },
+                  color: "rgba(0, 0, 0, 0.87)",
+                },
+                grid: {
+                  display: false,
+                },
+                ticks: {
+                  display: true,
+                },
+              },
+            },
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+          }}
+        />
       )}
     </div>
   );

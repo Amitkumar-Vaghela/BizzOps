@@ -65,7 +65,7 @@ const SalesChart = () => {
                                     color: 'rgba(0, 0, 0, 0.87)', // Dark color for title
                                 },
                                 grid: {
-                                    display: true,
+                                    display: false,
                                 },
                                 ticks: {
                                     display: false, // Hide x-axis labels
@@ -84,7 +84,7 @@ const SalesChart = () => {
                                     color: 'rgba(0, 0, 0, 0.87)', // Dark color for title
                                 },
                                 grid: {
-                                    display: true,
+                                    display: false,
                                 },
                                 ticks: {
                                     display: true,

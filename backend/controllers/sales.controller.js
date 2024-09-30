@@ -275,8 +275,51 @@ const getDailyProfitLast30Days = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, dailyProfitValue, "Daily total profit value for the past 30 days retrieved successfully"));
 });
 
+const getDailyTotalCostValuePast30Days = asyncHandler(async (req, res) => {
+    const ownerId = req.user?._id;
+    const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+    
+    const results = await Sales.aggregate([
+        { 
+            $match: { 
+                owner: ownerId, 
+                date: { $gte: thirtyDaysAgo } 
+            } 
+        },
+        { 
+            $group: {
+                _id: { 
+                    $dateToString: { format: "%Y-%m-%d", date: "$date" } // Group by date
+                },
+                totalCostValue: { $sum: "$cost" } // Sum of costs
+            } 
+        },
+        {
+            $sort: { _id: 1 } // Sort by date ascending
+        }
+    ]);
 
+    // Format the result as an object with date as key and total cost as value
+    const dailyCostValue = {};
+    results.forEach(item => {
+        dailyCostValue[item._id] = item.totalCostValue;
+    });
 
+    // Ensure all days in the past 30 days are present in the result, even if cost is 0
+    const today = new Date();
+    for (let i = 0; i < 30; i++) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        const formattedDate = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+        if (!dailyCostValue[formattedDate]) {
+            dailyCostValue[formattedDate] = 0; // Set to 0 if no cost
+        }
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, dailyCostValue, "Daily total cost value for the past 30 days retrieved successfully"));
+});
 
 
 
@@ -289,5 +332,6 @@ export {
     getTotalProfitValueOneDay,
     getTotalProfitValueLast30Days,
     getDailyTotalSalesValuePast30Days,
-    getDailyProfitLast30Days
+    getDailyProfitLast30Days,
+    getDailyTotalCostValuePast30Days
 };
