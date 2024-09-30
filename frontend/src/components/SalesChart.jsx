@@ -35,7 +35,7 @@ const SalesChart = () => {
                                 data: salesValues,
                                 fill: true,
                                 borderColor: 'rgba(0, 123, 255, 1)',
-                                tension: 0.3,
+                                tension: 0.4,
                                 pointRadius: 2,
                                 pointBackgroundColor: 'rgba(0, 123, 255, 1)',
                             },

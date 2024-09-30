@@ -13,18 +13,14 @@ const ProfitChart = () => {
             try {
                 const response = await axios.get("http://localhost:8000/api/v1/sales/get-daily-profit-30Day", { withCredentials: true });
 
-                // Log the received data for debugging
                 console.log('Profit Data:', response.data.data);
 
-                const labels = Object.keys(response.data.data); // Extract date labels
-                const profitValues = Object.values(response.data.data); // Extract corresponding profit values
-
-                // Destroy the previous chart instance if it exists
+                const labels = Object.keys(response.data.data);
+                const profitValues = Object.values(response.data.data);
                 if (chartInstanceRef.current) {
                     chartInstanceRef.current.destroy();
                 }
 
-                // Create the chart instance
                 chartInstanceRef.current = new Chart(chartRef.current, {
                     type: 'line',
                     data: {
@@ -33,25 +29,61 @@ const ProfitChart = () => {
                             {
                                 label: 'Daily Profit',
                                 data: profitValues,
-                                fill: false,
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                tension: 0.1,
+                                // fill: true,
+                                borderColor: 'rgba(31, 244, 3, 1)',
+                                tension: 0.4,
+                                pointRadius: 2,
+                                pointBackgroundColor: 'rgba(31, 244, 3, 1)',
                             },
                         ],
                     },
                     options: {
                         responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false,
+                                labels: {
+                                    color: 'rgba(0, 0, 0, 0.87)',
+                                },
+                            },
+                        },
                         scales: {
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Date',
+                                    text: 'Profit',
+                                    font: {
+                                        family: 'Helvetica',
+                                        size: 14,
+                                        style: 'normal',
+                                        weight: 'bold', 
+                                    },
+                                    color: 'rgba(0, 0, 0, 0.87)', 
+                                },
+                                grid: {
+                                    display: true,
+                                },
+                                ticks: {
+                                    display: false,
                                 },
                             },
                             y: {
                                 title: {
                                     display: true,
-                                    text: 'Profit Value',
+                                    text: 'Date',
+                                    font: {
+                                        family: 'Helvetica',
+                                        size: 14,
+                                        style: 'normal',
+                                        weight: 'bold', 
+                                    },
+                                    color: 'rgba(0, 0, 0, 0.87)', 
+                                },
+                                grid: {
+                                    display: true,
+                                },
+                                ticks: {
+                                    display: true,
                                 },
                             },
                         },
@@ -72,7 +104,11 @@ const ProfitChart = () => {
     }, []);
 
     return (
-        <canvas ref={chartRef} className="w-80 h-80" />
+        <canvas
+            ref={chartRef}
+            className="w-80 h-80"
+            style={{ backgroundColor: 'transparent' }} 
+        />
     );
 };
 
