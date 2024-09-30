@@ -6,6 +6,8 @@ import { faArrowLeft, faCalendar, faChain, faChartArea, faChartGantt, faDollar, 
 import InventoryChart from "./InventoryChart";
 import SalesChart from "./SalesChart";
 import ProfitChart from "./ProfitChart";
+import FinancialChart from "./FinancialCharts";
+import FinancialDist from "./FinancialDist";
 
 function Dashboard() {
     const totalSale = 123444;
@@ -185,6 +187,8 @@ function Dashboard() {
                         </div>
                     </div>
 
+                    <FinancialChart />
+                    <FinancialDist />
                     
                 </div>
             </div>
