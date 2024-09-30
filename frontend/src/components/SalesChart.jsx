@@ -33,12 +33,11 @@ const SalesChart = () => {
                             {
                                 label: 'Total Sales',
                                 data: salesValues,
-                                fill: false,
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                tension: 0.1,
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color under the line (if fill is true)
-                                pointRadius: 5, // Size of data points
-                                pointBackgroundColor: 'rgba(1, 1, 1, 1)', // Color of data points
+                                fill: true,
+                                borderColor: 'rgba(0, 123, 255, 1)',
+                                tension: 0.3,
+                                pointRadius: 2,
+                                pointBackgroundColor: 'rgba(0, 123, 255, 1)',
                             },
                         ],
                     },
@@ -46,30 +45,49 @@ const SalesChart = () => {
                         responsive: true,
                         plugins: {
                             legend: {
-                                display: true, // Set to false if you want to hide the legend
+                                display: false,
+                                labels: {
+                                    color: 'rgba(0, 0, 0, 0.87)',
+                                },
                             },
                         },
                         scales: {
                             x: {
-                                grid: {
-                                    display: false, // Hide x-axis grid lines
-                                },
                                 title: {
-                                    display: false, // Hide the x-axis title
+                                    display: true,
+                                    text: 'Sales', // Set x-axis title
+                                    font: {
+                                        family: 'Helvetica',
+                                        size: 14,
+                                        style: 'normal',
+                                        weight: 'bold', 
+                                    },
+                                    color: 'rgba(0, 0, 0, 0.87)', // Dark color for title
+                                },
+                                grid: {
+                                    display: true,
                                 },
                                 ticks: {
-                                    display: false, // Hide the x-axis labels
+                                    display: false, // Hide x-axis labels
                                 },
                             },
                             y: {
-                                grid: {
-                                    display: false, // Hide y-axis grid lines
-                                },
                                 title: {
-                                    display: false, // Hide the y-axis title
+                                    display: true,
+                                    text: 'Date',
+                                    font: {
+                                        family: 'Helvetica',
+                                        size: 14,
+                                        style: 'normal',
+                                        weight: 'bold', 
+                                    },
+                                    color: 'rgba(0, 0, 0, 0.87)', // Dark color for title
+                                },
+                                grid: {
+                                    display: true,
                                 },
                                 ticks: {
-                                    display: false, // Hide the y-axis labels
+                                    display: true,
                                 },
                             },
                         },
