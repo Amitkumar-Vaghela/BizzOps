@@ -46,7 +46,7 @@ function AddInventory({ onItemAdded }) {
                         placeholder="Item"
                         value={item}
                         onChange={(e) => setItem(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-lg"
+                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-2xl"
                         required
                     />
                     <input
