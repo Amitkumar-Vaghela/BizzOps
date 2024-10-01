@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-function AddSales() {
+function AddSales({ addNewSale }) {
     const [product, setProduct] = useState("");
     const [price, setPrice] = useState("");
     const [profitInPercent, setProfitInPercent] = useState("");
@@ -15,7 +15,7 @@ function AddSales() {
         const fetchInventory = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/v1/inventory/get-item', { withCredentials: true });
-                setInventory(response.data.data); 
+                setInventory(response.data.data);
             } catch (error) {
                 console.error('Failed to fetch inventory items:', error);
             }
@@ -23,7 +23,6 @@ function AddSales() {
         fetchInventory();
     }, []);
 
-    
     async function handleAddSales(e) {
         e.preventDefault();
         const data = { product, price, profitInPercent, qty, date };
@@ -33,10 +32,12 @@ function AddSales() {
 
             if (response.status === 201) {
                 console.log("Product added to sales");
-                setPopupVisible(true); 
+
+                // Add the new sale to the table immediately
+                addNewSale(response.data.data);  // Pass the newly added sale to the parent component
+                setPopupVisible(true);
             }
             console.log(response.data.message);
-            console.log(response.data.data);
         } catch (error) {
             console.error("Error while adding product", error.response?.data || error.message);
         }
@@ -50,6 +51,7 @@ function AddSales() {
         setQty("");
         setDate("");
     };
+
 
     return (
         <>

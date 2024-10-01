@@ -1,98 +1,134 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { Card, Typography } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-function AddInventory({ onItemAdded }) {
-    const [item, setItem] = useState("");
-    const [category, setCategory] = useState("");
-    const [stockRemain, setStockRemain] = useState("");
-    const [date, setDate] = useState("");
-    const [isPopupVisible, setPopupVisible] = useState(false);
+function InventoryTable({ inventoryItems, onUpdateInventory }) {
+    const [newQty, setNewQty] = useState(0);
+    const [action, setAction] = useState("");
+    const [product, setProduct] = useState("");
+    const [localInventory, setLocalInventory] = useState(inventoryItems);
 
-    async function handleAddInventory(e) {
-        e.preventDefault(); 
-        const data = { item, category, stockRemain, date };
+    useEffect(() => {
+        setLocalInventory(inventoryItems);
+    }, [inventoryItems]);
 
-        try {
-            const response = await axios.post('http://localhost:8000/api/v1/inventory/add-item', data, { withCredentials: true });
-            
-            if (response.status === 200 && response.data && response.data.data) {
-                onItemAdded(response.data.data);  
-                setPopupVisible(true); 
-                // Clear form fields
-                setItem("");
-                setCategory("");
-                setStockRemain("");
-                setDate("");
-            } else {
-                console.error('Failed to add item:', response.data);
-            }
-        } catch (error) {
-            console.error("Error while adding item:", error.response?.data || error.message);
-        }
-    }
+    const handleStockClick = (itemId, actionType) => {
+        setProduct(itemId);
+        setNewQty(0);
+        setAction(actionType);
+    };
 
     const handleClosePopup = () => {
-        setPopupVisible(false);
+        setNewQty(0);
+        setProduct("");
+        setAction("");
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await onUpdateInventory(action, product, parseInt(newQty));
+        
+        // Update local state immediately for responsive UI
+        setLocalInventory(prevItems => 
+            prevItems.map(item => 
+                item._id === product
+                    ? { 
+                        ...item, 
+                        stockRemain: action === "add"
+                            ? Number(item.stockRemain) + Number(newQty)
+                            : Number(item.stockRemain) - Number(newQty) 
+                      }
+                    : item
+            )
+        );
+        
+        handleClosePopup();
+    }; 
 
     return (
         <>
-            <form onSubmit={handleAddInventory}>
-                <div className="flex gap-3">
-                    <input
-                        type="text"
-                        placeholder="Item"
-                        value={item}
-                        onChange={(e) => setItem(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-2xl"
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Category"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-lg"
-                        required
-                    />
-                    <input
-                        type="number" 
-                        placeholder="Add Stock"
-                        value={stockRemain}
-                        onChange={(e) => setStockRemain(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-lg"
-                        required
-                    />
-                    <input
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        className="w-1/5 p-2 text-center h-10 m-2 rounded-2xl shadow-2xl"
-                        required
-                    />
-                    <button 
-                        type="submit" 
-                        className="bg-blue-200 w-24 h-10 text-center text-sm m-2 font-font4 flex justify-center items-center rounded-xl hover:bg-blue-100 hover:text-black">
-                        <FontAwesomeIcon icon={faPlus} className="text-xs pr-1" /> Add Item
-                    </button>
+            <Card className="w-full bg-white shadow-md rounded-lg p-6">
+                <Typography variant="h5" color="blue-gray" className="mb-4">
+                    Inventory Records
+                </Typography>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full border-collapse border border-gray-200">
+                        <thead>
+                            <tr className="bg-blue-100">
+                                <th className="px-4 py-2 border font-font4">Item</th>
+                                <th className="px-4 py-2 border font-font4">Category</th>
+                                <th className="px-4 py-2 border font-font4">Stock In</th>
+                                <th className="px-4 py-2 border font-font4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {localInventory.length > 0 ? (
+                                localInventory.map((inventory) => (
+                                    <tr key={inventory._id} className="border-b">
+                                        <td className="px-4 py-2 border font-font4">{inventory.item}</td>
+                                        <td className="px-4 py-2 border font-font4">{inventory.category}</td>
+                                        <td className="px-4 py-2 border text-black font-font4 font-semibold">
+                                            {inventory.stockRemain || 'N/A'}
+                                        </td>
+                                        <td className="border text-center">
+                                            <button
+                                                onClick={() => handleStockClick(inventory._id, "add")}
+                                                className="bg-blue-300 pt-2 text-black text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
+                                            >
+                                                <FontAwesomeIcon icon={faPlus} />
+                                            </button>
+                                            <button
+                                                onClick={() => handleStockClick(inventory._id, "remove")}
+                                                className="bg-blue-300 pt-2 text-black text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
+                                            >
+                                                <FontAwesomeIcon icon={faMinus} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className="text-center">No inventory items found.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
-            </form>
+            </Card>
 
-            {isPopupVisible && (
+            {action && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white rounded p-6 max-w-sm w-full">
-                        <h2 className="text-lg font-bold">Success!</h2>
-                        <p className="mt-2">Product added to inventory successfully.</p>
-                        <div className="mt-4 flex justify-end">
-                            <button
-                                onClick={handleClosePopup}
-                                className="bg-blue-500 text-white px-4 py-2 rounded"
-                            >
-                                Close
-                            </button>
-                        </div>
+                    <div className="bg-white font-font4 p-6 w-1/4 rounded-2xl shadow-lg">
+                        <h2 className="text-lg font-font4 font-medium mb-4">
+                            {action === "add" ? "+ Add Stock" : "- Remove Stock"}
+                        </h2>
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="text"
+                                value={newQty}
+                                onChange={(e) => setNewQty(e.target.value)}
+                                min="1"
+                                placeholder="Quantity"
+                                required
+                                className="border rounded p-2 mb-4 w-full"
+                            />
+                            <div className="flex justify-end">
+                                <button
+                                    type="button"
+                                    onClick={handleClosePopup}
+                                    className="bg-blue-100 text-black px-4 py-2 rounded-2xl mr-2"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-blue-400 text-white px-4 py-2 rounded-2xl"
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
@@ -100,4 +136,4 @@ function AddInventory({ onItemAdded }) {
     );
 }
 
-export default AddInventory;
+export default InventoryTable;
