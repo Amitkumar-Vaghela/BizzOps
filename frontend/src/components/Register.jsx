@@ -12,7 +12,7 @@ function Register() {
     const [businessName, setBusinessName] = useState("");
     const [password, setPassword] = useState("");
     const [showPopup, setShowPopup] = useState(false);
-    const [errorPopup, setErrorPopup] = useState(""); 
+    const [errorPopup, setErrorPopup] = useState("");
 
     async function handleRegister(e) {
         e.preventDefault();
@@ -28,21 +28,21 @@ function Register() {
                 setShowPopup(true);
 
                 setTimeout(() => {
-                    setShowPopup(false); 
-                    navigate('/login'); 
+                    setShowPopup(false);
+                    navigate('/login');
                 }, 2000);
             }
         } catch (error) {
             const errorMessage = error.response?.data?.message || error.message;
-            if(errorMessage === 'Request failed with status code 409'){
-              const newError = 'User Already Exists' 
-              setErrorPopup(newError); 
-            }else{
-              setErrorPopup(errorMessage)
+            if (errorMessage === 'Request failed with status code 409') {
+                const newError = 'User Already Exists'
+                setErrorPopup(newError);
+            } else {
+                setErrorPopup(errorMessage)
             }
 
             setTimeout(() => {
-                setErrorPopup(""); 
+                setErrorPopup("");
             }, 2000);
             console.error("Error during registration:", errorMessage);
         }
@@ -74,7 +74,7 @@ function Register() {
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="w-3/5 p-3 pl-10 mb-4 bg-indigo-300 rounded-2xl shadow-md placeholder-gray-700"
+                            className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                         />
                     </div>
                     <div className="relative mb-4">
@@ -85,7 +85,7 @@ function Register() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-3/5 p-3 pl-10 mb-4 bg-indigo-300 rounded-2xl shadow-md placeholder-gray-700"
+                            className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                         />
                     </div>
                     <div className="relative mb-4">
@@ -96,10 +96,10 @@ function Register() {
                             required
                             value={businessName}
                             onChange={(e) => setBusinessName(e.target.value)}
-                            className="w-3/5 p-3 pl-10 mb-4 bg-indigo-300 rounded-2xl shadow-md placeholder-gray-700"
+                            className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                         />
                     </div>
-                    <div className="relative mb-4">
+                    <div className="relative">
                         <FontAwesomeIcon icon={faLock} className="absolute left-3 top-4 text-black" />
                         <input
                             type="password"
@@ -107,8 +107,13 @@ function Register() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-3/5 p-3 pl-10 mb-4 bg-indigo-300 rounded-2xl shadow-md placeholder-gray-700"
+                            className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                         />
+                    </div>
+                    <div className='relative mb-4' onClick={() => navigate('/login')}>
+                        <p className='text-xs ml-2 font-font4 font-medium text-black'>
+                            Already have an account? <span className="text-black font-bold underline cursor-pointer">Sign in</span>
+                        </p>
                     </div>
                     <button type="submit" className="w-1/4 py-3 bg-white text-black font-poppins font-bold rounded-full hover:bg-gray-200 transition-all duration-500 hover:scale-110">
                         Register

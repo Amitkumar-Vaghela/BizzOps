@@ -1,26 +1,7 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, Typography } from "@material-tailwind/react";
 
-function InventoryTable() {
-    const [inventoryItems, setInventoryItems] = useState([]);
-
-    useEffect(() => {
-        const fetchInventory = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/api/v1/inventory/get-item', { withCredentials: true });
-                if (response.status === 200) {
-                    setInventoryItems(response.data.data);
-                } else {
-                    console.error('Unexpected response structure:', response.data);
-                }
-            } catch (error) {
-                console.error('Failed to fetch inventory:', error);
-            }
-        };
-        fetchInventory();
-    }, []);
-
+function InventoryTable({ inventoryItems }) {
     return (
         <Card className="bg-white shadow-md rounded-lg p-6">
             <Typography variant="h5" color="blue-gray" className="mb-4">

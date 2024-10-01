@@ -51,7 +51,7 @@ function Login() {
                 <div className="w-3/5 m-20">
                     <div>
                         <img src={logo} alt="" srcset="" />
-                        <h1 className="text-2xl font-poppins font-normal mt-5">Manage Your Business, Smarter and Faster.</h1>
+                        <h1 className="text-xl font-poppins font-normal mt-5">Manage Your Business, Smarter and Faster.</h1>
                         <p className="text-lg text-gray-700 mt-9">
                             Streamline your operations and gain insights to make informed decisions.Join us and take the first step towards optimizing your business today!
                         </p>
@@ -72,7 +72,7 @@ function Login() {
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-3/5 p-3 pl-10 mb-4 bg-indigo-300 rounded-2xl shadow-md placeholder-gray-700"
+                                className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                             />
                         </div>
                         <div className="relative mb-4">
@@ -83,9 +83,14 @@ function Login() {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-3/5 p-3 pl-10 mb-4 bg-indigo-300 rounded-2xl shadow-md placeholder-gray-700"
+                                className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                             />
                         </div>
+                        <div className='relative mb-4' onClick={() => navigate('/register')}>
+                        <p className='text-xs ml-2 font-font4 font-medium text-black'>
+                            Don’t have an account? <span className="text-black font-bold underline cursor-pointer">Sign up</span>
+                        </p>
+                    </div>
                         <button type="submit" className="w-1/4 py-3 bg-white text-black font-poppins font-bold rounded-full hover:bg-gray-200 transition-all duration-500 hover:scale-110">
                             Login
                         </button>
