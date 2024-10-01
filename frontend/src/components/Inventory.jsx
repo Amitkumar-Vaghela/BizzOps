@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import AddInventory from "./AddInventory.jsx";
 import InventoryTable from "./InventoryTable.jsx";
@@ -7,42 +7,53 @@ import CustomBtn from "./CustomBtn.jsx";
 
 function Inventory() {
     const [inventoryItems, setInventoryItems] = useState([]);
+    const [updateTrigger, setUpdateTrigger] = useState(0);
+    const isMounted = useRef(true);
 
-    // Fetch inventory items when component loads
-    useEffect(() => {
-        fetchInventory();
-    }, []);
-
-    // Function to fetch inventory items
-    const fetchInventory = async () => {
+    const fetchInventory = useCallback(async () => {
+        if (!isMounted.current) return;
         try {
             const response = await axios.get('http://localhost:8000/api/v1/inventory/get-item', { withCredentials: true });
-            console.log('Fetch inventory response:', response);
-
             if (response.status === 200 && response.data && response.data.data) {
                 setInventoryItems(response.data.data);
             }
         } catch (error) {
             console.error('Failed to fetch inventory:', error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchInventory();
+        return () => {
+            isMounted.current = false;
+        };
+    }, [fetchInventory, updateTrigger]);
 
     const handleItemAdded = (newItem) => {
-        console.log('New item added:', newItem);
         setInventoryItems((prevItems) => [...prevItems, newItem]);
+        setUpdateTrigger(prev => prev + 1);
     };
 
-    const updateInventory = (action, productId, quantity) => {
-        setInventoryItems((prevItems) => {
-            return prevItems.map(item => {
-                if (item._id === productId) {
-                    // Update stock based on action
-                    const updatedStock = action === "add" ? item.stockRemain + quantity : item.stockRemain - quantity;
-                    return { ...item, stockRemain: updatedStock };
-                }
-                return item;
-            });
-        });
+    const updateInventory = async (action, productId, quantity) => {
+        try {
+            const endpoint = action === "add" 
+                ? "http://localhost:8000/api/v1/inventory/add-stock"
+                : "http://localhost:8000/api/v1/inventory/remove-stock";
+            
+            const response = await axios.post(
+                endpoint,
+                { product: productId, newQty: quantity },
+                { withCredentials: true }
+            );
+
+            if (response.data.message === 200) {
+                console.log(`Stock ${action}ed:`, { productId, quantity });
+                // Trigger a re-fetch of the inventory
+                setUpdateTrigger(prev => prev + 1);
+            }
+        } catch (error) {
+            console.error(`Error ${action}ing stock:`, error);
+        }
     };
 
     return (

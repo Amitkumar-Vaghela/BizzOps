@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 
 function InventoryTable({ inventoryItems, onUpdateInventory }) {
     const [newQty, setNewQty] = useState(0);
     const [action, setAction] = useState("");
     const [product, setProduct] = useState("");
+    const [localInventory, setLocalInventory] = useState(inventoryItems);
+
+    useEffect(() => {
+        setLocalInventory(inventoryItems);
+    }, [inventoryItems]);
 
     const handleStockClick = (itemId, actionType) => {
         setProduct(itemId);
-        setNewQty(0); // Reset input
+        setNewQty(0);
         setAction(actionType);
     };
 
@@ -21,50 +25,25 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
         setAction("");
     };
 
-    const handleAddStockSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = { product, newQty };
-
-        try {
-            const response = await axios.post(
-                "http://localhost:8000/api/v1/inventory/add-stock",
-                data,
-                { withCredentials: true }
-            );
-
-            if (response.data.message === 200) {
-                console.log("Stock added:", data);
-                
-                // Update inventoryItems state
-                onUpdateInventory("add", product, newQty); // Call the parent function to update state
-                handleClosePopup();
-            }
-        } catch (error) {
-            console.error("Error adding stock:", error);
-        }
-    };
-
-    const handleRemoveStockSubmit = async (e) => {
-        e.preventDefault();
-        const data = { product, newQty };
-
-        try {
-            const response = await axios.post(
-                "http://localhost:8000/api/v1/inventory/remove-stock",
-                data,
-                { withCredentials: true }
-            );
-
-            if (response.data.message === 200) {
-                console.log("Stock removed:", data);
-                
-                // Update inventoryItems state
-                onUpdateInventory("remove", product, newQty); // Call the parent function to update state
-                handleClosePopup();
-            }
-        } catch (error) {
-            console.error("Error removing stock:", error);
-        }
+        await onUpdateInventory(action, product, parseInt(newQty));
+        
+        // Update local state immediately for responsive UI
+        setLocalInventory(prevItems => 
+            prevItems.map(item => 
+                item._id === product
+                    ? { 
+                        ...item, 
+                        stockRemain: action === "add"
+                            ? Number(item.stockRemain) + Number(newQty)
+                            : Number(item.stockRemain) - Number(newQty) 
+                      }
+                    : item
+            )
+        );
+        
+        handleClosePopup();
     };
 
     return (
@@ -84,8 +63,8 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {inventoryItems.length > 0 ? (
-                                inventoryItems.map((inventory) => (
+                            {localInventory.length > 0 ? (
+                                localInventory.map((inventory) => (
                                     <tr key={inventory._id} className="border-b">
                                         <td className="px-4 py-2 border font-font4">{inventory.item}</td>
                                         <td className="px-4 py-2 border font-font4">{inventory.category}</td>
@@ -118,14 +97,13 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
                 </div>
             </Card>
 
-            {/* Add or Remove Stock Modal */}
             {action && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded shadow-lg">
                         <h2 className="text-lg font-semibold mb-4">
                             {action === "add" ? "Add Stock" : "Remove Stock"}
                         </h2>
-                        <form onSubmit={action === "add" ? handleAddStockSubmit : handleRemoveStockSubmit}>
+                        <form onSubmit={handleSubmit}>
                             <input
                                 type="number"
                                 value={newQty}
