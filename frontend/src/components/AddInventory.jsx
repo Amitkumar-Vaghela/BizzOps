@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function AddInventory({ onItemAdded }) {
     const [item, setItem] = useState("");
@@ -9,16 +11,20 @@ function AddInventory({ onItemAdded }) {
     const [isPopupVisible, setPopupVisible] = useState(false);
 
     async function handleAddInventory(e) {
-        e.preventDefault();
+        e.preventDefault(); 
         const data = { item, category, stockRemain, date };
 
         try {
             const response = await axios.post('http://localhost:8000/api/v1/inventory/add-item', data, { withCredentials: true });
-            console.log('Add item response:', response);  // Debug log
-
+            
             if (response.status === 200 && response.data && response.data.data) {
-                setPopupVisible(true);
-                onItemAdded(response.data.data);  // Call the function to update the inventory with new item
+                onItemAdded(response.data.data);  
+                setPopupVisible(true); 
+                // Clear form fields
+                setItem("");
+                setCategory("");
+                setStockRemain("");
+                setDate("");
             } else {
                 console.error('Failed to add item:', response.data);
             }
@@ -34,35 +40,44 @@ function AddInventory({ onItemAdded }) {
     return (
         <>
             <form onSubmit={handleAddInventory}>
-                <input
-                    type="text"
-                    placeholder="Item"
-                    value={item}
-                    onChange={(e) => setItem(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Category"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Add Stock"
-                    value={stockRemain}
-                    onChange={(e) => setStockRemain(e.target.value)}
-                    required
-                />
-                <input
-                    type="date"
-                    placeholder="Date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    required
-                />
-                <button type="submit">Add Item</button>
+                <div className="flex gap-3">
+                    <input
+                        type="text"
+                        placeholder="Item"
+                        value={item}
+                        onChange={(e) => setItem(e.target.value)}
+                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-lg"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-lg"
+                        required
+                    />
+                    <input
+                        type="number" 
+                        placeholder="Add Stock"
+                        value={stockRemain}
+                        onChange={(e) => setStockRemain(e.target.value)}
+                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-lg"
+                        required
+                    />
+                    <input
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        className="w-1/5 p-2 text-center h-10 m-2 rounded-2xl shadow-2xl"
+                        required
+                    />
+                    <button 
+                        type="submit" 
+                        className="bg-blue-200 w-24 h-10 text-center text-sm m-2 font-font4 flex justify-center items-center rounded-xl hover:bg-blue-100 hover:text-black">
+                        <FontAwesomeIcon icon={faPlus} className="text-xs pr-1" /> Add Item
+                    </button>
+                </div>
             </form>
 
             {isPopupVisible && (
