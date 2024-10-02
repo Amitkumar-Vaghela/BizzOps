@@ -1,5 +1,5 @@
 import React from "react";
-import Inventory from '../components/Inventory.jsx'
+import Inventory from "../components/Inventory/Inventory.jsx";
 
 function InventoryPage(){
     return(

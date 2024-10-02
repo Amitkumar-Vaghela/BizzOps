@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import AddInventory from "./AddInventory.jsx";
 import InventoryTable from "./InventoryTable.jsx";
-import Sidebar from "./Sidebar.jsx";
-import CustomBtn from "./CustomBtn.jsx";
+import Sidebar from "../Sidebar.jsx";
+import CustomBtn from "../CustomBtn.jsx";
 
 function Inventory() {
     const [inventoryItems, setInventoryItems] = useState([]);
@@ -36,10 +36,10 @@ function Inventory() {
 
     const updateInventory = async (action, productId, quantity) => {
         try {
-            const endpoint = action === "add" 
+            const endpoint = action === "add"
                 ? "http://localhost:8000/api/v1/inventory/add-stock"
                 : "http://localhost:8000/api/v1/inventory/remove-stock";
-            
+
             const response = await axios.post(
                 endpoint,
                 { product: productId, newQty: quantity },
@@ -63,14 +63,17 @@ function Inventory() {
                 <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-300">
                     <CustomBtn />
                     <h1 className="m-10 text-2xl font-medium font-font4">Inventory</h1>
+                    <div className="justify-center items-center flex flex-col">
+                    <div className=" w-5/6 bg-white rounded-xl gap-4">
+                    <h1 className=" ml-4 mt-2 text-xl font-light font-font4">Add Item</h1>
+                    <AddInventory onItemAdded={handleItemAdded} />
+                        </div>
 
-                    <div className="mt-2 m-9 flex justify-center items-center gap-4">
-                        <AddInventory onItemAdded={handleItemAdded} />
+                        <div className="mt-2 m-9 w-5/6 flex justify-center items-center gap-4">
+                            <InventoryTable inventoryItems={inventoryItems} onUpdateInventory={updateInventory} />
+                        </div>
                     </div>
 
-                    <div className="mt-2 m-9 flex justify-center items-center gap-4">
-                        <InventoryTable inventoryItems={inventoryItems} onUpdateInventory={updateInventory} />
-                    </div>
                 </div>
             </div>
         </>

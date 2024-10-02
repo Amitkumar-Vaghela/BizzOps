@@ -40,13 +40,13 @@ function AddInventory({ onItemAdded }) {
     return (
         <>
             <form onSubmit={handleAddInventory}>
-                <div className="flex gap-3">
+                <div className="flex gap-3 mb-2">
                     <input
                         type="text"
                         placeholder="Item"
                         value={item}
                         onChange={(e) => setItem(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-2xl"
+                        className="w-1/5 text-center font-light bg-gray-200 h-10 m-2 rounded-2xl shadow-2xl"
                         required
                     />
                     <input
@@ -54,7 +54,7 @@ function AddInventory({ onItemAdded }) {
                         placeholder="Category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-lg"
+                        className="w-1/5 text-center h-10 m-2 font-light bg-gray-200 rounded-2xl shadow-lg"
                         required
                     />
                     <input
@@ -62,19 +62,19 @@ function AddInventory({ onItemAdded }) {
                         placeholder="Add Stock"
                         value={stockRemain}
                         onChange={(e) => setStockRemain(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-lg"
+                        className="w-1/5 text-center h-10 m-2 rounded-2xl font-light bg-gray-200 shadow-lg"
                         required
                     />
                     <input
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-1/5 p-2 text-center h-10 m-2 rounded-2xl shadow-2xl"
+                        className="w-1/5 p-2 text-center h-10 m-2 rounded-2xl font-light bg-gray-200 shadow-2xl"
                         required
                     />
                     <button 
                         type="submit" 
-                        className="bg-blue-200 w-24 h-10 text-center text-sm m-2 font-font4 flex justify-center items-center rounded-xl hover:bg-blue-100 hover:text-black">
+                        className="bg-blue-300 w-24 h-10 text-center text-sm m-2 font-font4 flex justify-center items-center rounded-xl hover:bg-blue-100 hover:text-black">
                         <FontAwesomeIcon icon={faPlus} className="text-xs pr-1" /> Add Item
                     </button>
                 </div>

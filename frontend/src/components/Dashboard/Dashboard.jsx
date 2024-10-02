@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
-import CustomBtn from "./CustomBtn";
+import Sidebar from "../Sidebar";
+import CustomBtn from "../CustomBtn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCalendar, faChain, faChartArea, faChartGantt, faDollar, faMoneyBill1, faWallet } from "@fortawesome/free-solid-svg-icons";
-import InventoryChart from "./InventoryChart";
-import SalesChart from "./SalesChart";
+import InventoryChart from "../Inventory/InventoryChart";
+import SalesChart from "../Sales/SalesChart.jsx";
 import ProfitChart from "./ProfitChart";
 import FinancialChart from "./FinancialCharts";
 import FinancialDist from "./FinancialDist";
