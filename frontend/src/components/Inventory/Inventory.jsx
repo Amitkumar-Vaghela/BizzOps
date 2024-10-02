@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddInventory from "./AddInventory.jsx";
 import InventoryTable from "./InventoryTable.jsx";
 import Sidebar from "../Sidebar.jsx";
 import CustomBtn from "../CustomBtn.jsx";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Inventory() {
+    const navigate = useNavigate()
     const [inventoryItems, setInventoryItems] = useState([]);
     const [updateTrigger, setUpdateTrigger] = useState(0);
     const isMounted = useRef(true);
@@ -62,11 +66,11 @@ function Inventory() {
                 <Sidebar />
                 <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-300">
                     <CustomBtn />
-                    <h1 className="m-10 text-2xl font-medium font-font4">Inventory</h1>
+                    <h1 className="m-10 text-2xl font-medium font-font4 flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={()=> navigate('/dashboard')} /> Inventory</h1>
                     <div className="justify-center items-center flex flex-col">
-                    <div className=" w-5/6 bg-white rounded-xl gap-4">
-                    <h1 className=" ml-4 mt-2 text-xl font-light font-font4">Add Item</h1>
-                    <AddInventory onItemAdded={handleItemAdded} />
+                        <div className=" w-5/6 bg-white rounded-xl gap-4 mb-4">
+                            <h1 className=" ml-4 mt-2 text-xl font-light font-font4">Add Item</h1>
+                            <AddInventory onItemAdded={handleItemAdded} />
                         </div>
 
                         <div className="mt-2 m-9 w-5/6 flex justify-center items-center gap-4">

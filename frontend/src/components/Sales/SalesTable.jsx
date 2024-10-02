@@ -25,13 +25,13 @@ function SalesTable({ sales }) {
                         {sales.length > 0 ? (
                             sales.map((sale) => (
                                 <tr key={sale._id} className="border-b">
-                                    <td className="px-4 py-2 border font-font4">{formatDate(sale.date)}</td>
-                                    <td className="px-4 py-2 border font-font4">{sale.productName}</td>
-                                    <td className="px-4 py-2 border font-font4">₹{sale.price.toFixed(2)}</td>
-                                    <td className="px-4 py-2 border font-font4">{sale.qty}</td>
-                                    <td className="px-4 py-2 border font-font4">₹{(sale.price * sale.qty).toFixed(2)}</td>
-                                    <td className="px-4 py-2 border text-green-400 font-font4 font-bold">₹{sale.profit}</td>
-                                    <td className="px-4 py-2 border text-red-400 font-font4 font-medium">₹{sale.cost}</td>
+                                    <td className="px-4 py-2 border text-sm font-font4">{formatDate(sale.date)}</td>
+                                    <td className="px-4 py-2 border text-sm font-font4">{sale.productName}</td>
+                                    <td className="px-4 py-2 border text-sm font-font4">₹{sale.price.toFixed(2)}</td>
+                                    <td className="px-4 py-2 border text-sm font-font4">{sale.qty}</td>
+                                    <td className="px-4 py-2 border font-font4 font-medium text-sm">₹{(sale.price * sale.qty).toFixed(2)}</td>
+                                    <td className="px-4 py-2 border text-green-600 font-font4 text-sm font-normal">₹{sale.profit}</td>
+                                    <td className="px-4 py-2 border text-red-600 font-font4 text-sm font-normal">₹{sale.cost}</td>
                                 </tr>
                             ))
                         ) : (

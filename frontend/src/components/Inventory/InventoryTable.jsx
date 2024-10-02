@@ -66,9 +66,9 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
                             {localInventory.length > 0 ? (
                                 localInventory.map((inventory) => (
                                     <tr key={inventory._id} className="border-b">
-                                        <td className="px-4 py-2 border font-font4">{inventory.item}</td>
-                                        <td className="px-4 py-2 border font-font4">{inventory.category}</td>
-                                        <td className="px-4 py-2 border text-black font-font4 font-semibold">
+                                        <td className="px-4 py-2 border text-sm font-medium font-font4">{inventory.item}</td>
+                                        <td className="px-4 py-2 border text-sm font-medium font-font4">{inventory.category}</td>
+                                        <td className="px-4 py-2 border text-sm text-black font-font4 font-semibold">
                                             {inventory.stockRemain || 'N/A'}
                                         </td>
                                         <td className="border text-center">
