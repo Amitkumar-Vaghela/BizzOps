@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpAZ, faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 function InventoryTable({ inventoryItems, onUpdateInventory }) {
     const [newQty, setNewQty] = useState(0);
     const [action, setAction] = useState("");
     const [product, setProduct] = useState("");
     const [localInventory, setLocalInventory] = useState(inventoryItems);
+    const [isPopupVisible, setPopupVisible] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState(null);
 
     useEffect(() => {
         setLocalInventory(inventoryItems);
     }, [inventoryItems]);
+
+    const deleteInventory = async (itemId) => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/v1/inventory/delete-item', { product: itemId }, { withCredentials: true });
+            if (response.status === 200) {
+                console.log("Deleted");
+                setLocalInventory((prevItems) => prevItems.filter(item => item._id !== itemId));
+                handleClosePopup(); // Close the popup after deletion
+            }
+        } catch (error) {
+            console.error("Error deleting inventory item:", error);
+        }
+    };
 
     const handleStockClick = (itemId, actionType) => {
         setProduct(itemId);
@@ -23,6 +39,7 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
         setNewQty(0);
         setProduct("");
         setAction("");
+        setPopupVisible(false);
     };
 
     const handleSubmit = async (e) => {
@@ -30,7 +47,7 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
         await onUpdateInventory(action, product, parseInt(newQty));
         
         // Update local state immediately for responsive UI
-        setLocalInventory(prevItems => 
+        setLocalInventory((prevItems) => 
             prevItems.map(item => 
                 item._id === product
                     ? { 
@@ -44,7 +61,18 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
         );
         
         handleClosePopup();
-    }; 
+    };
+
+    const confirmDelete = (itemId) => {
+        setDeleteItemId(itemId);
+        setPopupVisible(true);
+    };
+
+    const handleDelete = () => {
+        if (deleteItemId) {
+            deleteInventory(deleteItemId);
+        }
+    };
 
     return (
         <>
@@ -83,6 +111,12 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
                                                 className="bg-blue-300 pt-2 text-black text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faMinus} />
+                                            </button>
+                                            <button
+                                                onClick={() => confirmDelete(inventory._id)}
+                                                className="bg-red-500 pt-2 text-white text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} />
                                             </button>
                                         </td>
                                     </tr>
@@ -129,6 +163,30 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {isPopupVisible && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                    <div className="bg-white font-font4 p-6 w-1/4 rounded-2xl shadow-lg">
+                        <h2 className="text-lg font-font4 font-medium mb-4">Confirm Deletion</h2>
+                        <p>Are you sure you want to delete this item?</p>
+                        <div className="flex justify-end mt-4">
+                            <button
+                                type="button"
+                                onClick={handleClosePopup}
+                                className="bg-blue-100 text-black px-4 py-2 rounded-2xl mr-2"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                className="bg-red-500 text-white px-4 py-2 rounded-2xl"
+                            >
+                                Delete
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
