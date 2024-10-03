@@ -46,7 +46,7 @@ function AddInventory({ onItemAdded }) {
                         placeholder="Item"
                         value={item}
                         onChange={(e) => setItem(e.target.value)}
-                        className="w-1/5 text-center font-light bg-gray-200 h-10 m-2 rounded-2xl shadow-2xl"
+                        className="w-1/5 text-center font-light bg-gray-200 h-10 m-2 rounded-2xl "
                         required
                     />
                     <input
@@ -54,7 +54,7 @@ function AddInventory({ onItemAdded }) {
                         placeholder="Category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 font-light bg-gray-200 rounded-2xl shadow-lg"
+                        className="w-1/5 text-center h-10 m-2 font-light bg-gray-200 rounded-2xl "
                         required
                     />
                     <input
@@ -62,14 +62,14 @@ function AddInventory({ onItemAdded }) {
                         placeholder="Add Stock"
                         value={stockRemain}
                         onChange={(e) => setStockRemain(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 rounded-2xl font-light bg-gray-200 shadow-lg"
+                        className="w-1/5 text-center h-10 m-2 rounded-2xl font-light bg-gray-200 "
                         required
                     />
                     <input
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-1/5 p-2 text-center h-10 m-2 rounded-2xl font-light bg-gray-200 shadow-2xl"
+                        className="w-1/5 p-2 text-center h-10 m-2 rounded-2xl font-light bg-gray-200 "
                         required
                     />
                     <button 

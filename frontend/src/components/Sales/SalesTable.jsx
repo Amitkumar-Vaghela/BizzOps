@@ -7,7 +7,7 @@ function SalesTable({ sales }) {
 
     return (
         <div className="w-full bg-white shadow-md rounded-lg p-6">
-            <h2 className="text-xl font-poppins mb-4 text-gray-800">Sales Records</h2>
+            <h2 className="text-base font-font4 font-semibold mb-4 text-gray-800">Sales Records</h2>
             <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse border border-gray-200">
                     <thead>

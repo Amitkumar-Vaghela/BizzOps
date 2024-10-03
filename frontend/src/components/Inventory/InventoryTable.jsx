@@ -49,7 +49,7 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
     return (
         <>
             <Card className="w-full bg-white shadow-md rounded-lg p-6">
-                <Typography variant="h5" color="blue-gray" className="mb-4">
+                <Typography variant="p" color="blue-gray" className="mb-4 font-font4 font-semibold">
                     Inventory Records
                 </Typography>
                 <div className="overflow-x-auto">

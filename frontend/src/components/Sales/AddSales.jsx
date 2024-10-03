@@ -35,11 +35,9 @@ function AddSales({ addNewSale }) {
             if (response.status === 201) {
                 console.log("Product added to sales");
 
-                // Add the new sale to the table immediately
                 addNewSale(response.data.data);
                 setPopupVisible(true);
 
-                // Clear the form
                 setProduct("");
                 setPrice("");
                 setProfitInPercent("");
@@ -65,7 +63,7 @@ function AddSales({ addNewSale }) {
                     value={product} 
                     onChange={(e) => setProduct(e.target.value)} 
                     required
-                    className="w-1/5 bg-gray-200  text-center font-font4 font-light h-10 m-2 rounded-2xl shadow-2xl"
+                    className="w-1/5 bg-gray-200  text-center font-font4 font-light h-10 m-2 rounded-2xl "
                 >
                     <option value="" disabled>Select a product</option>
                     {inventory.map((item) => (
@@ -81,7 +79,7 @@ function AddSales({ addNewSale }) {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
-                    className="w-1/5 text-center bg-gray-200 h-10 m-2 rounded-2xl font-font4 font-light shadow-2xl"
+                    className="w-1/5 text-center bg-gray-200 h-10 m-2 rounded-2xl font-font4 font-light "
                 />
 
                 <input
@@ -90,7 +88,7 @@ function AddSales({ addNewSale }) {
                     value={profitInPercent}
                     onChange={(e) => setProfitInPercent(e.target.value)}
                     required
-                    className="w-1/12 text-center h-10 m-2 bg-gray-200 rounded-2xl shadow-2xl font-font4 font-light"
+                    className="w-1/12 text-center h-10 m-2 bg-gray-200 rounded-2xl  font-font4 font-light"
                 />
 
                 <input
@@ -99,7 +97,7 @@ function AddSales({ addNewSale }) {
                     value={qty}
                     onChange={(e) => setQty(e.target.value)}
                     required
-                    className="w-1/12 text-center h-10 m-2 rounded-2xl bg-gray-200 shadow-2xl font-font4 font-light"
+                    className="w-1/12 text-center h-10 m-2 rounded-2xl bg-gray-200  font-font4 font-light"
                 />
 
                 <input
@@ -107,7 +105,7 @@ function AddSales({ addNewSale }) {
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
-                    className="w-1/5 text-center pr-4 h-10 m-2 rounded-2xl shadow-2xl bg-gray-200 font-font4 font-light"
+                    className="w-1/5 text-center pr-4 h-10 m-2 rounded-2xl  bg-gray-200 font-font4 font-light"
                 />
 
                 <button type="submit" className="bg-blue-300 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Sale</button>

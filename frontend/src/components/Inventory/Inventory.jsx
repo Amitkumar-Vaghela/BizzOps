@@ -69,7 +69,7 @@ function Inventory() {
                     <h1 className="m-10 text-2xl font-medium font-font4 flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={()=> navigate('/dashboard')} /> Inventory</h1>
                     <div className="justify-center items-center flex flex-col">
                         <div className=" w-5/6 bg-white rounded-xl gap-4 mb-4">
-                            <h1 className=" ml-4 mt-2 text-xl font-light font-font4">Add Item</h1>
+                            <h1 className=" ml-4 mt-2 font-semibold font-font4">Add Item</h1>
                             <AddInventory onItemAdded={handleItemAdded} />
                         </div>
 

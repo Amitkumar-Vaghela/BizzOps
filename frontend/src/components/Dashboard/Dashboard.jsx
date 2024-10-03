@@ -238,7 +238,7 @@ function Dashboard() {
                                 <div className="w-2/4 bg-blue-50 rounded-3xl text-center shadow-md">
                                     <p className="font-font4 font-normal m-2 text-xs">Unpaid Invoices</p>
                                     <hr />
-                                    <h1 className="font-font4 font-semibold text-md m-2">₹ {unpaidInvoices.toLocaleString()}<samp className="font-font4 text-sm">.00</samp></h1>
+                                    <h1 className="font-font4 font-semibold text-md m-2">₹ {unpaidInvoices.toLocaleString() || 0}<samp className="font-font4 text-sm">.00</samp></h1>
                                 </div>
                             </div>
                             <div className="w-full flex justify-center gap-4 mt-4 h-24">
