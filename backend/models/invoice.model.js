@@ -6,8 +6,7 @@ const invoiceSchema = new Schema({
     ref: 'User'
   },
   name: {
-    type: Schema.Types.ObjectId,
-    ref: 'Customer',
+    type: String,
     required: true
   },
   items: [
@@ -29,6 +28,10 @@ const invoiceSchema = new Schema({
   },
   grandTotal: {
     type: Number,
+    required: true
+  },
+  date:{
+    type:Date,
     required: true
   }
 });

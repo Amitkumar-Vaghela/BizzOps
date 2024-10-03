@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AddSales({ addNewSale }) {
+    const navigate = useNavigate()
     const [product, setProduct] = useState("");
     const [price, setPrice] = useState("");
     const [profitInPercent, setProfitInPercent] = useState("");
@@ -51,6 +53,7 @@ function AddSales({ addNewSale }) {
     };
 
     const handleClosePopup = () => {
+        navigate('/Sales')
         setPopupVisible(false);
     };
 
@@ -62,11 +65,11 @@ function AddSales({ addNewSale }) {
                     value={product} 
                     onChange={(e) => setProduct(e.target.value)} 
                     required
-                    className="w-1/5 bg-gray-200 text-center font-font4 font-light h-10 m-2 rounded-2xl shadow-2xl"
+                    className="w-1/5 bg-gray-200  text-center font-font4 font-light h-10 m-2 rounded-2xl shadow-2xl"
                 >
                     <option value="" disabled>Select a product</option>
                     {inventory.map((item) => (
-                        <option className="font-font4 font-light" key={item._id} value={item._id}>
+                        <option className="font-font4 bg-white font-normal" key={item._id} value={item._id}>
                             {item.item} - (Stock In: {item.stockRemain})
                         </option>
                     ))}
@@ -104,7 +107,7 @@ function AddSales({ addNewSale }) {
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
-                    className="w-1/5 text-center h-10 m-2 rounded-2xl shadow-2xl bg-gray-200 font-font4 font-light"
+                    className="w-1/5 text-center pr-4 h-10 m-2 rounded-2xl shadow-2xl bg-gray-200 font-font4 font-light"
                 />
 
                 <button type="submit" className="bg-blue-300 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Sale</button>

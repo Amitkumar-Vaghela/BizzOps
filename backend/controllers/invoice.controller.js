@@ -4,7 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Invoice } from "../models/invoice.model.js";
 
 const addInvoice = asyncHandler(async(req, res) => {
-    const { name, items, paid } = req.body;
+    const { name, items, paid, date } = req.body;
     const owner = req.user?._id;
 
     if (!name || !items || items.length === 0) {
@@ -36,7 +36,8 @@ const addInvoice = asyncHandler(async(req, res) => {
         items,
         subTotal,
         grandTotal,
-        paid
+        paid,
+        date
     });
 
     return res
