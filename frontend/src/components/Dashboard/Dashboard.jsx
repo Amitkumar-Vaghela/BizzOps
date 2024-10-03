@@ -95,7 +95,7 @@ function Dashboard() {
                             <div className="bg-white shadow-lg w-full h-24 rounded-2xl flex flex-col items-center">
                                 <div className="w-full bg-white shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base font-light font-font4 mt-1 ml-2"> <FontAwesomeIcon icon={faMoneyBill1} className="text-sm pr-1 text-teal-400" /> Total Profit</p>
-                                    <h1 className="text-black mb-1 text-2xl font-medium font-font4 ml-2">₹ {totalProfit}<samp className="font-font4 text-base">.00</samp></h1>
+                                    <h1 className="text-black mb-1 text-2xl font-medium font-font4 ml-2">₹ {totalProfit.toLocaleString()}<samp className="font-font4 text-base">.00</samp></h1>
                                     <hr />
                                 </div>
                                 <div className="w-11/12 mt-1 ml-">
@@ -183,7 +183,7 @@ function Dashboard() {
                                 <div className="bg-blue-200  shadow-lg w-full h-24 rounded-2xl flex flex-col items-center">
                                     <div className="w-full bg-blue-50 shadow-lg h-16  rounded-t-xl">
                                         <p className="text-base font-light font-font4 mt-1 ml-2">Profit</p>
-                                        <h1 className="text-black mb-1 text-2xl font-medium font-font4 ml-2">₹ {todayProfit.toLocaleString()}<samp className="font-font4 text-base">.00</samp></h1>
+                                    <h1 className="text-black mb-1 text-2xl font-medium font-font4 ml-2">₹{todayProfit.toLocaleString()}<samp className="font-font4 text-base">.00</samp></h1>
                                         <hr />
                                     </div>
                                     <div className="w-11/12 mt-1 ml-">
@@ -238,7 +238,7 @@ function Dashboard() {
                                 <div className="w-2/4 bg-blue-50 rounded-3xl text-center shadow-md">
                                     <p className="font-font4 font-normal m-2 text-xs">Unpaid Invoices</p>
                                     <hr />
-                                    <h1 className="font-font4 font-semibold text-md m-2">₹ {unpaidInvoices.toLocaleString() || 0}<samp className="font-font4 text-sm">.00</samp></h1>
+                                    <h1 className="font-font4 font-semibold text-md m-2">₹ {unpaidInvoices.toLocaleString() || 0}</h1>
                                 </div>
                             </div>
                             <div className="w-full flex justify-center gap-4 mt-4 h-24">
