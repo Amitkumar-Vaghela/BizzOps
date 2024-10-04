@@ -23,7 +23,7 @@ function Landing() {
 
                 <div className="w-3/5 m-16 mt-28">
                     <h3 className="text-xl font-poppins font-normal mt-5">Manage Your Business, Smarter and Faster with</h3>
-                    <h1 className="text-9xl font-poppins font-normal">BizzOps</h1>
+                    <h1 className="text-9xl font-font4 font-medium">BizzOps</h1>
                     <p className="text-md font-poppins font-normal mt-5">BizzOps is the ultimate business management platform, featuring a real-time dashboard, comprehensive reports, and insightful analysis tools. Streamline inventory, finance, and staff management to enhance efficiency and make informed decisions for your business success.</p>
                     <button className="mt-5 bg-gradient-to-r from-blue-300 to-indigo-300 text-gray-700-400 font-medium font-poppins px-6 py-3 rounded-full hover:bg-gradient-to-bl transition">Request a Demo</button>
                     <h4 className="mt-5 text-lg font-poppins font-normal">Trusted by Businesses Worldwide</h4>

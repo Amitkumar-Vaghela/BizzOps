@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faEllipsis, faEye } from '@fortawesome/free-solid-svg-icons';
-import { jsPDF } from "jspdf";
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 const InvoiceTable = () => {
     const [invoices, setInvoices] = useState([]);
@@ -32,10 +31,18 @@ const InvoiceTable = () => {
         setSelectedInvoice(null);
     };
 
-    const downloadInvoice = () => {
-        const doc = new jsPDF();
-        doc.text(`Invoice for ${selectedInvoice.name}`, 10, 10);
-        doc.save(`Invoice_${selectedInvoice.name}.pdf`);
+    const markPaidUnpaid = async (invoiceId, currentStatus) => {
+        try {
+            await axios.patch(`http://localhost:8000/api/v1/invoice/markPaidUnpaid/${invoiceId}`, 
+            { paid: !currentStatus }, 
+            { withCredentials: true });
+            setInvoices(invoices.map(invoice => 
+                invoice._id === invoiceId ? { ...invoice, paid: !currentStatus } : invoice
+            ));
+            closeModal();
+        } catch (error) {
+            console.error('Error updating payment status:', error);
+        }
     };
 
     return (
@@ -91,7 +98,7 @@ const InvoiceTable = () => {
                                         <FontAwesomeIcon
                                             className='text-gray-600 pl-8 hover:text-gray-300 cursor-pointer'
                                             icon={faEllipsis}
-                                            onClick={() => openModal(invoice)}
+                                            onClick={() => markPaidUnpaid(invoice._id, invoice.paid)}
                                         />
                                     </td>
                                 </tr>
@@ -116,9 +123,9 @@ const InvoiceTable = () => {
                             <div className="mt-4 flex justify-between">
                                 <button
                                     className="bg-blue-500 text-white px-4 py-2 rounded"
-                                    onClick={downloadInvoice}
+                                    onClick={() => markPaidUnpaid(selectedInvoice._id, selectedInvoice.paid)}
                                 >
-                                    Download
+                                
                                 </button>
                                 <button
                                     className="bg-gray-500 text-white px-4 py-2 rounded"
