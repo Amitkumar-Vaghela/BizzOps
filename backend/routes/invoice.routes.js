@@ -10,6 +10,6 @@ router.route('/get-invoice').get(verifyJWT,getInvoice)
 router.route('/paid-invoice').get(verifyJWT,getPaidInvoices)
 router.route('/unpaid-invoice').get(verifyJWT,getUnpaidInvoices)
 router.route('/count-invoice').get(verifyJWT,countInvoices)
-router.route('/markPaidUnpaid').put(verifyJWT,markPaidUnpaid)
+router.put('/invoices/:id/toggle-paid', verifyJWT, markPaidUnpaid);
 
 export default router

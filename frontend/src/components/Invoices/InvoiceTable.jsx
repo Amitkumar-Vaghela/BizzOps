@@ -8,16 +8,16 @@ const InvoiceTable = () => {
     const [selectedInvoice, setSelectedInvoice] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
-        const fetchInvoices = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/api/v1/invoice/get-invoice', { withCredentials: true });
-                setInvoices(response.data.data.invoice);
-            } catch (error) {
-                console.error('Error fetching invoices:', error);
-            }
-        };
+    const fetchInvoices = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/v1/invoice/get-invoice', { withCredentials: true });
+            setInvoices(response.data.data.invoice);
+        } catch (error) {
+            console.error('Error fetching invoices:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchInvoices();
     }, []);
 
@@ -33,20 +33,14 @@ const InvoiceTable = () => {
 
     const togglePaidStatus = async () => {
         if (!selectedInvoice) return;
-
+    
         try {
-            const updatedStatus = !selectedInvoice.paid; // Toggle the current paid status
-            const response = await axios.put(`http://localhost:8000/api/v1/invoice/markPaidUnpaid/${selectedInvoice._id}`, {
-                paid: updatedStatus
-            }, { withCredentials: true });
-
-            // Update the invoice list with the new paid status
-            setInvoices((prevInvoices) =>
-                prevInvoices.map((inv) =>
-                    inv._id === selectedInvoice._id ? { ...inv, paid: updatedStatus } : inv
-                )
-            );
-            setSelectedInvoice({ ...selectedInvoice, paid: updatedStatus });
+            await axios.put(`http://localhost:8000/api/v1/invoice/invoices/${selectedInvoice._id}/toggle-paid`, {}, 
+            { withCredentials: true });
+    
+            // Refresh the invoice list
+            await fetchInvoices();
+            closeModal();
         } catch (error) {
             console.error('Error updating paid status:', error);
         }
@@ -117,23 +111,23 @@ const InvoiceTable = () => {
                 {isModalOpen && selectedInvoice && (
                     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
                         <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
-                            <h2 className="text-xl font-semibold mb-4">Invoice Details</h2>
+                            <h2 className="text-lg font-font4 font-normal mb-4"># Invoice Details</h2>
                             <div>
-                                <p><strong>Customer Name:</strong> {selectedInvoice.name}</p>
-                                <p><strong>Date:</strong> {new Date(selectedInvoice.date).toLocaleDateString()}</p>
-                                <p><strong>Subtotal:</strong> ₹{selectedInvoice.subTotal.toFixed(2)}</p>
-                                <p><strong>Grand Total:</strong> ₹{selectedInvoice.grandTotal.toFixed(2)}</p>
-                                <p><strong>Paid:</strong> {selectedInvoice.paid ? 'Yes' : 'No'}</p>
+                                <p className="text-sm font-font4 font-light mb-1"><strong>Customer Name:</strong> {selectedInvoice.name}</p>
+                                <p className="text-sm font-font4 font-light mb-1"><strong>Subtotal:</strong> ₹{selectedInvoice.subTotal.toFixed(2)}</p>
+                                <p className="text-sm font-font4 font-light mb-1"><strong>Date:</strong> {new Date(selectedInvoice.date).toLocaleDateString()}</p>
+                                <p className="text-sm font-font4 font-light mb-1"><strong>Grand Total:</strong> ₹{selectedInvoice.grandTotal.toFixed(2)}</p>
+                                <p className="text-sm font-font4 font-light mb-1 "><strong className='font-medium'>Paid:</strong> {selectedInvoice.paid ? 'Yes' : 'No'}</p>
                             </div>
                             <div className="mt-4 flex justify-between">
                                 <button
-                                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                                    className="bg-blue-500 font-font4 text-sm text-white px-4 py-2 rounded-xl"
                                     onClick={togglePaidStatus}
                                 >
                                     {selectedInvoice.paid ? 'Mark as Unpaid' : 'Mark as Paid'}
                                 </button>
                                 <button
-                                    className="bg-gray-500 text-white px-4 py-2 rounded"
+                                    className="bg-gray-500 font-font4 text-sm text-white px-4 py-2 rounded-xl"
                                     onClick={closeModal}
                                 >
                                     Close

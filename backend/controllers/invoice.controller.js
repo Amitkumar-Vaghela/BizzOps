@@ -130,30 +130,26 @@ const countInvoices = asyncHandler(async (req, res) => {
 });
 
 const markPaidUnpaid = asyncHandler(async (req, res) => {
-    const { invoiceId, status } = req.body;
+    const { id } = req.params;
     const owner = req.user?._id;
-  
+
     if (!owner) {
-      throw new ApiError(401, "Unauthorized request");
+        throw new ApiError(401, "Unauthorized request");
     }
-  
-    if (!invoiceId || typeof status !== "boolean") {
-      throw new ApiError(400, "Invoice ID and valid status (true or false) are required.");
-    }
-  
-    const invoice = await Invoice.findOne({ _id: invoiceId, owner });
-  
+
+    const invoice = await Invoice.findOne({ _id: id, owner });
+
     if (!invoice) {
-      throw new ApiError(404, "Invoice not found");
+        throw new ApiError(404, "Invoice not found");
     }
-  
-    invoice.paid = status;
+
+    invoice.paid = !invoice.paid; // Toggle the paid status
     await invoice.save();
-  
+
     return res
-      .status(200)
-      .json(new ApiResponse(200, { invoice }, `Invoice marked as ${status ? "paid" : "unpaid"} successfully`));
-  });
+        .status(200)
+        .json(new ApiResponse(200, { invoice }, `Invoice marked as ${invoice.paid ? "paid" : "unpaid"} successfully`));
+});
 
 
 export {
