@@ -129,6 +129,31 @@ const countInvoices = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, { invoiceCount }, "Invoice count retrieved successfully"));
 });
 
+const markPaidUnpaid = asyncHandler(async (req, res) => {
+    const { invoiceId, status } = req.body;
+    const owner = req.user?._id;
+  
+    if (!owner) {
+      throw new ApiError(401, "Unauthorized request");
+    }
+  
+    if (!invoiceId || typeof status !== "boolean") {
+      throw new ApiError(400, "Invoice ID and valid status (true or false) are required.");
+    }
+  
+    const invoice = await Invoice.findOne({ _id: invoiceId, owner });
+  
+    if (!invoice) {
+      throw new ApiError(404, "Invoice not found");
+    }
+  
+    invoice.paid = status;
+    await invoice.save();
+  
+    return res
+      .status(200)
+      .json(new ApiResponse(200, { invoice }, `Invoice marked as ${status ? "paid" : "unpaid"} successfully`));
+  });
 
 
 export {
@@ -136,5 +161,6 @@ export {
     getInvoice,
     getPaidInvoices,
     getUnpaidInvoices,
-    countInvoices
+    countInvoices,
+    markPaidUnpaid
 }
