@@ -51,8 +51,8 @@ function AddSales({ addNewSale }) {
     };
 
     const handleClosePopup = () => {
-        navigate('/Sales')
         setPopupVisible(false);
+        window.location.reload();
     };
 
     return (

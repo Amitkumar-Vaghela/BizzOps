@@ -110,7 +110,7 @@ const InvoiceTable = () => {
 
                 {isModalOpen && selectedInvoice && (
                     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-                        <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
+                        <div className="bg-white p-6 rounded-3xl shadow-lg max-w-lg w-full relative">
                             <h2 className="text-lg font-font4 font-normal mb-4"># Invoice Details</h2>
                             <div>
                                 <p className="text-sm font-font4 font-light mb-1"><strong>Customer Name:</strong> {selectedInvoice.name}</p>
