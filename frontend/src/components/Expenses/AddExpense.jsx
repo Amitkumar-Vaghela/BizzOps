@@ -45,7 +45,7 @@ function AddExpense(){
                     value={expAmount}
                     onChange={(e) => setExpAmount(e.target.value)}
                     required
-                    className="w-1/12 text-center h-10 m-2 bg-gray-200 rounded-2xl  font-font4 font-light"
+                    className="w-1/11 text-center h-10 m-2 bg-gray-200 rounded-2xl  font-font4 font-light"
                 />
 
                 <input
@@ -54,7 +54,7 @@ function AddExpense(){
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
-                    className="w-1/12 text-center h-10 m-2 rounded-2xl bg-gray-200  font-font4 font-light"
+                    className="w-1/5 text-center h-10 m-2 rounded-2xl bg-gray-200  font-font4 font-light"
                 />
 
                 <input
@@ -62,7 +62,7 @@ function AddExpense(){
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
-                    className="w-1/5 text-center pr-4 h-10 m-2 rounded-2xl  bg-gray-200 font-font4 font-light"
+                    className="w-1/11 text-center pr-4 h-10 m-2 rounded-2xl  bg-gray-200 font-font4 font-light"
                 />
 
                 <button type="submit" className="bg-blue-300 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Expense</button>

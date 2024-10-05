@@ -6,8 +6,7 @@ import InventoryPage from "./pages/InventoryPage.jsx";
 import SalesPage from "./pages/SalesPage.jsx";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import InvoicePage from "./pages/InvoicePage.jsx";
-import AddExpense from "./components/Expenses/AddExpense.jsx";
-import ExpenseTable from "./components/Expenses/ExpenseTable.jsx";
+import ExpensePage from "./pages/ExpensePage.jsx";
 
 function App() {
 
@@ -23,7 +22,7 @@ function App() {
           <Route path="/inventory" element={<InventoryPage />} />
           <Route path="/sales" element={<SalesPage />} />
           <Route path="/Invoices" element={<InvoicePage />} />
-          <Route path="/Expenses" element={<ExpenseTable />} />
+          <Route path="/Expenses" element={<ExpensePage />} />
         </Routes>
       </Router>
     </>

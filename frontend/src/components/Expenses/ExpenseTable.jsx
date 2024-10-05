@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; 
 
 function ExpenseTable() {
-    const [expense, setExpesne] = useState([]);
+    const [expense, setExpense] = useState([]); 
+
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString();
     };
-    const getExpense = async() =>{
+
+    const getExpense = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/v1/expense/get-expense',{ withCredentials: true })
-            if(response.data.statusCode === 200 ){
-                console.log("expense fetched successfully");
-                setExpesne(response.data.data.expense)
+            const response = await axios.get('http://localhost:8000/api/v1/expense/get-expense', { withCredentials: true });
+            if (response.data.statusCode === 200) {
+                console.log("Expense fetched successfully");
+                setExpense(response.data.data.expense); 
             }
         } catch (error) {
             console.error("Error while fetching expense", error.response?.data || error.message);
-        }   
-    }
+        }
+    };
+
+    useEffect(() => {
+        getExpense();
+    }, []);
 
     return (
         <div className="w-full bg-white shadow-md rounded-lg p-6">
@@ -32,8 +39,8 @@ function ExpenseTable() {
                     </thead>
                     <tbody>
                         {expense.length > 0 ? (
-                            expense.map((expense) => (
-                                <tr key={sale._id} className="border-b">
+                            expense.map((expense) => ( 
+                                <tr key={expense._id} className="border-b">
                                     <td className="px-4 py-2 border text-sm font-font4">{formatDate(expense.date)}</td>
                                     <td className="px-4 py-2 border text-sm font-font4">{expense.name}</td>
                                     <td className="px-4 py-2 border text-sm font-font4">₹{expense.expAmount.toFixed(2)}</td>
