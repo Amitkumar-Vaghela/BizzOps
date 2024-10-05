@@ -20,7 +20,7 @@ function AddExpense(){
             }
         } catch (error) {
             console.error("Error while adding expense", error.response?.data || error.message);
-        }
+        }   
     }
     const handleClosePopup = () => {
         setPopupVisible(false);
@@ -32,7 +32,7 @@ function AddExpense(){
             <form onSubmit={handleAddExpense} className="space-y-4 mb-2">
                 <input
                     type="text"
-                    placeholder="name"
+                    placeholder="Item"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
