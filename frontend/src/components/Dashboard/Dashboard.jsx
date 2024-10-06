@@ -251,7 +251,7 @@ function Dashboard() {
                                     <p className="font-font4 font-normal m-2 text-xs">Unpaid Invoices</p>
                                     <hr />
                                     <h1 className="font-font4 font-semibold text-md m-2">
-                                    ₹ {unpaidInvoices || 0}
+                                    ₹ {unpaidInvoices}
                                     </h1>
                                 </div>
                             </div>
