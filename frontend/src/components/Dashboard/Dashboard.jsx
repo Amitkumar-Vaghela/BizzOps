@@ -9,6 +9,7 @@ import ProfitChart from "./ProfitChart";
 import FinancialChart from "./FinancialCharts";
 import FinancialDist from "./FinancialDist";
 import axios from "axios";
+import Account from "../Account.jsx";
 
 function Dashboard() {
 
@@ -74,6 +75,7 @@ function Dashboard() {
                 <Sidebar />
                 <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-200">
                     <CustomBtn />
+                    <Account />
                     <h1 className="m-10  text-2xl font-medium font-font4">Dashboard  </h1>
 
                     <div className="mt-2 m-9 flex justify-center items-center gap-4">
