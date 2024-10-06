@@ -120,7 +120,7 @@ function Account() {
             {isEditPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-gray-100 w-2/12 rounded-3xl p-6">
-                        <h2 className="text-sm font-semibold text-center">Edit Account</h2>
+                        <h2 className="text-sm font-semibold text-center mb-5">Edit Account</h2>
                         <form onSubmit={handleEditAccount}>
                             <input
                                 type="text"
@@ -128,7 +128,7 @@ function Account() {
                                 required
                                 value={newBusiness}
                                 onChange={(e) => setNewBusiness(e.target.value)}
-                                className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
+                                className="w-full text-sm p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                             />
                             <input
                                 type="email"
@@ -136,7 +136,7 @@ function Account() {
                                 required
                                 value={newEmail}
                                 onChange={(e) => setNewEmail(e.target.value)}
-                                className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
+                                className="w-full p-3 text-sm pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                             />
                             <input
                                 type="text"
@@ -144,19 +144,19 @@ function Account() {
                                 required
                                 value={newName}
                                 onChange={(e) => setNewName(e.target.value)}
-                                className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
+                                className="w-full p-3 pl-10 text-sm mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                             />
                             <div className="mt-4 flex justify-end gap-4">
                                 <button
                                     type="submit"
-                                    className="bg-blue-500 text-white px-2 py-1 rounded"
+                                    className="bg-blue-500 text-white px-2 py-1 rounded-xl"
                                 >
                                     Save
                                 </button>
                                 <button
                                     onClick={handleEditClose}
                                     type="button"
-                                    className="bg-gray-500 text-white px-2 py-1 rounded"
+                                    className="bg-gray-500 text-white px-2 py-1 rounded-xl"
                                 >
                                     Cancel
                                 </button>
