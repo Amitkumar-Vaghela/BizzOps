@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faDollar, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import Account from "../Account.jsx";
 
 function Payment() {
 
@@ -33,6 +34,7 @@ function Payment() {
                 <Sidebar />
                 <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-200">
                     <CustomBtn />
+                    <Account />
                     <h1 className="m-10 text-2xl font-medium font-font4 flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={() => navigate('/dashboard')} /> Payments</h1>
                     <div className="justify-center items-center flex flex-col">
                         <div className="w-4/5">

@@ -91,7 +91,7 @@ const InvoiceTable = () => {
                                     </td>
                                     <td className="border p-4 text-right">₹{invoice.subTotal.toFixed(2)}</td>
                                     <td className="border p-4 text-right">₹{invoice.grandTotal.toFixed(2)}</td>
-                                    <td className="border p-4 text-center">{invoice.paid ? 'Yes' : 'No'}</td>
+                                    <td className="border p-4 text-center">{invoice.paid ? <span className='text-green-500 font-font4 font-medium'>Yes</span> : <span className='text-red-500 font-font4 font-medium'>No</span> }</td>
                                     <td className="border p-4 text-center">
                                         {new Date(invoice.date).toLocaleDateString()}
                                     </td>

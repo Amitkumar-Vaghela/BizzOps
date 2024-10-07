@@ -7,6 +7,7 @@ import Sidebar from "../Sidebar";
 import CustomBtn from "../CustomBtn";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Account from "../Account.jsx";
 
 function Report() {
 
@@ -131,6 +132,7 @@ function Report() {
                 <Sidebar />
                 <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-200">
                     <CustomBtn />
+                    <Account />
                     <h1 className="m-10 text-2xl font-medium font-font4 flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={() => navigate('/dashboard')} /> Report</h1>
                     <div className="justify-center items-center flex flex-col">
 

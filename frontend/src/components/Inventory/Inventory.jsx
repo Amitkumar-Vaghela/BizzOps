@@ -7,6 +7,7 @@ import Sidebar from "../Sidebar.jsx";
 import CustomBtn from "../CustomBtn.jsx";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Account from "../Account.jsx";
 
 function Inventory() {
     const navigate = useNavigate()
@@ -66,6 +67,7 @@ function Inventory() {
                 <Sidebar />
                 <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-200">
                     <CustomBtn />
+                    <Account />
                     <h1 className="m-10 text-2xl font-medium font-font4 flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={()=> navigate('/dashboard')} /> Inventory</h1>
                     <div className="justify-center items-center flex flex-col">
                         <div className=" w-5/6 bg-white rounded-xl gap-4 mb-4">
