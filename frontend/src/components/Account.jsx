@@ -1,9 +1,11 @@
-import { faPencil, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import {useNavigate} from 'react-router-dom'
 
 function Account() {
+    const navigate = useNavigate()
     const [isPopupVisible, setPopupVisible] = useState(false);
     const [isEditPopupVisible, setEditPopupVisible] = useState(false);
     const [business, setBusiness] = useState('');
@@ -58,6 +60,18 @@ function Account() {
             console.error("Error while updating account", error.response?.data || error.message);
         }
     };
+
+    const handleLogOut = async()=>{
+        try {
+            const response = await axios.post('http://localhost:8000/api/v1/users/logout',{},{withCredentials:true})
+            if(response.data.statusCode === 200){
+                console.log("usert logged out");
+                navigate('/')
+            }
+        } catch (error) {
+            console.error("error while logging out" || error.message);
+        }
+    }
     
 
     useEffect(() => {
@@ -108,9 +122,15 @@ function Account() {
                             </button>
                             <button
                                 onClick={handleClosePopup}
-                                className="bg-blue-500 text-white px-2 py-1 rounded"
+                                className="bg-blue-500 text-white px-2 py-1 font-font4  rounded"
                             >
                                 Close
+                            </button>
+                            <button 
+                                onClick={handleLogOut}
+                                className="bg-red-500 text-xs text-white px-2 py-1 font-font4 rounded"
+                            >
+                                <FontAwesomeIcon icon={faSignOut} className="font-bold" /> Sign Out
                             </button>
                         </div>
                     </div>

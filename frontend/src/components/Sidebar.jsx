@@ -19,7 +19,7 @@ function Sidebar() {
     const navigate = useNavigate();
     
     return (
-        <div className="w-1/6 h-[calc(100vh)] sticky top-0 left-0 bg-blue-50">
+        <div className="w-1/6 min-h-screen sticky top-0 left-0 bg-blue-50">
             <img className="pt-10 ml-6 mb-10 w-40 h-20" src={logo} alt="logo" />
             <h1 onClick={() => navigate('/Dashboard')} className="font-font4 font-medium text-md ml-7 mt-7 cursor-pointer">
                 <FontAwesomeIcon icon={faChartLine} className="text-blue-600 pr-2" /> Dashboard
