@@ -6,9 +6,11 @@ import { useState } from "react";
 import Sidebar from "../Sidebar";
 import CustomBtn from "../CustomBtn";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Report() {
 
+    const navigate = useNavigate()
     const [totalSale, setTotalSales] = useState(0)
     const [todaySale, setTodaySales] = useState(0)
     const [MonthSale, setMonthSales] = useState(0)

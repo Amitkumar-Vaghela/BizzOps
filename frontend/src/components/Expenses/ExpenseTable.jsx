@@ -12,7 +12,6 @@ function ExpenseTable() {
         try {
             const response = await axios.get('http://localhost:8000/api/v1/expense/get-expense', { withCredentials: true });
             if (response.data.statusCode === 200) {
-                console.log("Expense fetched successfully");
                 setExpense(response.data.data.expense); 
             }
         } catch (error) {
