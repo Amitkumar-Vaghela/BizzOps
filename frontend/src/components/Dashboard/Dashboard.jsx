@@ -87,7 +87,6 @@ function Dashboard() {
                                     <hr />
                                 </div>
                                 <div className="w-11/12 mt-1 ml-">
-                                    {/* <hr /> */}
                                     <p className="font-normal mt-1 font-font4 text-xs">From All Time</p>
                                 </div>
                             </div>

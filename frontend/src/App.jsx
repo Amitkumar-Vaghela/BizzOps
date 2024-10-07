@@ -7,7 +7,7 @@ import SalesPage from "./pages/SalesPage.jsx";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import InvoicePage from "./pages/InvoicePage.jsx";
 import ExpensePage from "./pages/ExpensePage.jsx";
-import Report from "./components/Report/Report.jsx";
+import ReportPage from "./pages/ReportPage.jsx";
 
 function App() {
 
@@ -24,7 +24,7 @@ function App() {
           <Route path="/sales" element={<SalesPage />} />
           <Route path="/Invoices" element={<InvoicePage />} />
           <Route path="/Expenses" element={<ExpensePage />} />
-          <Route path="/Report" element={<Report />} />
+          <Route path="/Report" element={<ReportPage />} />
         </Routes>
       </Router>
     </>
