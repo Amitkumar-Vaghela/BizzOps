@@ -51,7 +51,7 @@ const FinancialChart = () => {
             backgroundColor: "rgba(255, 99, 132, 0.2)",
             borderWidth: 2,
             fill: true,
-            tension: 0.4,
+            tension: 0.1,
             pointRadius: 1,
           },
           {
@@ -61,7 +61,7 @@ const FinancialChart = () => {
             backgroundColor: "rgba(54, 162, 235, 0.2)",
             borderWidth: 2,
             fill: true,
-            tension: 0.4,
+            tension: 0.1,
             pointRadius: 1,
           },
           {
@@ -71,7 +71,7 @@ const FinancialChart = () => {
             backgroundColor: "rgba(255, 206, 86, 0.2)",
             borderWidth: 2,
             fill: true,
-            tension: 0.4,
+            tension: 0.1,
             pointRadius: 1,
           },
         ],

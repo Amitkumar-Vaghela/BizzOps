@@ -4,8 +4,10 @@ import logo from '../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./Context/AuthContext";
 
 function Login() {
+    const {login} = useAuth()
     const navigate = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -26,6 +28,7 @@ function Login() {
                 if (accessToken) {
                     localStorage.setItem("accessToken", "Bearer " + accessToken);
                 }
+                login()
                 navigate('/dashboard')
             }
             console.log(response.data.message);

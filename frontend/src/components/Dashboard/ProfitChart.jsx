@@ -29,7 +29,7 @@ const ProfitChart = () => {
                                 data: profitValues,
                                 fill: true,
                                 borderColor: 'rgba(31, 244, 3, 1)',
-                                tension: 0.4,
+                                tension: 0.1,
                                 pointRadius: 2,
                                 pointBackgroundColor: 'rgba(31, 244, 3, 1)',
                             },
