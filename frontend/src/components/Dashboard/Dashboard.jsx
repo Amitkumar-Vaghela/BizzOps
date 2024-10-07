@@ -73,7 +73,7 @@ function Dashboard() {
         <>
             <div className="flex min-h-screen">
                 <Sidebar />
-                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-200">
+                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-100">
                     <CustomBtn />
                     <Account />
                     <h1 className="m-10  text-2xl font-medium font-font4">Dashboard  </h1>
@@ -251,7 +251,7 @@ function Dashboard() {
                                     <p className="font-font4 font-normal m-2 text-xs">Unpaid Invoices</p>
                                     <hr />
                                     <h1 className="font-font4 font-semibold text-md m-2">
-                                    ₹ {unpaidInvoices}
+                                    ₹ {unpaidInvoices.toFixed(2) }
                                     </h1>
                                 </div>
                             </div>

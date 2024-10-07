@@ -33,14 +33,14 @@ function Sidebar() {
             <h1 onClick={() => navigate('/Invoices')} className="font-font4 font-medium text-md ml-7 mt-7 cursor-pointer">
                 <FontAwesomeIcon icon={faFileInvoice} className="text-purple-500 pr-2" /> Invoices
             </h1>
+            <h1 onClick={() => navigate('/Report')} className="font-font4 font-medium text-md ml-7 mt-7 cursor-pointer">
+                <FontAwesomeIcon icon={faReceipt} className="text-orange-500 pr-2" /> Report
+            </h1>
             <h1 onClick={() => navigate('/Expenses')} className="font-font4 font-medium text-md ml-7 mt-7 cursor-pointer">
                 <FontAwesomeIcon icon={faDollar} className="text-red-500 pr-2" /> Expenses
             </h1>
             <h1 onClick={() => navigate('/Payment')} className="font-font4 font-medium text-md ml-7 mt-7 cursor-pointer">
                 <FontAwesomeIcon icon={faMoneyBill} className="text-teal-500 pr-2" /> Payment
-            </h1>
-            <h1 onClick={() => navigate('/Report')} className="font-font4 font-medium text-md ml-7 mt-7 cursor-pointer">
-                <FontAwesomeIcon icon={faReceipt} className="text-orange-500 pr-2" /> Report
             </h1>
             <h1 onClick={() => navigate('/Orders')} className="font-font4 font-medium text-md ml-7 mt-7 cursor-pointer">
                 <FontAwesomeIcon icon={faClockFour} className="text-indigo-500 pr-2" /> Orders
