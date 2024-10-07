@@ -18,6 +18,8 @@ function Report() {
     const [totalCost, setTotalCost] = useState(0)
     const [totalNetIncome, setTotalNetIncome] = useState(0)
     const [totalExpense, setTotalExpense] = useState(0)
+    const [monthExpense, setMonthTotalExpense] = useState(0)
+    const [oneDayExpense, setOneDayExpense] = useState(0)
     const [orders, setOrders] = useState(0)
     const [pendingOrders, setPendingOrders] = useState(0)
     const [invoices, setInvoices] = useState(0)
@@ -34,6 +36,8 @@ function Report() {
             const todayProfitResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-one-profit", { withCredentials: true })
             const totalCostResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-alltime-cost", { withCredentials: true })
             const totalExpenseResponse = await axios.get("http://localhost:8000/api/v1/expense/get-alltime-expense", { withCredentials: true })
+            const monthExpenseResponse = await axios.get("http://localhost:8000/api/v1/expense/get-last30day-expense", { withCredentials: true })
+            const oneExpenseResponse = await axios.get("http://localhost:8000/api/v1/expense/get-oneday-expense", { withCredentials: true })
             const orderResponse = await axios.get("http://localhost:8000/api/v1/orders/count-order", { withCredentials: true })
             const pendingOrderResponse = await axios.get("http://localhost:8000/api/v1/orders/get-pending-order", { withCredentials: true })
             const invoicesResponse = await axios.get("http://localhost:8000/api/v1/invoice/count-invoice", { withCredentials: true })
@@ -48,6 +52,8 @@ function Report() {
             setTodayProfit(todayProfitResponse.data.data.totalProfitValue)
             setTotalCost(totalCostResponse.data.data.totalCostValue)
             setTotalExpense(totalExpenseResponse.data.data.totalExpenseValue)
+            setMonthTotalExpense(monthExpenseResponse.data.data.totalExpenseValue)
+            setOneDayExpense(oneExpenseResponse.data.data.totalExpenseValue)
             setTotalNetIncome(totalProfit - totalExpense)
             setOrders(orderResponse.data.data.totalOrders)
             setPendingOrders(pendingOrderResponse.data.data.pendingCount)
@@ -70,6 +76,7 @@ function Report() {
     const [avgSalePerOrder, setAvgSalePerOrder] = useState(0);
     const [profitPerOrder, setProfitPerOrder] = useState(0);
     const [expenseRatio, setExpenseRatio] = useState(0);
+    const [returnOnSale, setReturnOnSale] = useState(null)
     const [pendingInvoiceRatio, setPendingInvoiceRatio] = useState(0);
 
     const [monthlyGrossProfitMargin, setMonthlyGrossProfitMargin] = useState(0);
@@ -92,13 +99,14 @@ function Report() {
             setProfitPerOrder(totalProfit / orders);
             setExpenseRatio((totalExpense / totalSale) * 100);
             setPendingInvoiceRatio((unpaidInvoices / invoices) * 100);
+            setReturnOnSale((totalNetIncome/todaySale)*100)
         }
     }, [totalSale, totalProfit, totalNetIncome, totalExpense, orders, invoices, unpaidInvoices]);
 
     useEffect(() => {
         if (MonthSale > 0) {
             setMonthlyGrossProfitMargin((monthProfit / MonthSale) * 100);
-            setMonthlyNetProfitMargin((monthProfit - totalExpense) / MonthSale * 100);
+            setMonthlyNetProfitMargin((monthProfit - monthExpense) / MonthSale * 100);
             setMonthlyAvgSalePerOrder(MonthSale / orders);
             setMonthlyProfitPerOrder(monthProfit / orders);
             setMonthlyExpenseRatio((totalExpense / MonthSale) * 100);
@@ -125,8 +133,8 @@ function Report() {
                     <div className="justify-center items-center flex flex-col">
 
                         <div className="m-5 w-5/6 bg-white rounded-xl">
-                            <h1 className="text-base mt-2 font-medium font-font4 text-center">All Time Report</h1>
-                            <div className="flex justify-center items-center gap-5 m-8">
+                            <h1 className="text-base mt-5 font-medium font-font4 text-center">All Time Report</h1>
+                            <div className="flex justify-center items-center gap-5 m-14">
                                 <label className="m-2 font-font4 font-medium">Total Sale</label>
                                 <input
                                     type="text"
@@ -149,7 +157,7 @@ function Report() {
                                     className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
                                 />
                             </div>
-                            <div className="flex justify-center items-center gap-5 m-8">
+                            <div className="flex justify-center items-center gap-5 m-14">
                                 <label className="font-font4 font-medium">Gross Profit Margin</label>
                                 <input
                                     type="text"
@@ -164,7 +172,7 @@ function Report() {
                                     readOnly
                                     className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Avg Sale/Order</label>
+                                <label className="font-font4 font-medium">Avg Sale per Order</label>
                                 <input
                                     type="text"
                                     value={avgSalePerOrder.toFixed(2)}
@@ -172,11 +180,200 @@ function Report() {
                                     className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
                                 />
                             </div>
+                            <div className="flex justify-center items-center gap-5 m-14">
+                                <label className="font-font4 font-medium">Profit per Order</label>
+                                <input
+                                    type="text"
+                                    value={profitPerOrder.toFixed(0)}
+                                    readOnly
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Expense Ratio</label>
+                                <input
+                                    type="text"
+                                    value={expenseRatio.toFixed(2)}
+                                    readOnly
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Total Expense</label>
+                                <input
+                                    type="text"
+                                    value={totalExpense.toFixed(2)}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                            </div>
+                            <div className="flex justify-center items-center gap-5 m-14">
+                                <label className="font-font4 font-medium">Total Net Income</label>
+                                <input
+                                    type="text"
+                                    value={(totalProfit-totalExpense).toFixed(0)}
+                                    readOnly
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Unpaid Invoices</label>
+                                <input
+                                    type="text"
+                                    value={unpaidInvoices.toFixed(0)}
+                                    readOnly
+                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Return On Sale</label>
+                                <input
+                                    type="text"
+                                    value={returnOnSale !== null ? returnOnSale.toFixed(2) : 'Loading...'}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                            </div>
                         </div>
 
-                        <div className="m-5 w-5/6">
-
+                        <div className="m-5 w-5/6 bg-white rounded-xl">
+                            <h1 className="text-base mt-5 font-medium font-font4 text-center">Month Report</h1>
+                            <div className="flex justify-center items-center gap-5 m-14">
+                                <label className="m-2 font-font4 font-medium">Month Sale</label>
+                                <input
+                                    type="text"
+                                    value={MonthSale}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                                <label className="m-2 font-font4 font-medium">Month Profit</label>
+                                <input
+                                    type="text"
+                                    value={monthProfit.toFixed(2)}
+                                    readOnly
+                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                />
+                                <label className="m-2 font-font4 font-medium">Month Expense</label>
+                                <input
+                                    type="text"
+                                    value={monthExpense}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                            </div>
+                            <div className="flex justify-center items-center gap-5 m-14">
+                                <label className="font-font4 font-medium">Gross Profit Margin</label>
+                                <input
+                                    type="text"
+                                    value={monthlyGrossProfitMargin.toFixed(0)}
+                                    readOnly
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Net Profit Margin</label>
+                                <input
+                                    type="text"
+                                    value={monthlyNetProfitMargin.toFixed(2)}
+                                    readOnly
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Avg Sale per Order</label>
+                                <input
+                                    type="text"
+                                    value={monthlyAvgSalePerOrder.toFixed(2)}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                            </div>
+                            <div className="flex justify-center items-center gap-5 m-14">
+                                <label className="font-font4 font-medium">Profit per Order</label>
+                                <input
+                                    type="text"
+                                    value={monthlyProfitPerOrder.toFixed(0)}
+                                    readOnly
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Expense Ratio</label>
+                                <input
+                                    type="text"
+                                    value={monthlyExpenseRatio.toFixed(2)}
+                                    readOnly
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Month Net Income</label>
+                                <input
+                                    type="text"
+                                    value={monthProfit-monthExpense}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                            </div>
                         </div>
+
+                        <div className="m-5 w-5/6 bg-white rounded-xl">
+                            <h1 className="text-base mt-5 font-medium font-font4 text-center">Daily Report</h1>
+                            <div className="flex justify-center items-center gap-5 m-14">
+                                <label className="m-2 font-font4 font-medium">Sale</label>
+                                <input
+                                    type="text"
+                                    value={todaySale}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                                <label className="m-2 font-font4 font-medium">Profit</label>
+                                <input
+                                    type="text"
+                                    value={todayProfit.toFixed(2)}
+                                    readOnly
+                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                />
+                                <label className="m-2 font-font4 font-medium">Expense</label>
+                                <input
+                                    type="text"
+                                    value={oneDayExpense}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                            </div>
+                            <div className="flex justify-center items-center gap-5 m-14">
+                                <label className="font-font4 font-medium">Gross Profit Margin</label>
+                                <input
+                                    type="text"
+                                    value={dailyGrossProfitMargin.toFixed(0)}
+                                    readOnly
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Net Profit Margin</label>
+                                <input
+                                    type="text"
+                                    value={dailyNetProfitMargin.toFixed(2)}
+                                    readOnly
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Avg Sale per Order</label>
+                                <input
+                                    type="text"
+                                    value={dailyAvgSalePerOrder.toFixed(2)}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                            </div>
+                            <div className="flex justify-center items-center gap-5 m-14">
+                                <label className="font-font4 font-medium">Profit per Order</label>
+                                <input
+                                    type="text"
+                                    value={dailyProfitPerOrder.toFixed(0)}
+                                    readOnly
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Expense Ratio</label>
+                                <input
+                                    type="text"
+                                    value={dailyExpenseRatio.toFixed(2)}
+                                    readOnly
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                />
+                                <label className="font-font4 font-medium">Month Net Income</label>
+                                <input
+                                    type="text"
+                                    value={todayProfit-oneDayExpense}
+                                    readOnly
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                />
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
