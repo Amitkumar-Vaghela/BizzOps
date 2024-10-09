@@ -2,26 +2,28 @@ import { faPencil, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./Context/AuthContext";
 
 function Account() {
-    const navigate = useNavigate()
+    const {logout} = useAuth()
+    const navigate = useNavigate();
     const [isPopupVisible, setPopupVisible] = useState(false);
     const [isEditPopupVisible, setEditPopupVisible] = useState(false);
-    const [business, setBusiness] = useState('');
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [newBusiness, setNewBusiness] = useState(business);
-    const [newEmail, setNewEmail] = useState(email);
-    const [newName, setNewName] = useState(name);
+    const [userDetails, setUserDetails] = useState({
+        businessName: '',
+        email: '',
+        name: ''
+    });
+    const [newDetails, setNewDetails] = useState({ ...userDetails });
+    const [message, setMessage] = useState('');
 
     const fetchData = async () => {
         try {
             const response = await axios.get('http://localhost:8000/api/v1/users/get-details', { withCredentials: true });
             if (response.data.statusCode === 200) {
-                setBusiness(response.data.data.businessName);
-                setEmail(response.data.data.email);
-                setName(response.data.data.name);
+                setUserDetails(response.data.data);
+                setNewDetails(response.data.data); // Initialize new details
             }
         } catch (error) {
             console.error("Error while fetching data", error.response?.data || error.message);
@@ -30,49 +32,42 @@ function Account() {
 
     const handleEditAccount = async (e) => {
         e.preventDefault();
-        
-        if (!newBusiness || !newEmail || !newName) {
-            console.error("All fields are required");
+        if (!newDetails.businessName || !newDetails.email || !newDetails.name) {
+            setMessage("All fields are required");
             return;
         }
-    
+
         try {
-            const data = {
-                businessName: newBusiness,
-                email: newEmail,
-                name: newName
-            };
-            
             const response = await axios.post(
                 'http://localhost:8000/api/v1/users/update-account',
-                data,
+                newDetails,
                 { withCredentials: true }
             );
-    
+
             if (response.data.statusCode === 200) {
-                console.log("Details updated successfully");
-                handleClosePopup();
-                handleEditClose();
+                setMessage("Details updated successfully");
+                setUserDetails(newDetails); // Update the displayed details
+                handleEditClose(); // Close the edit popup
             } else {
-                console.error("Error updating account", response.data.message);
+                setMessage("Error updating account: " + response.data.message);
             }
         } catch (error) {
-            console.error("Error while updating account", error.response?.data || error.message);
+            setMessage("Error while updating account: " + (error.response?.data || error.message));
         }
     };
 
-    const handleLogOut = async()=>{
+    const handleLogOut = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/users/logout',{},{withCredentials:true})
-            if(response.data.statusCode === 200){
-                console.log("usert logged out");
-                navigate('/')
+            const response = await axios.post('http://localhost:8000/api/v1/users/logout', {}, { withCredentials: true });
+            if (response.data.statusCode === 200) {
+                console.log("User logged out");
+                logout()
+                navigate('/');
             }
         } catch (error) {
-            console.error("error while logging out" || error.message);
+            console.error("Error while logging out", error.message);
         }
-    }
-    
+    };
 
     useEffect(() => {
         fetchData();
@@ -80,6 +75,7 @@ function Account() {
 
     const handleClosePopup = () => {
         setPopupVisible(false);
+        setMessage(''); // Clear message on close
     };
 
     const handleOpenPopup = () => {
@@ -92,7 +88,7 @@ function Account() {
 
     const handleEditClose = () => {
         setEditPopupVisible(false);
-        window.location.reload();
+        setNewDetails(userDetails); // Reset new details
     };
 
     return (
@@ -110,9 +106,10 @@ function Account() {
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-gray-100 w-2/12 rounded-3xl p-6">
                         <h2 className="text-sm font-semibold text-center">Account</h2>
-                        <h2 className="text-lg font-bold text-center m-4">{business}</h2>
-                        <p className="mt-2 text-center m-2">{email}</p>
-                        <p className="mt-2 text-center m-2 mb-10">{name}</p>
+                        <h2 className="text-lg font-bold text-center m-4">{userDetails.businessName}</h2>
+                        <p className="mt-2 text-center m-2">{userDetails.email}</p>
+                        <p className="mt-2 text-center m-2 mb-10">{userDetails.name}</p>
+                        {message && <p className="text-red-500 text-center">{message}</p>}
                         <div className="mt-4 flex justify-end gap-4">
                             <button
                                 onClick={() => { handleEditOpen(); handleClosePopup(); }}
@@ -122,7 +119,7 @@ function Account() {
                             </button>
                             <button
                                 onClick={handleClosePopup}
-                                className="bg-blue-500 text-white px-2 py-1 font-font4  rounded"
+                                className="bg-blue-500 text-white px-2 py-1 font-font4 rounded"
                             >
                                 Close
                             </button>
@@ -146,24 +143,24 @@ function Account() {
                                 type="text"
                                 placeholder="Business Name"
                                 required
-                                value={newBusiness}
-                                onChange={(e) => setNewBusiness(e.target.value)}
+                                value={newDetails.businessName}
+                                onChange={(e) => setNewDetails({ ...newDetails, businessName: e.target.value })}
                                 className="w-full text-sm p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                             />
                             <input
                                 type="email"
                                 placeholder="Email"
                                 required
-                                value={newEmail}
-                                onChange={(e) => setNewEmail(e.target.value)}
+                                value={newDetails.email}
+                                onChange={(e) => setNewDetails({ ...newDetails, email: e.target.value })}
                                 className="w-full p-3 text-sm pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                             />
                             <input
                                 type="text"
                                 placeholder="Name"
                                 required
-                                value={newName}
-                                onChange={(e) => setNewName(e.target.value)}
+                                value={newDetails.name}
+                                onChange={(e) => setNewDetails({ ...newDetails, name: e.target.value })}
                                 className="w-full p-3 pl-10 text-sm mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
                             />
                             <div className="mt-4 flex justify-end gap-4">

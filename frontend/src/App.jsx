@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import InvoicePage from "./pages/InvoicePage.jsx";
 import ExpensePage from "./pages/ExpensePage.jsx";
 import ReportPage from "./pages/ReportPage.jsx";
-import Payment from "./components/Payment/Payment.jsx";
+import PaymentPage from "./pages/PaymentPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoutes.jsx";
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
         <Route path="/Invoices" element={<ProtectedRoute element={<InvoicePage />} />} />
         <Route path="/Expenses" element={<ProtectedRoute element={<ExpensePage />} />} />
         <Route path="/Report" element={<ProtectedRoute element={<ReportPage />} />} />
-        <Route path="/Payment" element={<ProtectedRoute element={<Payment />} />} />
+        <Route path="/Payment" element={<ProtectedRoute element={<PaymentPage />} />} />
       </Routes>
     </Router>
   );

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
 
 function Login() {
-    const {login} = useAuth()
+    const { login } = useAuth()
     const navigate = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -28,16 +28,21 @@ function Login() {
                 if (accessToken) {
                     localStorage.setItem("accessToken", "Bearer " + accessToken);
                 }
-                login()
-                navigate('/dashboard')
+                const isSuccess = true;
+
+                if (isSuccess) {
+                    login();
+                    navigate('/dashboard')
+                }
+                
             }
             console.log(response.data.message);
         } catch (error) {
             const errorMessage = error.response?.data?.message || error.message;
-            if(errorMessage === 'Request failed with status code 401'){
+            if (errorMessage === 'Request failed with status code 401') {
                 const newError = 'Invalid Email Or Password'
                 setErrorPopup(newError)
-            }else{
+            } else {
                 setErrorPopup(errorMessage);
             }
 
@@ -90,21 +95,21 @@ function Login() {
                             />
                         </div>
                         <div className='relative mb-4' onClick={() => navigate('/register')}>
-                        <p className='text-xs ml-2 font-font4 font-medium text-black'>
-                            Don’t have an account? <span className="text-black font-bold underline cursor-pointer">Sign up</span>
-                        </p>
-                    </div>
+                            <p className='text-xs ml-2 font-font4 font-medium text-black'>
+                                Don’t have an account? <span className="text-black font-bold underline cursor-pointer">Sign up</span>
+                            </p>
+                        </div>
                         <button type="submit" className="w-1/4 py-3 bg-white text-black font-poppins font-bold rounded-full hover:bg-gray-200 transition-all duration-500 hover:scale-110">
                             Login
                         </button>
                     </form>
                 </div>
                 {errorPopup && (
-                <div className="fixed top-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-5 bg-red-300 font-medium font-poppins px-6 py-3 rounded-full">
-                    <FontAwesomeIcon icon={faLock} className="text-red-500 mr-2" />
-                    <span className="text-red-700 font-poppins">{errorPopup}</span>
-                </div>
-            )}
+                    <div className="fixed top-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-5 bg-red-300 font-medium font-poppins px-6 py-3 rounded-full">
+                        <FontAwesomeIcon icon={faLock} className="text-red-500 mr-2" />
+                        <span className="text-red-700 font-poppins">{errorPopup}</span>
+                    </div>
+                )}
             </div>
         </>
     );
