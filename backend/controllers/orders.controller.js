@@ -68,10 +68,33 @@ const countTotalOrders = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, { totalOrders }, "Total orders counted successfully"));
 });
 
+const markDone = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const owner = req.user?._id;
+
+    if (!owner) {
+        throw new ApiError(401, "Unauthorized request");
+    }
+
+    const order = await Invoice.findOne({ _id: id, owner });
+
+    if (!order) {
+        throw new ApiError(404, "Invoice not found");
+    }
+
+    order.done = !order.done; // Toggle the paid status
+    await order.save();
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { order }, `Order marked as ${order.done ? "Delivered" : "Pending"} successfully`));
+});
+
 
 export {
     addOrder,
     getOrders,
     getPendingOrder,
     countTotalOrders,
+    markDone
 };
