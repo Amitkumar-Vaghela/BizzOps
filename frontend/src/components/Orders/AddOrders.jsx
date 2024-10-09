@@ -8,6 +8,7 @@ function AddOrders() {
     const [price, setPrice] = useState('')
     const [dateToDilivery, setDateToDilivery] = useState('')
     const [profitInPercent, setProfitInPercent] = useState('')
+    const [done, setDone] = useState(false)
     const [isPopupVisible, setPopupVisible] = useState(false)
 
     const handleAddOrders = async (e) => {
@@ -43,7 +44,7 @@ function AddOrders() {
                 <input
                     type="number"
                     placeholder="Qty"
-                    value={expAmount}
+                    value={qty}
                     onChange={(e) => setQty(e.target.value)}
                     required
                     className="w-1/11 text-center h-10 m-2 bg-gray-200 rounded-2xl  font-font4 font-light"
@@ -59,22 +60,41 @@ function AddOrders() {
                 />
 
                 <input
-                    type="date"
-                    value={dateToDilivery}
-                    onChange={(e) => setDateToDilivery(e.target.value)}
-                    required
-                    className="w-1/11 text-center pr-4 h-10 m-2 rounded-2xl  bg-gray-200 font-font4 font-light"
-                />
-
-                <input
                     type="number"
+                    placeholder="Profit %"
                     value={profitInPercent}
                     onChange={(e) => setProfitInPercent(e.target.value)}
                     required
-                    className="w-1/11 text-center pr-4 h-10 m-2 rounded-2xl  bg-gray-200 font-font4 font-light"
+                    className="w-1/12 text-center pl-4 h-10 m-2 rounded-2xl bg-gray-200 font-font4 font-light"
                 />
+                <div className="flex flex-row">
+                <div>
+                        <label className="font-font4 font-light m-2">Date to Delivery</label>
+                        <input
+                            type="date"
+                            value={dateToDilivery}
+                            onChange={(e) => setDateToDilivery(e.target.value)}
+                            required
+                            className="w-1/11 text-center pr-2 h-10 m-2 rounded-2xl  bg-gray-200 font-font4 font-light"
+                        />
+                        
+                    </div>
+                    <div className="w-20 flex justify-start items-center text-center h-10 m-2 pl-4 rounded-xl bg-gray-200 font-font4 font-light">
+                        <input
+                            type="checkbox"
+                            className="w-3 h-3"
+                            checked={done}
+                            onChange={(e) => setDone(e.target.checked)}
+                        />
+                        <label className='pl-1 text-sm font-font4 font-normal'>Paid</label>
+                        
+                    </div>
+                    <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Expense</button>
+                    
+                </div>
 
-                <button type="submit" className="bg-blue-300 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Expense</button>
+
+
             </form>
 
             {isPopupVisible && (

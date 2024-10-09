@@ -10,6 +10,7 @@ import ExpensePage from "./pages/ExpensePage.jsx";
 import ReportPage from "./pages/ReportPage.jsx";
 import PaymentPage from "./pages/PaymentPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoutes.jsx";
+import Orders from "./components/Orders/Order.jsx";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/Expenses" element={<ProtectedRoute element={<ExpensePage />} />} />
         <Route path="/Report" element={<ProtectedRoute element={<ReportPage />} />} />
         <Route path="/Payment" element={<ProtectedRoute element={<PaymentPage />} />} />
+        <Route path="/Orders" element={<ProtectedRoute element={<Orders />} />} />
       </Routes>
     </Router>
   );
