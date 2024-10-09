@@ -76,10 +76,10 @@ const markDone = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Unauthorized request");
     }
 
-    const order = await Invoice.findOne({ _id: id, owner });
+    const order = await Order.findOne({ _id: id, owner });
 
     if (!order) {
-        throw new ApiError(404, "Invoice not found");
+        throw new ApiError(404, "Order not found"); 
     }
 
     order.done = !order.done; // Toggle the paid status
