@@ -1,13 +1,14 @@
-// AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  useEffect(() => {
     const storedAuth = localStorage.getItem('isAuthenticated');
-    return storedAuth === 'true';
-  });
+    setIsAuthenticated(storedAuth === 'true');
+  }, []);
 
   const login = () => {
     setIsAuthenticated(true);
@@ -19,10 +20,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('isAuthenticated');
   };
 
-  useEffect(() => {
-    const storedAuth = localStorage.getItem('isAuthenticated');
-    setIsAuthenticated(storedAuth === 'true');
-  }, []);
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
