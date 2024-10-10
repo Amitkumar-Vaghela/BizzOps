@@ -4,9 +4,9 @@ import {asyncHandler} from '../utils/asyncHandler.js'
 import { Staff } from '../models/staff.model.js'
 
 const addStaff = asyncHandler(async(req,res)=>{
-    const {name,salary,debitCreditHistory} = req.body
+    const {name, salary, debitCreditHistory, phone, email} = req.body
     const owner = req.user?._id
-    if(!name || !salary || !debitCreditHistory){
+    if(!name || !salary || !debitCreditHistory || !phone || !email){
         throw new ApiError(400,"All fields are required")
     }
     if(!owner){
@@ -16,7 +16,9 @@ const addStaff = asyncHandler(async(req,res)=>{
         owner,
         name,
         salary,
-        debitCreditHistory
+        debitCreditHistory,
+        phone,
+        email
     })
     if(!staff){
         throw new ApiError(400,"somthing went wrong while creating staff")
