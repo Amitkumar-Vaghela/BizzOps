@@ -12,7 +12,7 @@ import PaymentPage from "./pages/PaymentPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoutes.jsx";
 import OrderPage from "./pages/OrderPage.jsx";
 import CustomerPage from "./pages/CustomerPage.jsx";
-import Staff from "./components/Staff/Staff.jsx";
+import StaffPage from "./pages/SatffPage.jsx";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
         <Route path="/Payment" element={<ProtectedRoute element={<PaymentPage />} />} />
         <Route path="/Orders" element={<ProtectedRoute element={<OrderPage />} />} />
         <Route path="/Customer" element={<ProtectedRoute element={<CustomerPage />} />} />
-        <Route path="/Staff" element={<ProtectedRoute element={<Staff />} />} />
+        <Route path="/Staff" element={<ProtectedRoute element={<StaffPage />} />} />
       </Routes>
     </Router>
   );
