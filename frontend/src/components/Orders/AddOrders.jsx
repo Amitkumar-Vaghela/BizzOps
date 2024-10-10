@@ -8,16 +8,17 @@ function AddOrders() {
     const [price, setPrice] = useState('')
     const [dateToDilivery, setDateToDilivery] = useState('')
     const [profitInPercent, setProfitInPercent] = useState('')
-    const [done, setDone] = useState(false)
+    const [done, setDone] = useState(null)
     const [isPopupVisible, setPopupVisible] = useState(false)
 
     const handleAddOrders = async (e) => {
         e.preventDefault()
-        const data = { item, qty, price, dateToDilivery, profitInPercent }
+        const data = { item, qty, price, dateToDilivery, profitInPercent, done }
         try {
             const response = await axios.post('http://localhost:8000/api/v1/orders/add-order', data, { withCredentials: true })
             if (response.data.statusCode === 201) {
                 console.log("expense added successfully");
+                console.log(done);
                 setPopupVisible(true);
             }
         } catch (error) {
@@ -79,17 +80,17 @@ function AddOrders() {
                         />
                         
                     </div>
-                    <div className="w-20 flex justify-start items-center text-center h-10 m-2 pl-4 rounded-xl bg-gray-200 font-font4 font-light">
+                    <div className="w-2/11 flex justify-start items-center text-center h-10 m-2 p-2 rounded-xl bg-gray-200 font-font4 font-light">
                         <input
                             type="checkbox"
                             className="w-3 h-3"
-                            checked={done}
+                            checked={done}  
                             onChange={(e) => setDone(e.target.checked)}
                         />
-                        <label className='pl-1 text-sm font-font4 font-normal'>Paid</label>
+                        <label className='pl-1 text-sm font-font4 font-normal'>Delivered</label>
                         
                     </div>
-                    <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Expense</button>
+                    <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Order</button>
                     
                 </div>
 
