@@ -26,7 +26,6 @@ function AddStaff({ onStaffAdded }) {
             }
         } catch (error) {
             console.error("Error while adding staff", error.response?.data || error.message);
-            // You might want to show an error message to the user here
         }
     };
 
@@ -39,6 +38,7 @@ function AddStaff({ onStaffAdded }) {
 
     const handleClosePopup = () => {
         setPopupVisible(false);
+        window.location.reload()
     };
 
     return (
@@ -74,7 +74,7 @@ function AddStaff({ onStaffAdded }) {
                     value={salary}
                     onChange={(e) => setSalary(e.target.value)}
                     required
-                    className="w-1/12 text-center pl-4 h-10 m-2 rounded-2xl bg-gray-200 font-font4 font-light"
+                    className="w-2/12 text-center pl-4 h-10 m-2 rounded-2xl bg-gray-200 font-font4 font-light"
                 />
                 <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">
                     Add Staff

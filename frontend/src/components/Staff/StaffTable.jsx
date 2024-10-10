@@ -5,7 +5,7 @@ import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 function StaffTable({ staff, onUpdateStaff }) {
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState('');
     const [action, setAction] = useState("");
     const [selectedStaff, setSelectedStaff] = useState("");
     const [localStaff, setLocalStaff] = useState(staff);
@@ -84,6 +84,8 @@ function StaffTable({ staff, onUpdateStaff }) {
                         <thead>
                             <tr className="bg-blue-100">
                                 <th className="px-4 py-2 border font-font4">Name</th>
+                                <th className="px-4 py-2 border font-font4">Email</th>
+                                <th className="px-4 py-2 border font-font4">Phone</th>
                                 <th className="px-4 py-2 border font-font4">Salary</th>
                                 <th className="px-4 py-2 border font-font4">To be Paid</th>
                                 <th className="px-4 py-2 border font-font4">Actions</th>
@@ -94,24 +96,26 @@ function StaffTable({ staff, onUpdateStaff }) {
                                 localStaff.map((staffMember) => (
                                     <tr key={staffMember._id} className="border-b">
                                         <td className="px-4 py-2 border text-sm font-medium font-font4">{staffMember.name}</td>
+                                        <td className="px-4 py-2 border text-sm font-medium font-font4">{staffMember.email}</td>
+                                        <td className="px-4 py-2 border text-sm font-medium font-font4">{staffMember.phone}</td>
                                         <td className="px-4 py-2 border text-sm font-medium font-font4">{staffMember.salary}</td>
                                         <td className="px-4 py-2 border text-sm font-medium font-font4">{staffMember.debitCreditHistory}</td>
                                         <td className="border text-center">
                                             <button
                                                 onClick={() => handleStaffClick(staffMember._id, "add")}
-                                                className="bg-green-400 pt-2 text-black text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
+                                                className="bg-green-400 pt-2 text-black text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-green-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faPlus} /> Credit
                                             </button>
                                             <button
                                                 onClick={() => handleStaffClick(staffMember._id, "remove")}
-                                                className="bg-red-500 pt-2 text-black text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
+                                                className="bg-red-500 pt-2 text-white text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-red-400 mr-2"
                                             >
-                                                <FontAwesomeIcon icon={faMinus} /> Debit
+                                                <FontAwesomeIcon icon={faMinus} className=""/> Debit
                                             </button>
                                             <button
                                                 onClick={() => confirmDelete(staffMember._id)}
-                                                className="bg-blue-400 pt-2 text-white text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
+                                                className="bg-blue-400 pt-2 text-white text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faTrash} />
                                             </button>
