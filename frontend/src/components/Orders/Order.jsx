@@ -9,6 +9,7 @@ import AddOrders from "./AddOrders.jsx";
 import OrderTable from "./OrderTable.jsx";
 
 function Orders(){
+    const navigate = useNavigate();
 
     return (
         <div className="flex min-h-screen">
