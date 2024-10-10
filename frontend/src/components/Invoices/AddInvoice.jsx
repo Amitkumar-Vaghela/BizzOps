@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const AddInvoice = () => {
     const navigate = useNavigate();
     const [customer, setCustomer] = useState('');
-    const [items, setItems] = useState([{ itemName: '', qty: null, price: null, tax: null }]);
+    const [items, setItems] = useState([{ itemName: '', qty: '', price: '', tax: '' }]);
     const [paid, setPaid] = useState(false);
     const [date, setDate] = useState('');
     const [subTotal, setSubTotal] = useState(0);

@@ -15,7 +15,7 @@ function CustomerTable() {
         try {
             const response = await axios.get('http://localhost:8000/api/v1/customer/get-customer', { withCredentials: true });
             if (response.data.statusCode === 200) {
-                setCustomers(response.data.data);
+                setCustomers(response.data.data.customers);
             }
         } catch (error) {
             console.error("Error while fetching customers", error.response?.data || error.message);
@@ -25,16 +25,6 @@ function CustomerTable() {
     useEffect(() => {
         getCustomers();
     }, []);
-
-    const openModal = (order) => {
-        setSelectedOrder(order);
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedOrder(null);
-    };
 
     return (
         <div className="w-full bg-white shadow-md rounded-lg p-6">
@@ -55,8 +45,8 @@ function CustomerTable() {
                                 <tr key={customer._id} className="border-b">
                                     <td className="px-4 py-2 border text-sm font-font4">{customer.name}</td>
                                     <td className="px-4 py-2 border text-sm font-font4">{customer.email}</td>
-                                    <td className="px-4 py-2 border text-sm font-font4">₹{customer.phone}</td>
-                                    <td className="px-4 py-2 border text-sm font-font4">{formatDate(customer.city)}</td>
+                                    <td className="px-4 py-2 border text-sm font-font4">{customer.phone}</td>
+                                    <td className="px-4 py-2 border text-sm font-font4">{customer.city}</td>
                                 </tr>
                             ))
                         ) : (

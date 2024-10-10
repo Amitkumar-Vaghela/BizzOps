@@ -4,7 +4,7 @@ import { useState } from "react";
 
 function AddExpense(){
     const [name, setName] = useState('')
-    const [expAmount, setExpAmount] = useState(null)
+    const [expAmount, setExpAmount] = useState('')
     const [description, setDescription] = useState('')
     const [date, setDate] = useState('')
     const [isPopupVisible, setPopupVisible] = useState(false)

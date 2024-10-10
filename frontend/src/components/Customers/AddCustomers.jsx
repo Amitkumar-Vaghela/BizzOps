@@ -5,7 +5,7 @@ import { useState } from "react";
 function AddCustomers() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState(null);
+    const [phone, setPhone] = useState('');
     const [city, setCity] = useState('')
     const [isPopupVisible, setPopupVisible] = useState(false)
 
@@ -60,7 +60,7 @@ function AddCustomers() {
                     type="text"
                     placeholder="City"
                     value={city}
-                    onChange={(e) => city(e.target.value)}
+                    onChange={(e) => setCity(e.target.value)}
                     required
                     className="w-1/12 text-center pl-4 h-10 m-2 rounded-2xl bg-gray-200 font-font4 font-light"
                 />

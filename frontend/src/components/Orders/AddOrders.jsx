@@ -4,11 +4,11 @@ import { useState } from "react";
 
 function AddOrders() {
     const [item, setItem] = useState('')
-    const [qty, setQty] = useState(null)
+    const [qty, setQty] = useState('')
     const [price, setPrice] = useState('')
     const [dateToDilivery, setDateToDilivery] = useState('')
     const [profitInPercent, setProfitInPercent] = useState('')
-    const [done, setDone] = useState(null)
+    const [done, setDone] = useState(false)
     const [isPopupVisible, setPopupVisible] = useState(false)
 
     const handleAddOrders = async (e) => {
