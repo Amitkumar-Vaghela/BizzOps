@@ -91,9 +91,29 @@ const staffDebit = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,{debit},"Amount added successfully"))
 })
 
+const deleteStaff = asyncHandler(async (req, res) => {
+    const { staff } = req.body;  // staff is the id of the staff item
+    const owner = req.user?._id;
+
+    if (!owner) {
+        throw new ApiError(400, "User not found");
+    }
+
+    if (!staff) {
+        throw new ApiError(400, "Staff ID is required");
+    }
+
+    const staffItem = await Staff.deleteOne({ _id: staff, owner });
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, null, "Staff item deleted successfully"));
+});
+
 export {
     addStaff,
     getStaff,
     staffCredit,
-    staffDebit
+    staffDebit,
+    deleteStaff
 }
