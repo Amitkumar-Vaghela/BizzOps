@@ -30,7 +30,7 @@ const getNote = asyncHandler(async(req,res)=>{
         throw new ApiError(400,"Unauthorized request")
     }
 
-    const notes = await Note.find({ownerId})
+    const notes = await Note.find({owner : ownerId})
 
     return res
     .status(200)
