@@ -49,12 +49,12 @@ function NoteTable() {
     };
 
     return (
-        <div className="w-full bg-white shadow-md rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-6 text-gray-800">Notes Records</h2>
+        <div className="w-full rounded-lg p-6">
+            <h2 className="text-xl font-semibold mb-6 text-gray-800">Notes </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {notes.length > 0 ? (
                     notes.map((noteItem) => (
-                        <div key={noteItem._id} className="bg-blue-100 hover:bg-blue-200 transition-all duration-200 p-4 rounded-lg flex justify-between items-center">
+                        <div key={noteItem._id} className="bg-white shadow-md hover:bg-blue-200 transition-all duration-200 p-4 rounded-lg flex justify-between items-center">
                             <div>
                                 <h1 className="text-lg m-2 mb-3 font-font4 font-semibold text-gray-900">{noteItem.title}</h1>
                                 <p className="text-sm m-2 text-black font-font4">{noteItem.content.slice(0, 30)} . . .</p>
