@@ -37,24 +37,28 @@ const getNote = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200, { notes }, "Notes retrieved successfully"));
 })
 
-const deleteNote = asyncHandler(async(req,res)=>{
-    const ownerId = req.user?._id;
-    const note = req.body;
-    if(!note){
-        throw new ApiError(400,"Note id is are required")
+const deleteNote = asyncHandler(async (req, res) => {
+    const owner = req.user?._id;
+    const { noteId } = req.body;
+
+    if (!noteId) {
+        throw new ApiError(400, "Note id is required");
     }
-    if(!owner){
-        throw new ApiError(400,"Unauthorized request")
+    if (!owner) {
+        throw new ApiError(400, "Unauthorized request");
     }
-    const deleteNote = await Note.findByIdAndDelete({owner:ownerId, _id:note})
-    if(!deleteNote){
-        throw new ApiError(400,"Error while deleting note")
+
+    const deletedNote = await Note.findOneAndDelete({ _id: noteId, owner });
+    
+    if (!deletedNote) {
+        throw new ApiError(404, "Note not found or you're not authorized to delete it");
     }
 
     return res
-    .status(200)
-    .json(new ApiResponse(200,null, "Note deleted successfull"))
-})
+        .status(200)
+        .json(new ApiResponse(200, null, "Note deleted successfully"));
+});
+
 
 export {
     addNote,
