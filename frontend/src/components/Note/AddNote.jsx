@@ -45,7 +45,7 @@ function AddNote() {
                     required
                     className="w-2/4 text-center h-10 m-2 bg-gray-200 rounded-2xl  font-font4 font-light"
                 />
-                <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Order</button>
+                <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Note</button>
             </form>
 
             {isPopupVisible && (
