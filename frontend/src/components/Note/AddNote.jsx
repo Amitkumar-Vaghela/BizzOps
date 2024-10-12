@@ -34,7 +34,7 @@ function AddNote() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
-                    className="w-1/5 text-center bg-gray-200 h-10 m-2 rounded-2xl font-font4 font-light "
+                    className="w-1/5 text-center text-white bg-[#343434] h-10 m-2 rounded-2xl font-font4 font-normal "
                 />
 
                 <input

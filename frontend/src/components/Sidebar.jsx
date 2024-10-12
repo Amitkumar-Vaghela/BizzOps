@@ -22,14 +22,14 @@ function Sidebar() {
     const isActive = (path) => location.pathname === path;
 
     return (
-        <div className="w-1/6 min-h-screen sticky top-0 left-0 bg-blue-50">
+        <div className="w-1/6 min-h-screen sticky top-0 left-0 bg-[#28282B]">
             <img className="pt-10 ml-6 mb-10 w-40 h-20" src={logo} alt="logo" />
             
             <h1 
                 onClick={() => navigate('/Dashboard')} 
                 className="font-font4 font-medium text-md ml-7 mt-7 cursor-pointer">
-                <FontAwesomeIcon icon={faChartLine} className="text-blue-600 pr-2" /> 
-                <span className={`${isActive('/Dashboard') ? 'text-blue-600' : 'text-gray-800'}`}>
+                <FontAwesomeIcon icon={faChartLine} className="text-blue-500 pr-2" /> 
+                <span className={`${isActive('/Dashboard') ? 'text-blue-600' : 'text-white'}`}>
                     Dashboard
                 </span>
             </h1>
@@ -38,7 +38,7 @@ function Sidebar() {
                 onClick={() => navigate('/Inventory')} 
                 className="font-font4 font-medium text-md ml-7 mt-7 cursor-pointer">
                 <FontAwesomeIcon icon={faShop} className="text-green-600 pr-2" /> 
-                <span className={`${isActive('/Inventory') ? 'text-blue-600' : 'text-gray-800'}`}>
+                <span className={`${isActive('/Inventory') ? 'text-blue-600' : 'text-white'}`}>
                     Inventory
                 </span>
             </h1>
