@@ -27,14 +27,14 @@ function AddNote() {
 
     return (
         <>
-            <form onSubmit={handleAddNote} className="space-y-4 mb-2">
+            <form onSubmit={handleAddNote} className="w-full space-y-4 mb-2">
                 <input
                     type="text"
                     placeholder="Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
-                    className="w-1/5 text-center text-white bg-[#343434] h-10 m-2 rounded-2xl font-font4 font-normal "
+                    className="w-1/4 text-center text-white bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl font-font4 font-normal "
                 />
 
                 <input
@@ -43,7 +43,7 @@ function AddNote() {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     required
-                    className="w-2/4 text-center h-10 m-2 bg-gray-200 rounded-2xl  font-font4 font-light"
+                    className="w-2/4 text-center text-white h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl  font-font4 font-normal"
                 />
                 <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Note</button>
             </form>

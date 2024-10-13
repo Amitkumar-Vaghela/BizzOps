@@ -50,7 +50,7 @@ function AddStaff({ onStaffAdded }) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-1/5 text-center bg-gray-200 h-10 m-2 rounded-2xl font-font4 font-light"
+                    className="w-1/5 text-center bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl font-font4 font-light"
                 />
                 <input
                     type="email"
@@ -58,7 +58,7 @@ function AddStaff({ onStaffAdded }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-1/11 text-center h-10 m-2 bg-gray-200 rounded-2xl font-font4 font-light"
+                    className="w-1/11 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl font-font4 font-light"
                 />
                 <input
                     type="text"
@@ -66,7 +66,7 @@ function AddStaff({ onStaffAdded }) {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
-                    className="w-1/5 text-center h-10 m-2 rounded-2xl bg-gray-200 font-font4 font-light"
+                    className="w-1/5 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl font-font4 font-light"
                 />
                 <input
                     type="number"
@@ -74,7 +74,7 @@ function AddStaff({ onStaffAdded }) {
                     value={salary}
                     onChange={(e) => setSalary(e.target.value)}
                     required
-                    className="w-2/12 text-center pl-4 h-10 m-2 rounded-2xl bg-gray-200 font-font4 font-light"
+                    className="w-2/12 text-center pl-4 h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl font-font4 font-light"
                 />
                 <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">
                     Add Staff

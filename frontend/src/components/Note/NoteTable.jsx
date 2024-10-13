@@ -54,7 +54,7 @@ function NoteTable() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {notes.length > 0 ? (
                     notes.map((noteItem) => (
-                        <div key={noteItem._id} className="bg-[#28282B] shadow-md hover:bg-[#343434] transition-all duration-200 p-4 rounded-lg flex justify-between items-center">
+                        <div key={noteItem._id} className="bg-[#222224] shadow-xl    hover:bg-[#28282B] transition-all duration-200 p-4 rounded-lg flex justify-between items-center">
                             <div>
                                 <h1 className="text-lg m-2 mb-3 font-font4 font-bold text-white">{noteItem.title}</h1>
                                 <p className="text-sm m-2 text-white font-font4">{noteItem.content.slice(0, 30)} . . .</p>
@@ -74,7 +74,7 @@ function NoteTable() {
             </div>
 
             {isModalOpen && selectedNote && (
-                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+                <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="bg-[#1d1d20] p-8 rounded-lg shadow-lg max-w-lg w-full relative">
                         <h2 className="text-2xl text-white font-semibold mb-4 font-font4">Note Details</h2>
                         <div className="mb-4">

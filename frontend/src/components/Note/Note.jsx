@@ -19,7 +19,7 @@ function Notes(){
                 <Account />
                 <h1 className="m-10 text-2xl text-white font-medium font-font4 flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={()=> navigate('/dashboard')} /> Notes</h1>
                 <div className="justify-center items-center flex flex-col">
-                    <div className="w-5/6 bg-[#28282B] rounded-xl">
+                    <div className="w-5/6 bg-[#28282B] flex justify-center rounded-xl">
                         <AddNote />
                     </div>
                     <div className="m-5 w-5/6">

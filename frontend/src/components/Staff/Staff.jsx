@@ -59,15 +59,15 @@ function Staff() {
         <>
             <div className="flex min-h-screen">
                 <Sidebar />
-                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-200">
+                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-[#141415]">
                     <CustomBtn />
                     <Account />
-                    <h1 className="m-10 text-2xl font-medium font-font4 flex items-center">
+                    <h1 className="m-10 text-2xl font-medium text-white font-font4 flex items-center">
                         <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={() => navigate('/dashboard')} /> Staff
                     </h1>
                     <div className="justify-center items-center flex flex-col">
-                        <div className="w-5/6 bg-white rounded-xl gap-4 mb-4">
-                            <h1 className="ml-4 mt-2 font-semibold font-font4">Add Staff</h1>
+                        <div className="w-5/6 bg-[#28282B] rounded-xl gap-4 mb-4">
+                            <h1 className="ml-4 mt-2 text-white font-semibold font-font4">Add Staff</h1>
                             <AddStaff onStaffAdded={handleStaffAdded} />
                         </div>
 
