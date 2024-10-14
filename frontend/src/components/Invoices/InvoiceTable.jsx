@@ -48,7 +48,7 @@ const InvoiceTable = () => {
 
     return (
         <div className="flex justify-center items-center">
-            <div className="w-full max-w-6xl bg-[#28282B] shadow-md rounded-lg p-6">
+            <div className="w-full max-w-6xl bg-[#28282B] shadow-md rounded-lg p-6 overflow-x-auto">
                 <h1 className="text-xl font-semibold mb-6 text-white text-center">Invoices</h1>
                 <table className="w-full table-auto text-left">
                     <thead className="bg-zinc-900">
@@ -111,23 +111,23 @@ const InvoiceTable = () => {
                 {isModalOpen && selectedInvoice && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                         <div className="bg-[#1d1d20] p-6 rounded-3xl shadow-lg max-w-lg w-full relative">
-                            <h2 className="text-lg font-font4 font-normal text-white mb-4"># Invoice Details</h2>
+                            <h2 className="text-lg font-poppins font-normal text-white mb-4"># Invoice Details</h2>
                             <div>
-                                <p className="text-sm text-white font-font4 font-light mb-1"><strong>Customer Name:</strong> {selectedInvoice.name}</p>
-                                <p className="text-sm text-white font-font4 font-light mb-1"><strong>Subtotal:</strong> ₹{selectedInvoice.subTotal.toFixed(2)}</p>
-                                <p className="text-sm text-white font-font4 font-light mb-1"><strong>Date:</strong> {new Date(selectedInvoice.date).toLocaleDateString()}</p>
-                                <p className="text-sm text-white font-font4 font-light mb-1"><strong>Grand Total:</strong> ₹{selectedInvoice.grandTotal.toFixed(2)}</p>
-                                <p className="text-sm text-white font-font4 font-light mb-1 "><strong className='font-medium'>Paid:</strong> {selectedInvoice.paid ? 'Yes' : 'No'}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Customer Name:</strong> {selectedInvoice.name}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Subtotal:</strong> ₹{selectedInvoice.subTotal.toFixed(2)}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Date:</strong> {new Date(selectedInvoice.date).toLocaleDateString()}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Grand Total:</strong> ₹{selectedInvoice.grandTotal.toFixed(2)}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1 "><strong className='font-medium'>Paid:</strong> {selectedInvoice.paid ? 'Yes' : 'No'}</p>
                             </div>
                             <div className="mt-4 flex justify-between">
                                 <button
-                                    className="bg-blue-500 font-font4 text-sm text-white px-4 py-2 rounded-xl"
+                                    className="bg-blue-500 font-poppins text-sm text-white px-4 py-2 rounded-xl"
                                     onClick={togglePaidStatus}
                                 >
                                     {selectedInvoice.paid ? 'Mark as Unpaid' : 'Mark as Paid'}
                                 </button>
                                 <button
-                                    className="bg-gray-500 font-font4 text-sm text-white px-4 py-2 rounded-xl"
+                                    className="bg-gray-500 font-poppins text-sm text-white px-4 py-2 rounded-xl"
                                     onClick={closeModal}
                                 >
                                     Close

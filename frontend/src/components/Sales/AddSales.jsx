@@ -63,11 +63,11 @@ function AddSales({ addNewSale }) {
                     value={product} 
                     onChange={(e) => setProduct(e.target.value)} 
                     required
-                    className="w-1/5 bg-gray-200  text-center font-font4 font-light h-10 m-2 rounded-2xl "
+                    className="w-1/5 bg-[#2b2b2e] shadow-xl  text-center font-poppins font-normal text-white h-10 m-2 rounded-2xl "
                 >
                     <option value="" disabled>Select a product</option>
                     {inventory.map((item) => (
-                        <option className="font-font4 bg-white font-normal" key={item._id} value={item._id}>
+                        <option className="font-poppins bg-[#2b2b2e] shadow-xl text-white font-normal" key={item._id} value={item._id}>
                             {item.item} - (Stock In: {item.stockRemain})
                         </option>
                     ))}
@@ -79,7 +79,7 @@ function AddSales({ addNewSale }) {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
-                    className="w-1/5 text-center bg-gray-200 h-10 m-2 rounded-2xl font-font4 font-light "
+                    className="w-1/5 text-center bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl font-poppins font-normal text-white"
                 />
 
                 <input
@@ -88,7 +88,7 @@ function AddSales({ addNewSale }) {
                     value={profitInPercent}
                     onChange={(e) => setProfitInPercent(e.target.value)}
                     required
-                    className="w-1/12 text-center h-10 m-2 bg-gray-200 rounded-2xl  font-font4 font-light"
+                    className="w-1/12 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl  font-poppins font-normal text-white"
                 />
 
                 <input
@@ -97,7 +97,7 @@ function AddSales({ addNewSale }) {
                     value={qty}
                     onChange={(e) => setQty(e.target.value)}
                     required
-                    className="w-1/12 text-center h-10 m-2 rounded-2xl bg-gray-200  font-font4 font-light"
+                    className="w-1/12 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl  font-poppins font-normal text-white"
                 />
 
                 <input
@@ -105,21 +105,21 @@ function AddSales({ addNewSale }) {
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
-                    className="w-1/5 text-center pr-4 h-10 m-2 rounded-2xl  bg-gray-200 font-font4 font-light"
+                    className="w-1/5 text-center pr-4 h-10 m-2 rounded-2xl  bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
                 />
 
-                <button type="submit" className="bg-blue-300 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Sale</button>
+                <button type="submit" className="bg-white hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Sale</button>
             </form>
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white rounded p-6 max-w-sm w-full">
-                        <h2 className="text-lg font-bold">Success!</h2>
-                        <p className="mt-2">Product added to sales successfully.</p>
+                    <div className="bg-[#28282B] rounded p-6 max-w-sm w-full">
+                        <h2 className="text-lg font-poppins text-white font-bold">Success!</h2>
+                        <p className="mt-2 font-poppins text-white">Product added to sales successfully.</p>
                         <div className="mt-4 flex justify-end">
                             <button 
                                 onClick={handleClosePopup} 
-                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                className="font-poppins font-bold text-white px-4 py-2 rounded"
                             >
                                 Close
                             </button>

@@ -35,13 +35,13 @@ function Sales() {
     return (
         <div className="flex min-h-screen">
             <Sidebar />
-            <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-200">
+            <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-[#141415]">
                 <CustomBtn />
                 <Account />
-                <h1 className="m-10 text-2xl font-medium font-font4 flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={()=> navigate('/dashboard')} /> Sales</h1>
+                <h1 className="m-10 text-2xl font-medium font-poppins flex items-center text-white"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={()=> navigate('/dashboard')} /> Sales</h1>
                 <div className="justify-center items-center flex flex-col">
-                    <div className="w-5/6 bg-white rounded-xl">
-                        <h1 className="ml-4 mt-2 font-semibold font-font4">Add Sales</h1>
+                    <div className="w-5/6 bg-[#28282B] rounded-xl">
+                        <h1 className="ml-4 mt-2  text-white font-semibold font-poppins">Add Sales</h1>
                         <AddSales addNewSale={addNewSale} />
                     </div>
                     <div className="m-5 w-5/6">

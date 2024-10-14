@@ -17,7 +17,7 @@ function Invoice(){
             <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-[#141415]">
                 <CustomBtn />
                 <Account />
-                <h1 className="m-10 text-2xl font-medium font-font4 text-white flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={()=> navigate('/dashboard')} /> Invoice</h1>
+                <h1 className="m-10 text-2xl font-medium font-poppins text-white flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={()=> navigate('/dashboard')} /> Invoice</h1>
                 <div className="justify-center items-center flex flex-col">
                     <div className="w-5/6 bg-[#28282B] rounded-xl">
                         <AddInvoice />
