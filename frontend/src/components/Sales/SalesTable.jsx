@@ -1,5 +1,4 @@
 import React from 'react';
-    
 function SalesTable({ sales }) {
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString();

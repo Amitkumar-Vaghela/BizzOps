@@ -76,45 +76,45 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
 
     return (
         <>
-            <Card className="w-full bg-white shadow-md rounded-lg p-6">
-                <Typography variant="p" color="blue-gray" className="mb-4 font-font4 font-semibold">
+            <Card className="w-full bg-[#28282B] shadow-md rounded-lg p-6">
+                <Typography variant="p" color="blue-gray" className="mb-4 text-white font-poppins font-semibold">
                     Inventory Records
                 </Typography>
                 <div className="overflow-x-auto">
-                    <table className="min-w-full border-collapse border border-gray-200">
+                    <table className="min-w-full ">
                         <thead>
-                            <tr className="bg-blue-100">
-                                <th className="px-4 py-2 border font-font4">Item</th>
-                                <th className="px-4 py-2 border font-font4">Category</th>
-                                <th className="px-4 py-2 border font-font4">Stock In</th>
-                                <th className="px-4 py-2 border font-font4">Actions</th>
+                            <tr className="bg-zinc-900">
+                                <th className="px-4 py-2 text-white font-poppins">Item</th>
+                                <th className="px-4 py-2 text-white font-poppins">Category</th>
+                                <th className="px-4 py-2 text-white font-poppins">Stock In</th>
+                                <th className="px-4 py-2 text-white font-poppins">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {localInventory.length > 0 ? (
                                 localInventory.map((inventory) => (
-                                    <tr key={inventory._id} className="border-b">
-                                        <td className="px-4 py-2 border text-sm font-medium font-font4">{inventory.item}</td>
-                                        <td className="px-4 py-2 border text-sm font-medium font-font4">{inventory.category}</td>
-                                        <td className="px-4 py-2 border text-sm text-black font-font4 font-semibold">
+                                    <tr key={inventory._id} className="text-center">
+                                        <td className="px-4 py-2 text-white text-sm font-medium font-poppins">{inventory.item}</td>
+                                        <td className="px-4 py-2 text-white text-sm font-medium font-poppins">{inventory.category}</td>
+                                        <td className="px-4 py-2 text-white text-sm font-poppins font-bold">
                                             {inventory.stockRemain || 'N/A'}
                                         </td>
-                                        <td className="border text-center">
+                                        <td className="text-center">
                                             <button
                                                 onClick={() => handleStockClick(inventory._id, "add")}
-                                                className="bg-blue-300 pt-2 text-black text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
+                                                className="bg-blue-400 pt-2 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-blue-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faPlus} />
                                             </button>
                                             <button
                                                 onClick={() => handleStockClick(inventory._id, "remove")}
-                                                className="bg-blue-300 pt-2 text-black text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
+                                                className="bg-violet-400 pt-2 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-violet-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faMinus} />
                                             </button>
                                             <button
                                                 onClick={() => confirmDelete(inventory._id)}
-                                                className="bg-red-500 pt-2 text-white text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-100 mr-2"
+                                                className="bg-red-500 pt-2 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-red-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faTrash} />
                                             </button>
@@ -133,8 +133,8 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
 
             {action && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white font-font4 p-6 w-1/4 rounded-2xl shadow-lg">
-                        <h2 className="text-lg font-font4 font-medium mb-4">
+                    <div className="bg-white font-poppins p-6 w-1/4 rounded-2xl shadow-lg">
+                        <h2 className="text-lg font-poppins font-medium mb-4">
                             {action === "add" ? "+ Add Stock" : "- Remove Stock"}
                         </h2>
                         <form onSubmit={handleSubmit}>
@@ -169,8 +169,8 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white font-font4 p-6 w-1/4 rounded-2xl shadow-lg">
-                        <h2 className="text-lg font-font4 font-medium mb-4">Confirm Deletion</h2>
+                    <div className="bg-white font-poppins p-6 w-1/4 rounded-2xl shadow-lg">
+                        <h2 className="text-lg font-poppins font-medium mb-4">Confirm Deletion</h2>
                         <p>Are you sure you want to delete this item?</p>
                         <div className="flex justify-end mt-4">
                             <button
