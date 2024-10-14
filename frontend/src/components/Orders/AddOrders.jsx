@@ -39,7 +39,7 @@ function AddOrders() {
                     value={item}
                     onChange={(e) => setItem(e.target.value)}
                     required
-                    className="w-1/5 text-center bg-gray-200 h-10 m-2 rounded-2xl font-font4 font-light "
+                    className="w-1/5 text-center bg-[#2b2b2e] shadow-xl text-white h-10 m-2 rounded-2xl font-poppins font-normal "
                 />
 
                 <input
@@ -48,7 +48,7 @@ function AddOrders() {
                     value={qty}
                     onChange={(e) => setQty(e.target.value)}
                     required
-                    className="w-1/11 text-center h-10 m-2 bg-gray-200 rounded-2xl  font-font4 font-light"
+                    className="w-1/11 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl text-white font-poppins font-normal"
                 />
 
                 <input
@@ -57,7 +57,7 @@ function AddOrders() {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
-                    className="w-1/5 text-center h-10 m-2 rounded-2xl bg-gray-200  font-font4 font-light"
+                    className="w-1/5 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl text-white font-poppins font-normal"
                 />
 
                 <input
@@ -66,47 +66,45 @@ function AddOrders() {
                     value={profitInPercent}
                     onChange={(e) => setProfitInPercent(e.target.value)}
                     required
-                    className="w-1/12 text-center pl-4 h-10 m-2 rounded-2xl bg-gray-200 font-font4 font-light"
+                    className="w-1/12 text-center pl-4 h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl text-white font-poppins font-normal"
                 />
                 <div className="flex flex-row">
                 <div>
-                        <label className="font-font4 font-light m-2">Date to Delivery</label>
+                        <label className="font-poppins text-white font-light m-2">Date to Delivery</label>
                         <input
                             type="date"
                             value={dateToDilivery}
                             onChange={(e) => setDateToDilivery(e.target.value)}
                             required
-                            className="w-1/11 text-center pr-2 h-10 m-2 rounded-2xl  bg-gray-200 font-font4 font-light"
+                            className="w-1/11 text-center pr-2 h-10 m-2 rounded-2xl  bg-[#2b2b2e] shadow-xl text-white font-poppins font-normal"
                         />
                         
                     </div>
-                    <div className="w-2/11 flex justify-start items-center text-center h-10 m-2 p-2 rounded-xl bg-gray-200 font-font4 font-light">
+                    <div className="w-2/11 flex justify-start items-center text-center h-10 m-2 p-2 rounded-xl bg-[#2b2b2e] shadow-xl font-poppins font-normal">
                         <input
                             type="checkbox"
                             className="w-3 h-3"
                             checked={done}  
                             onChange={(e) => setDone(e.target.checked)}
                         />
-                        <label className='pl-1 text-sm font-font4 font-normal'>Delivered</label>
+                        <label className='pl-1 text-sm font-poppins text-white font-normal'>Delivered</label>
                         
                     </div>
-                    <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Order</button>
+                    <button type="submit" className="bg-white shadow-xl h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Order</button>
                     
                 </div>
-
-
 
             </form>
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white rounded p-6 max-w-sm w-full">
-                        <h2 className="text-lg font-bold">Success!</h2>
-                        <p className="mt-2">Order added successfully.</p>
+                    <div className="bg-[#28282B] rounded p-6 max-w-sm w-full">
+                        <h2 className="text-lg font-poppins text-white font-bold">Success!</h2>
+                        <p className="mt-2 font-poppins text-white">Order added successfully.</p>
                         <div className="mt-4 flex justify-end">
                             <button
                                 onClick={handleClosePopup}
-                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                className="bg-blue-500 text-white font-poppins px-4 py-2 rounded"
                             >
                                 Close
                             </button>

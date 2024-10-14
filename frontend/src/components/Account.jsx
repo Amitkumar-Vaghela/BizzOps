@@ -119,13 +119,13 @@ function Account() {
                             </button>
                             <button
                                 onClick={handleClosePopup}
-                                className="bg-blue-500 text-white px-2 py-1 font-font4 rounded"
+                                className="bg-blue-500 text-white px-2 py-1 font-poppins rounded"
                             >
                                 Close
                             </button>
                             <button 
                                 onClick={handleLogOut}
-                                className="bg-red-500 text-xs text-white px-2 py-1 font-font4 rounded"
+                                className="bg-red-500 text-xs text-white px-2 py-1 font-poppins rounded"
                             >
                                 <FontAwesomeIcon icon={faSignOut} className="font-bold" /> Sign Out
                             </button>
