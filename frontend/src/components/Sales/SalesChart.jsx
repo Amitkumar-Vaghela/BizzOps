@@ -50,14 +50,14 @@ const SalesChart = () => {
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Date', 
+                                    text: 'Days', 
                                     font: {
                                         family: 'Helvetica',
                                         size: 14,
                                         style: 'normal',
-                                        weight: 'bold', 
+                                        weight: 'normal', 
                                     },
-                                    color: 'rgba(0, 0, 0, 0.87)',
+                                    color: '#ffffff',
                                 },
                                 grid: {
                                     display: false,
@@ -74,9 +74,9 @@ const SalesChart = () => {
                                         family: 'Helvetica',
                                         size: 14,
                                         style: 'normal',
-                                        weight: 'bold', 
+                                        weight: 'normal', 
                                     },
-                                    color: 'rgba(0, 0, 0, 0.87)', 
+                                    color: '#ffffff', 
                                 },
                                 grid: {
                                     display: false,

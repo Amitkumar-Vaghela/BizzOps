@@ -40,7 +40,7 @@ const FinancialDist = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center p-4  rounded-lg ">
+    <div className="flex flex-col items-center p-4 rounded-lg ">
       {error ? (
         <div className="text-red-500 font-semibold">{error}</div>
       ) : (
@@ -52,13 +52,13 @@ const FinancialDist = () => {
               plugins: {
                 legend: {
                   display: true,
-                  position: "top",
+                  position: "bottom",
                   labels: {
                     font: {
                       size: 10,
-                      weight: 'bold',
+                      weight: 'normal',
                     },
-                    color: 'rgba(0, 0, 0, 0.8)',
+                    color: '#ffffff',
                   },
                 },
                 tooltip: {

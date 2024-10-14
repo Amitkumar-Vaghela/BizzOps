@@ -61,11 +61,11 @@ const InventoryChart = () => {
                   text: "Items",
                   font: {
                     family: "Helvetica",
-                    size: 14,
+                    size: 10,
                     style: "normal",
-                    weight: "bold",
+                    weight: "normal",
                   },
-                  color: "rgba(0, 0, 0, 0.87)",
+                  color: "#ffffff",
                 },
                 grid: {
                   display: false,
@@ -82,9 +82,9 @@ const InventoryChart = () => {
                     family: "Helvetica",
                     size: 10,
                     style: "normal",
-                    weight: "bold",
+                    weight: "normal",
                   },
-                  color: "rgba(0, 0, 0, 0.87)",
+                  color: "#ffffff",
                 },
                 grid: {
                   display: false,
