@@ -130,250 +130,250 @@ function Report() {
         <>
             <div className="flex min-h-screen">
                 <Sidebar />
-                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-gradient-to-r from-blue-100 to-indigo-200">
+                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-[#141415]">
                     <CustomBtn />
                     <Account />
-                    <h1 className="m-10 text-2xl font-medium font-font4 flex items-center"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={() => navigate('/dashboard')} /> Report</h1>
+                    <h1 className="m-10 text-2xl font-medium font-poppins flex items-center text-white"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={() => navigate('/dashboard')} /> Report</h1>
                     <div className="justify-center items-center flex flex-col">
 
-                        <div className="m-5 w-5/6 bg-white rounded-xl">
-                            <h1 className="text-base mt-5 font-medium font-font4 text-center">All Time Report</h1>
+                        <div className="m-5 w-5/6 bg-[#28282B] rounded-xl">
+                            <h1 className="text-base mt-5 font-medium font-poppins text-white text-center">All Time Report</h1>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="m-2 font-font4 font-medium">Total Sale</label>
+                                <label className="m-2 font-poppins font-medium text-white">Total Sale</label>
                                 <input
                                     type="text"
                                     value={totalSale}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="m-2 font-font4 font-medium">Total Profit</label>
+                                <label className="m-2 font-poppins font-medium text-white">Total Profit</label>
                                 <input
                                     type="text"
                                     value={totalProfit.toFixed(2)}
                                     readOnly
-                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="m-2 font-font4 font-medium">Total Cost</label>
+                                <label className="m-2 font-poppins font-medium text-white">Total Cost</label>
                                 <input
                                     type="text"
                                     value={totalCost.toFixed(2)}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="font-font4 font-medium">Gross Profit Margin</label>
+                                <label className="font-poppins font-medium text-white">Gross Profit Margin</label>
                                 <input
                                     type="text"
                                     value={grossProfitMargin.toFixed(0)}
                                     readOnly
-                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Net Profit Margin</label>
+                                <label className="font-poppins font-medium text-white">Net Profit Margin</label>
                                 <input
                                     type="text"
                                     value={netProfitMargin.toFixed(2)}
                                     readOnly
-                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Avg Sale per Order</label>
+                                <label className="font-poppins font-medium text-white">Avg Sale per Order</label>
                                 <input
                                     type="text"
                                     value={avgSalePerOrder.toFixed(2)}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="font-font4 font-medium">Profit per Order</label>
+                                <label className="font-poppins font-medium text-white">Profit per Order</label>
                                 <input
                                     type="text"
                                     value={profitPerOrder.toFixed(0)}
                                     readOnly
-                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Expense Ratio</label>
+                                <label className="font-poppins font-medium text-white">Expense Ratio</label>
                                 <input
                                     type="text"
                                     value={expenseRatio.toFixed(2)}
                                     readOnly
-                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Total Expense</label>
+                                <label className="font-poppins font-medium text-white">Total Expense</label>
                                 <input
                                     type="text"
                                     value={totalExpense.toFixed(2)}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="font-font4 font-medium">Total Net Income</label>
+                                <label className="font-poppins font-medium text-white">Total Net Income</label>
                                 <input
                                     type="text"
                                     value={(totalProfit-totalExpense).toFixed(0)}
                                     readOnly
-                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Unpaid Invoices</label>
+                                <label className="font-poppins font-medium text-white">Unpaid Invoices</label>
                                 <input
                                     type="text"
                                     value={unpaidInvoices.toFixed(0)}
                                     readOnly
-                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Return On Sale</label>
+                                <label className="font-poppins font-medium text-white">Return On Sale</label>
                                 <input
                                     type="text"
                                     value={returnOnSale !== null ? returnOnSale.toFixed(2) : 'Loading...'}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                         </div>
 
-                        <div className="m-5 w-5/6 bg-white rounded-xl">
-                            <h1 className="text-base mt-5 font-medium font-font4 text-center">Month Report</h1>
+                        <div className="m-5 w-5/6 bg-[#28282B] rounded-xl">
+                            <h1 className="text-base mt-5 font-medium font-poppins text-center text-white">Month Report</h1>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="m-2 font-font4 font-medium">Month Sale</label>
+                                <label className="m-2 font-poppins font-medium text-white">Month Sale</label>
                                 <input
                                     type="text"
                                     value={MonthSale}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="m-2 font-font4 font-medium">Month Profit</label>
+                                <label className="m-2 font-poppins font-medium text-white">Month Profit</label>
                                 <input
                                     type="text"
                                     value={monthProfit.toFixed(2)}
                                     readOnly
-                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="m-2 font-font4 font-medium">Month Expense</label>
+                                <label className="m-2 font-poppins font-medium text-white">Month Expense</label>
                                 <input
                                     type="text"
                                     value={monthExpense}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="font-font4 font-medium">Gross Profit Margin</label>
+                                <label className="font-poppins font-medium text-white">Gross Profit Margin</label>
                                 <input
                                     type="text"
                                     value={monthlyGrossProfitMargin.toFixed(0)}
                                     readOnly
-                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Net Profit Margin</label>
+                                <label className="font-poppins font-medium text-white">Net Profit Margin</label>
                                 <input
                                     type="text"
                                     value={monthlyNetProfitMargin.toFixed(2)}
                                     readOnly
-                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Avg Sale per Order</label>
+                                <label className="font-poppins font-medium text-white">Avg Sale per Order</label>
                                 <input
                                     type="text"
                                     value={monthlyAvgSalePerOrder.toFixed(2)}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="font-font4 font-medium">Profit per Order</label>
+                                <label className="font-poppins font-medium text-white">Profit per Order</label>
                                 <input
                                     type="text"
                                     value={monthlyProfitPerOrder.toFixed(0)}
                                     readOnly
-                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Expense Ratio</label>
+                                <label className="font-poppins font-medium text-white">Expense Ratio</label>
                                 <input
                                     type="text"
                                     value={monthlyExpenseRatio.toFixed(2)}
                                     readOnly
-                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Month Net Income</label>
+                                <label className="font-poppins font-medium text-white">Month Net Income</label>
                                 <input
                                     type="text"
                                     value={monthProfit-monthExpense}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                         </div>
 
-                        <div className="m-5 w-5/6 bg-white rounded-xl">
-                            <h1 className="text-base mt-5 font-medium font-font4 text-center">Daily Report</h1>
+                        <div className="m-5 w-5/6 bg-[#28282B] rounded-xl">
+                            <h1 className="text-base mt-5 font-medium font-poppins text-center text-white">Daily Report</h1>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="m-2 font-font4 font-medium">Sale</label>
+                                <label className="m-2 font-poppins font-medium text-white">Sale</label>
                                 <input
                                     type="text"
                                     value={todaySale}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="m-2 font-font4 font-medium">Profit</label>
+                                <label className="m-2 font-poppins font-medium text-white">Profit</label>
                                 <input
                                     type="text"
                                     value={todayProfit.toFixed(2)}
                                     readOnly
-                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/6 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="m-2 font-font4 font-medium">Expense</label>
+                                <label className="m-2 font-poppins font-medium text-white">Expense</label>
                                 <input
                                     type="text"
                                     value={oneDayExpense}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="font-font4 font-medium">Gross Profit Margin</label>
+                                <label className="font-poppins font-medium text-white">Gross Profit Margin</label>
                                 <input
                                     type="text"
                                     value={dailyGrossProfitMargin.toFixed(0)}
                                     readOnly
-                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Net Profit Margin</label>
+                                <label className="font-poppins font-medium text-white">Net Profit Margin</label>
                                 <input
                                     type="text"
                                     value={dailyNetProfitMargin.toFixed(2)}
                                     readOnly
-                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Avg Sale per Order</label>
+                                <label className="font-poppins font-medium text-white">Avg Sale per Order</label>
                                 <input
                                     type="text"
                                     value={dailyAvgSalePerOrder.toFixed(2)}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                             <div className="flex justify-center items-center gap-5 m-14">
-                                <label className="font-font4 font-medium">Profit per Order</label>
+                                <label className="font-poppins font-medium text-white">Profit per Order</label>
                                 <input
                                     type="text"
                                     value={dailyProfitPerOrder.toFixed(0)}
                                     readOnly
-                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/12 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Expense Ratio</label>
+                                <label className="font-poppins font-medium text-white">Expense Ratio</label>
                                 <input
                                     type="text"
                                     value={dailyExpenseRatio.toFixed(2)}
                                     readOnly
-                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-font4 hover:border-black hover:border-2"
+                                    className="w-1/12 font-medium text-center h-10 rounded-2xl bg-gray-200 font-poppins hover:border-black hover:border-2"
                                 />
-                                <label className="font-font4 font-medium">Month Net Income</label>
+                                <label className="font-poppins font-medium text-white">Month Net Income</label>
                                 <input
                                     type="text"
                                     value={todayProfit-oneDayExpense}
                                     readOnly
-                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-font4 font-medium hover:border-black hover:border-2"
+                                    className="w-1/6 text-center h-10 rounded-2xl bg-gray-200 font-poppins font-medium hover:border-black hover:border-2"
                                 />
                             </div>
                         </div>
