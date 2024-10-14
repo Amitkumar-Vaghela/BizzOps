@@ -50,9 +50,9 @@ function AddNote() {
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white rounded p-6 max-w-sm w-full">
-                        <h2 className="text-lg font-bold">Success!</h2>
-                        <p className="mt-2">Note added successfully.</p>
+                    <div className="bg-[#28282B] rounded p-6 max-w-sm w-full">
+                        <h2 className="text-lg text-white font-bold font-poppins">Success!</h2>
+                        <p className="mt-2 text-white font-poppins">Note added successfully.</p>
                         <div className="mt-4 flex justify-end">
                             <button
                                 onClick={handleClosePopup}

@@ -50,7 +50,7 @@ function AddStaff({ onStaffAdded }) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-1/5 text-center bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl font-font4 font-light"
+                    className="w-1/5 text-center bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl font-poppins font-normal text-white"
                 />
                 <input
                     type="email"
@@ -58,7 +58,7 @@ function AddStaff({ onStaffAdded }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-1/11 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl font-font4 font-light"
+                    className="w-1/11 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl font-poppins font-normal text-white"
                 />
                 <input
                     type="text"
@@ -66,7 +66,7 @@ function AddStaff({ onStaffAdded }) {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
-                    className="w-1/5 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl font-font4 font-light"
+                    className="w-1/5 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
                 />
                 <input
                     type="number"
@@ -74,18 +74,18 @@ function AddStaff({ onStaffAdded }) {
                     value={salary}
                     onChange={(e) => setSalary(e.target.value)}
                     required
-                    className="w-2/12 text-center pl-4 h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl font-font4 font-light"
+                    className="w-2/12 text-center pl-4 h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
                 />
-                <button type="submit" className="bg-blue-300 h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">
+                <button type="submit" className="bg-white shadow-xl h-9 m-4 hover:bg-blue-200 text-black w-1/12 rounded-xl">
                     Add Staff
                 </button>
             </form>
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white rounded p-6 max-w-sm w-full">
-                        <h2 className="text-lg font-bold">Success!</h2>
-                        <p className="mt-2">Staff added successfully.</p>
+                    <div className="bg-[#28282B] rounded p-6 max-w-sm w-full">
+                        <h2 className="text-lg font-poppins text-white font-bold">Success!</h2>
+                        <p className="mt-2 font-poppins text-white">Staff added successfully.</p>
                         <div className="mt-4 flex justify-end">
                             <button
                                 onClick={handleClosePopup}

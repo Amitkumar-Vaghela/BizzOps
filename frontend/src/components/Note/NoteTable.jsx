@@ -56,18 +56,18 @@ function NoteTable() {
                     notes.map((noteItem) => (
                         <div key={noteItem._id} className="bg-[#222224] shadow-xl    hover:bg-[#28282B] transition-all duration-200 p-4 rounded-lg flex justify-between items-center">
                             <div>
-                                <h1 className="text-lg m-2 mb-3 font-font4 font-bold text-white">{noteItem.title}</h1>
-                                <p className="text-sm m-2 text-white font-font4">{noteItem.content.slice(0, 30)} . . .</p>
+                                <h1 className="text-lg m-2 mb-3 font-poppins font-bold text-white">{noteItem.title}</h1>
+                                <p className="text-sm m-2 text-white font-poppins">{noteItem.content.slice(0, 30)} . . .</p>
                             </div>
                             <FontAwesomeIcon
-                                className="text-black hover:text-gray-400 cursor-pointer"
+                                className="text-white hover:text-gray-400 cursor-pointer"
                                 icon={faEllipsis}
                                 onClick={() => openModal(noteItem)}
                             />
                         </div>
                     ))
                 ) : (
-                    <div className="col-span-full font-font4 text-center py-4 text-gray-600">
+                    <div className="col-span-full font-poppins text-center py-4 text-gray-600">
                         No notes available.
                     </div>
                 )}
@@ -76,20 +76,20 @@ function NoteTable() {
             {isModalOpen && selectedNote && (
                 <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="bg-[#1d1d20] p-8 rounded-lg shadow-lg max-w-lg w-full relative">
-                        <h2 className="text-2xl text-white font-semibold mb-4 font-font4">Note Details</h2>
+                        <h2 className="text-2xl text-white font-semibold mb-4 font-poppins">Note Details</h2>
                         <div className="mb-4">
-                            <h3 className="text-lg font-semibold text-gray-300 mb-2 font-font4">{selectedNote.title}</h3>
-                            <p className="text-gray-400 font-font4">{selectedNote.content}</p>
+                            <h3 className="text-lg font-semibold text-gray-300 mb-2 font-poppins">{selectedNote.title}</h3>
+                            <p className="text-gray-400 font-poppins">{selectedNote.content}</p>
                         </div>
                         <div className="mt-6 flex justify-end">
                             <button
-                                className="bg-blue-500 m-2 hover:bg-blue-400 text-white px-4 py-2 rounded-lg font-font4"
+                                className="bg-blue-500 m-2 hover:bg-blue-400 text-white px-4 py-2 rounded-lg font-poppins"
                                 onClick={closeModal}
                             >
                                 Close
                             </button>
                             <button
-                                className="bg-red-500 m-2 hover:bg-red-400 text-white px-4 py-2 rounded-lg font-font4"
+                                className="bg-red-500 m-2 hover:bg-red-400 text-white px-4 py-2 rounded-lg font-poppins"
                                 onClick={() => deleteNote(selectedNote._id)}
                             >
                                 Delete

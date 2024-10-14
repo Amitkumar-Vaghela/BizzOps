@@ -76,46 +76,46 @@ function StaffTable({ staff, onUpdateStaff }) {
     return (
         <>
             <Card className="w-full bg-[#28282B] shadow-md rounded-lg p-6">
-                <Typography variant="p" color="blue-gray" className="mb-4 text-white font-font4 font-semibold">
+                <Typography variant="p" color="blue-gray" className="mb-4 text-white font-poppins font-semibold">
                     Staff Records
                 </Typography>
                 <div className="overflow-x-auto">
-                    <table className="min-w-full border-collapse border border-zinc-600">
+                    <table className="min-w-full border-collapse ">
                         <thead>
                             <tr className="bg-zinc-900">
-                                <th className="px-4 py-2 font-font4 border-zinc-600 border-2 border-t-0 text-white">Name</th>
-                                <th className="px-4 py-2 font-font4 border-zinc-600 border-2 border-t-0 text-white">Email</th>
-                                <th className="px-4 py-2 font-font4 border-zinc-600 border-2 border-t-0 text-white">Phone</th>
-                                <th className="px-4 py-2 font-font4 border-zinc-600 border-2 border-t-0 text-white">Salary</th>
-                                <th className="px-4 py-2 font-font4 border-zinc-600 border-2 border-t-0 text-white">To be Paid</th>
-                                <th className="px-4 py-2 font-font4 border-zinc-600 border-2 border-t-0 text-white">Actions</th>
+                                <th className="px-4 py-2 font-poppins text-white">Name</th>
+                                <th className="px-4 py-2 font-poppins text-white">Email</th>
+                                <th className="px-4 py-2 font-poppins text-white">Phone</th>
+                                <th className="px-4 py-2 font-poppins text-white">Salary</th>
+                                <th className="px-4 py-2 font-poppins text-white">To be Paid</th>
+                                <th className="px-4 py-2 font-poppins text-white">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {localStaff.length > 0 ? (
                                 localStaff.map((staffMember) => (
-                                    <tr key={staffMember._id} className="border-b">
-                                        <td className="px-4 py-2 border-zinc-600 border-2 text-sm font-medium text-white font-font4">{staffMember.name}</td>
-                                        <td className="px-4 py-2 border-zinc-600 border-2 text-sm font-medium text-white font-font4">{staffMember.email}</td>
-                                        <td className="px-4 py-2 border-zinc-600 border-2 text-sm font-medium text-white font-font4">{staffMember.phone}</td>
-                                        <td className="px-4 py-2 border-zinc-600 border-2 text-sm font-medium text-white font-font4">{staffMember.salary}</td>
-                                        <td className="px-4 py-2 border-zinc-600 border-2 text-sm font-medium text-white font-font4">{staffMember.debitCreditHistory}</td>
-                                        <td className="border-zinc-600 border-0 text-center">
+                                    <tr key={staffMember._id} className="text-center">
+                                        <td className="px-4 py-2 text-sm font-medium text-white font-poppins">{staffMember.name}</td>
+                                        <td className="px-4 py-2 text-sm font-medium text-white font-poppins">{staffMember.email}</td>
+                                        <td className="px-4 py-2 text-sm font-medium text-white font-poppins">{staffMember.phone}</td>
+                                        <td className="px-4 py-2 text-sm font-medium text-white font-poppins">{staffMember.salary}</td>
+                                        <td className="px-4 py-2 text-sm font-medium text-white font-poppins">{staffMember.debitCreditHistory}</td>
+                                        <td className="text-center">
                                             <button
                                                 onClick={() => handleStaffClick(staffMember._id, "add")}
-                                                className="bg-green-400 pt-2 text-black text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-green-300 mr-2"
+                                                className="bg-green-400 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-green-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faPlus} /> Credit
                                             </button>
                                             <button
                                                 onClick={() => handleStaffClick(staffMember._id, "remove")}
-                                                className="bg-red-500 pt-2 text-white text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-red-400 mr-2"
+                                                className="bg-red-500 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-red-400 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faMinus} className=""/> Debit
                                             </button>
                                             <button
                                                 onClick={() => confirmDelete(staffMember._id)}
-                                                className="bg-blue-400 pt-2 text-white text-xs font-font4 font-medium px-2 py-1 rounded hover:bg-blue-300 mr-2"
+                                                className="bg-blue-400 pt-2 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-blue-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faTrash} />
                                             </button>
@@ -134,8 +134,8 @@ function StaffTable({ staff, onUpdateStaff }) {
 
             {isPopupVisible && action && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#1d1d20] font-font4 p-6 w-1/4 rounded-2xl shadow-lg">
-                        <h2 className="text-lg font-font4 text-white font-medium mb-4">
+                    <div className="bg-[#1d1d20] font-poppins p-6 w-1/4 rounded-2xl shadow-lg">
+                        <h2 className="text-lg font-poppins text-white font-medium mb-4">
                             {action === "add" ? "+ Credit" : "- Debit"}
                         </h2>
                         <form onSubmit={handleSubmit}>
@@ -170,8 +170,8 @@ function StaffTable({ staff, onUpdateStaff }) {
 
             {isPopupVisible && !action && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white font-font4 p-6 w-1/4 rounded-2xl shadow-lg">
-                        <h2 className="text-lg font-font4 font-medium mb-4">Confirm Deletion</h2>
+                    <div className="bg-white font-poppins p-6 w-1/4 rounded-2xl shadow-lg">
+                        <h2 className="text-lg font-poppins font-medium mb-4">Confirm Deletion</h2>
                         <p>Are you sure you want to delete this staff member?</p>
                         <div className="flex justify-end mt-4">
                             <button

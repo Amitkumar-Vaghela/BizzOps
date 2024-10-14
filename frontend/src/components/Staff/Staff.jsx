@@ -62,12 +62,12 @@ function Staff() {
                 <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-[#141415]">
                     <CustomBtn />
                     <Account />
-                    <h1 className="m-10 text-2xl font-medium text-white font-font4 flex items-center">
+                    <h1 className="m-10 text-2xl font-medium text-white font-poppins flex items-center">
                         <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={() => navigate('/dashboard')} /> Staff
                     </h1>
                     <div className="justify-center items-center flex flex-col">
                         <div className="w-5/6 bg-[#28282B] rounded-xl gap-4 mb-4">
-                            <h1 className="ml-4 mt-2 text-white font-semibold font-font4">Add Staff</h1>
+                            <h1 className="ml-4 mt-2 text-white font-semibold font-poppins">Add Staff</h1>
                             <AddStaff onStaffAdded={handleStaffAdded} />
                         </div>
 
