@@ -24,31 +24,31 @@ function ExpenseTable() {
     }, []);
 
     return (
-        <div className="w-full bg-white shadow-md rounded-lg p-6">
-            <h2 className="text-base font-font4 font-semibold mb-4 text-gray-800">Expense Records</h2>
+        <div className="w-full bg-[#28282B] shadow-md rounded-lg p-6">
+            <h2 className="text-base font-poppins font-semibold mb-4 text-white">Expense Records</h2>
             <div className="overflow-x-auto">
-                <table className="min-w-full border-collapse border border-gray-200">
+                <table className="min-w-full">
                     <thead>
-                        <tr className="bg-blue-100">
-                            <th className="px-4 py-2 border font-font4">Date</th>
-                            <th className="px-4 py-2 border font-font4">Item</th>
-                            <th className="px-4 py-2 border font-font4">Amount</th>
-                            <th className="px-4 py-2 border font-font4">Description</th>
+                        <tr className="bg-zinc-900">
+                            <th className="px-4 py-2 text-white font-poppins">Date</th>
+                            <th className="px-4 py-2 text-white font-poppins">Item</th>
+                            <th className="px-4 py-2 text-white font-poppins">Amount</th>
+                            <th className="px-4 py-2 text-white font-poppins">Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         {expense.length > 0 ? (
                             expense.map((expense) => ( 
-                                <tr key={expense._id} className="border-b">
-                                    <td className="px-4 py-2 border text-sm font-font4">{formatDate(expense.date)}</td>
-                                    <td className="px-4 py-2 border text-sm font-font4">{expense.name}</td>
-                                    <td className="px-4 py-2 border text-sm font-font4">₹{expense.expAmount.toFixed(2)}</td>
-                                    <td className="px-4 py-2 border text-sm font-font4">{expense.description}</td>
+                                <tr key={expense._id} className="text-center">
+                                    <td className="px-4 py-2 text-white text-sm font-poppins">{formatDate(expense.date)}</td>
+                                    <td className="px-4 py-2 text-white text-sm font-poppins">{expense.name}</td>
+                                    <td className="px-4 py-2 text-white text-sm font-poppins">₹{expense.expAmount.toFixed(2)}</td>
+                                    <td className="px-4 py-2 text-white text-sm font-poppins">{expense.description}</td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="7" className="text-center px-4 py-2 border font-font4">
+                                <td colSpan="7" className="text-center px-4 py-2 border font-poppins">
                                     No expense data available.
                                 </td>
                             </tr>
