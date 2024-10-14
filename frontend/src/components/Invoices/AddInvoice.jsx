@@ -68,8 +68,8 @@ const AddInvoice = () => {
     };
 
     return (
-        <div className="justify-center items-center flex m-4 rounded-2xl flex-col bg-white">
-            <h2 className='mb-2 font-font4 font-semibold'>New Invoice</h2>
+        <div className="justify-center items-center flex m-4 rounded-2xl flex-col bg-[#28282B]">
+            <h2 className='mb-2 font-font4 font-semibold text-white'>New Invoice</h2>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -77,13 +77,13 @@ const AddInvoice = () => {
                     value={customer}
                     onChange={(e) => setCustomer(e.target.value)}
                     required
-                    className="w-1/4 text-center h-10 m-3 rounded-2xl bg-gray-200 font-font4 font-light"
+                    className="w-1/4 text-center h-10 m-3 rounded-2xl bg-[#2b2b2e] shadow-xl font-font4 font-normal text-white"
                 />
                 <input
                     type='date'
                     value={date}
                     onChange={(e) => { setDate(e.target.value) }}
-                    className="w-1/4 text-center h-10 m-3 rounded-2xl pr-4 bg-gray-200 font-font4 font-light"
+                    className="w-1/4 text-center h-10 m-3 rounded-2xl pr-4 bg-[#2b2b2e] shadow-xl font-font4 font-normal text-white"
                 />
                 {items.map((item, index) => (
                     <div key={index}>
@@ -93,7 +93,7 @@ const AddInvoice = () => {
                             value={item.itemName}
                             onChange={(e) => handleItemChange(index, 'itemName', e.target.value)}
                             required
-                            className="w-1/5 text-center h-10 m-3 rounded-2xl bg-gray-200 font-font4 font-light"
+                            className="w-1/5 text-center h-10 m-3 rounded-2xl bg-[#2b2b2e] shadow-xl font-font4 font-normal text-white"
                         />
                         <input
                             type="number"
@@ -102,7 +102,7 @@ const AddInvoice = () => {
                             onChange={(e) => handleItemChange(index, 'qty', e.target.value)}
                             required
                             min="1"
-                            className="w-1/5 text-center h-10 m-3 rounded-2xl bg-gray-200 font-font4 font-light"
+                            className="w-1/5 text-center h-10 m-3 rounded-2xl bg-[#2b2b2e] shadow-xl font-font4 font-normal text-white"
                         />
                         <input
                             type="number"
@@ -111,7 +111,7 @@ const AddInvoice = () => {
                             onChange={(e) => handleItemChange(index, 'price', e.target.value)}
                             required
                             min="1"
-                            className="w-1/5 text-center h-10 m-3 rounded-2xl bg-gray-200 font-font4 font-light"
+                            className="w-1/5 text-center h-10 m-3 rounded-2xl bg-[#2b2b2e] shadow-xl font-font4 font-normal text-white"
                         />
                         <input
                             type="number"
@@ -120,52 +120,52 @@ const AddInvoice = () => {
                             onChange={(e) => handleItemChange(index, 'tax', e.target.value)}
                             required
                             min="0"
-                            className="w-1/12 text-center h-10 m-3 pl-4 rounded-2xl bg-gray-200 font-font4 font-light"
+                            className="w-1/12 text-center h-10 m-3 pl-4 rounded-2xl bg-[#2b2b2e] shadow-xl font-font4 font-normal text-white"
                         />
                     </div>
                 ))}
                 <div className='w-2/4 flex'>
-                    <div className="w-20 flex justify-start items-center text-center h-10 m-3 pl-4 rounded-xl bg-gray-200 font-font4 font-light">
+                    <div className="w-20 flex justify-start items-center text-center h-10 m-3 pl-4 rounded-xl bg-[#2b2b2e] shadow-xl font-font4 font-normal">
                         <input
                             type="checkbox"
                             className="w-3 h-3"
                             checked={paid}
                             onChange={(e) => setPaid(e.target.checked)}
                         />
-                        <label className='pl-1 text-sm font-font4 font-normal'>Paid</label>
+                        <label className='pl-1 text-sm text-white font-font4 font-normal'>Paid</label>
                     </div>
                     <div>
                         <button
                             type="button"
                             onClick={addMoreItem}
-                            className="bg-blue-200 w-40 h-10 text-center text-sm m-3 font-font4 flex justify-center items-center rounded-xl hover:bg-blue-100 hover:text-black">
+                            className="bg-white w-40 h-10 text-center text-sm m-3 font-font4 flex justify-center items-center rounded-xl hover:bg-blue-100 hover:text-black">
                             <FontAwesomeIcon icon={faPlus} className="text-xs pr-1" /> Add More Item
                         </button>
                     </div>
                 </div>
 
                 <div className='w-3/4 flex'>
-                    <label htmlFor="" className='m-4 font-font4'>Sub Total</label>
-                    <input type="text" readOnly value={subTotal} className="w-1/5 text-center h-10 m-3 rounded-2xl border-gray-400 border-[1px] bg-gray-100 font-font4 font-normal" />
-                    <label htmlFor="" className='m-4 font-font4'>Grand Total</label>
-                    <input type="text" readOnly value={grandTotal} className="w-1/5 text-center h-10 m-3 rounded-2xl border-gray-400 border-[1px] bg-gray-100 font-font4 font-normal" />
+                    <label htmlFor="" className='m-4 font-font4 text-white'>Sub Total</label>
+                    <input type="text" readOnly value={subTotal} className="w-1/5 text-center h-10 m-3 rounded-2xl border-white border-[1px] bg-[#28282B] text-white font-font4 font-normal" />
+                    <label htmlFor="" className='m-4 font-font4 text-white'>Grand Total</label>
+                    <input type="text" readOnly value={grandTotal} className="w-1/5 text-center h-10 m-3 rounded-2xl border-white border-[1px] bg-[#28282B] text-white font-font4 font-normal" />
                 </div>
 
                 <button
                     type="submit"
-                    className="bg-blue-300 w-1/6 h-10 text-center text-sm m-2 font-font4 flex justify-center items-center rounded-xl hover:bg-blue-100 hover:text-black">
+                    className="bg-white w-1/6 h-10 text-center text-sm m-2 font-font4 flex justify-center items-center rounded-xl hover:bg-blue-100 hover:text-black">
                     <FontAwesomeIcon icon={faPlus} className="text-xs pr-1" /> Add Invoice
                 </button>
             </form>
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white rounded p-6 max-w-sm w-full">
-                        <h2 className="text-lg font-bold">Success!</h2>
-                        <p className="mt-2">Product added to sales successfully.</p>
+                    <div className="bg-[#28282B] rounded p-6 max-w-sm w-full">
+                        <h2 className="text-lg font-poppins text-white font-bold">Success!</h2>
+                        <p className="mt-2 font-poppins text-white">Product added to sales successfully.</p>
                         <div className="mt-4 flex justify-end">
                             <button 
                                 onClick={handleClosePopup} 
-                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                className="text-white font-bold"
                             >
                                 Close
                             </button>
