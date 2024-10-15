@@ -57,13 +57,13 @@ function AddSales({ addNewSale }) {
 
     return (
         <>
-            <form onSubmit={handleAddSales} className="space-y-4 mb-2">
+            <form onSubmit={handleAddSales} className="space-y-4 sm:mb-2 mb-4">
                 <select 
                     id="product" 
                     value={product} 
                     onChange={(e) => setProduct(e.target.value)} 
                     required
-                    className="w-1/5 bg-[#2b2b2e] shadow-xl  text-center font-poppins font-normal text-white h-10 m-2 rounded-2xl "
+                    className="sm:w-1/5 w-4/5 bg-[#2b2b2e] shadow-xl  text-center font-poppins font-normal text-white h-10 m-2 rounded-2xl "
                 >
                     <option value="" disabled>Select a product</option>
                     {inventory.map((item) => (
@@ -79,7 +79,7 @@ function AddSales({ addNewSale }) {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
-                    className="w-1/5 text-center bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl font-poppins font-normal text-white"
+                    className="sm:w-1/5 w-2/5 text-center bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl font-poppins font-normal text-white"
                 />
 
                 <input
@@ -88,7 +88,7 @@ function AddSales({ addNewSale }) {
                     value={profitInPercent}
                     onChange={(e) => setProfitInPercent(e.target.value)}
                     required
-                    className="w-1/12 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl  font-poppins font-normal text-white"
+                    className="sm:w-1/12 w-2/5 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl  font-poppins font-normal text-white"
                 />
 
                 <input
@@ -97,7 +97,7 @@ function AddSales({ addNewSale }) {
                     value={qty}
                     onChange={(e) => setQty(e.target.value)}
                     required
-                    className="w-1/12 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl  font-poppins font-normal text-white"
+                    className="sm:w-1/12 w-1/4 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl  font-poppins font-normal text-white"
                 />
 
                 <input
@@ -105,17 +105,17 @@ function AddSales({ addNewSale }) {
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
-                    className="w-1/5 text-center pr-4 h-10 m-2 rounded-2xl  bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
+                    className="sm:w-1/5 w-3/5 text-center pr-4 h-10 m-2 rounded-2xl  bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
                 />
 
-                <button type="submit" className="bg-white hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Sale</button>
+                <button type="submit" className="bg-white sm:m-0 m-4 hover:bg-blue-100 text-black px-4 py-2 rounded-2xl">Add Sale</button>
             </form>
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#28282B] rounded p-6 max-w-sm w-full">
+                    <div className="bg-[#28282B] rounded p-6 max-w-sm sm:w-full w-4/5">
                         <h2 className="text-lg font-poppins text-white font-bold">Success!</h2>
-                        <p className="mt-2 font-poppins text-white">Product added to sales successfully.</p>
+                        <p className="mt-2 font-poppins text-white">Sale added successfully.</p>
                         <div className="mt-4 flex justify-end">
                             <button 
                                 onClick={handleClosePopup} 
