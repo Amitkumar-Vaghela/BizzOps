@@ -73,7 +73,7 @@ function Dashboard() {
         <>
             <div className="flex min-h-screen">
                 <Sidebar />
-                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-[#141415]">
+                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] sm:full w-5/6 bg-[#141415]">
                     <CustomBtn />
                     <Account />
                     <h1 className="m-10 text-2xl text-white font-medium font-poppins">Dashboard  </h1>

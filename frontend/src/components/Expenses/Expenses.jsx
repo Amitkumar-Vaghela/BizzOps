@@ -15,7 +15,7 @@ function Expense() {
     return (
         <div className="flex min-h-screen">
             <Sidebar />
-            <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] w-5/6 bg-[#141415]">
+            <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] sm:w-5/6 bg-[#141415]">
                 <CustomBtn />
                 <Account />
                 <h1 className="m-10 text-2xl font-medium font-poppins flex items-center text-white"> <FontAwesomeIcon icon={faArrowLeft} className="text-md pr-2" onClick={()=> navigate('/dashboard')} /> Expense</h1>
