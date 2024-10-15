@@ -119,7 +119,7 @@ function AddSales({ addNewSale }) {
                         <div className="mt-4 flex justify-end">
                             <button 
                                 onClick={handleClosePopup} 
-                                className="font-poppins font-bold text-white px-4 py-2 rounded"
+                                className="font-poppins text-blue-500 font-semibold hover:text-blue-300"
                             >
                                 Close
                             </button>

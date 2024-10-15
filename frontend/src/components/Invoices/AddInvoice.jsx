@@ -165,7 +165,7 @@ const AddInvoice = () => {
                         <div className="mt-4 flex justify-end">
                             <button 
                                 onClick={handleClosePopup} 
-                                className="text-white font-bold"
+                                className="text-blue-400 font-semibold hover:text-blue-300 font-poppins"
                             >
                                 Close
                             </button>

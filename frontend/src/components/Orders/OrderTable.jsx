@@ -114,15 +114,15 @@ function OrderTable() {
                                 <p className="text-sm font-poppins text-white font-light mb-1"><strong>Cost:</strong> ₹{selectedOrder.cost.toFixed(2)}</p>
                                 <p className="text-sm font-poppins text-white font-light mb-1 "><strong className='font-medium'>Status:</strong> {selectedOrder.paid ? 'Delivered' : 'Pending'}</p>
                             </div>
-                            <div className="mt-4 flex justify-between">
+                            <div className="flex justify-end items-center gap-6">
                                 <button
-                                    className="bg-blue-500 font-poppins text-sm text-white px-4 py-2 rounded-xl"
+                                    className="text-blue-500 font-semibold hover:text-blue-300 font-poppins"
                                     onClick={toggleDoneStatus}
                                 >
                                     {selectedOrder.done ? 'Mark as Pending' : 'Mark as Delivered'}
                                 </button>
                                 <button
-                                    className="bg-gray-500 font-poppins text-sm text-white px-4 py-2 rounded-xl"
+                                    className="text-blue-400 font-poppins font-semibold hover:text-blue-300"
                                     onClick={closeModal}
                                 >
                                     Close

@@ -113,21 +113,21 @@ const InvoiceTable = () => {
                         <div className="bg-[#1d1d20] p-6 rounded-3xl shadow-lg max-w-lg w-full relative">
                             <h2 className="text-lg font-poppins font-normal text-white mb-4"># Invoice Details</h2>
                             <div>
-                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Customer Name:</strong> {selectedInvoice.name}</p>
-                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Subtotal:</strong> ₹{selectedInvoice.subTotal.toFixed(2)}</p>
-                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Date:</strong> {new Date(selectedInvoice.date).toLocaleDateString()}</p>
-                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Grand Total:</strong> ₹{selectedInvoice.grandTotal.toFixed(2)}</p>
-                                <p className="text-sm text-white font-poppins font-light mb-1 "><strong className='font-medium'>Paid:</strong> {selectedInvoice.paid ? 'Yes' : 'No'}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1"><strong >Customer Name :</strong> {selectedInvoice.name}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Subtotal :</strong> ₹{selectedInvoice.subTotal.toFixed(2)}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Date :</strong> {new Date(selectedInvoice.date).toLocaleDateString()}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1"><strong>Grand Total :</strong> ₹{selectedInvoice.grandTotal.toFixed(2)}</p>
+                                <p className="text-sm text-white font-poppins font-light mb-1 "><strong className='font-medium'>Paid :</strong> {selectedInvoice.paid ? 'Yes' : 'No'}</p>
                             </div>
-                            <div className="mt-4 flex justify-between">
+                            <div className="mt-4 flex justify-end items-center gap-6">
                                 <button
-                                    className="bg-blue-500 font-poppins text-sm text-white px-4 py-2 rounded-xl"
+                                    className="text-blue-500 font-semibold hover:text-blue-300 font-poppins"
                                     onClick={togglePaidStatus}
                                 >
                                     {selectedInvoice.paid ? 'Mark as Unpaid' : 'Mark as Paid'}
                                 </button>
                                 <button
-                                    className="bg-gray-500 font-poppins text-sm text-white px-4 py-2 rounded-xl"
+                                    className="text-blue-500 font-semibold hover:text-blue-300 font-poppins"
                                     onClick={closeModal}
                                 >
                                     Close

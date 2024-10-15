@@ -104,7 +104,7 @@ function AddOrders() {
                         <div className="mt-4 flex justify-end">
                             <button
                                 onClick={handleClosePopup}
-                                className="bg-blue-500 text-white font-poppins px-4 py-2 rounded"
+                                className="text-blue-500 font-semibold hover:text-blue-300"
                             >
                                 Close
                             </button>

@@ -104,30 +104,30 @@ function Account() {
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-gray-100 w-2/12 rounded-3xl p-6">
-                        <h2 className="text-sm font-semibold text-center">Account</h2>
-                        <h2 className="text-lg font-bold text-center m-4">{userDetails.businessName}</h2>
-                        <p className="mt-2 text-center m-2">{userDetails.email}</p>
-                        <p className="mt-2 text-center m-2 mb-10">{userDetails.name}</p>
-                        {message && <p className="text-red-500 text-center">{message}</p>}
+                    <div className="bg-[#28282B] w-2/12 rounded-3xl p-6">
+                        <h2 className="text-sm text-white font-semibold text-center">Account</h2>
+                        <h2 className="text-3xl text-white font-bold text-center m-4">{userDetails.businessName}</h2>
+                        <p className="mt-2 text-center m-2 text-white text-lg">{userDetails.email}</p>
+                        <p className="mt-2 text-center m-2 mb-10 text-white text-lg">{userDetails.name}</p>
+                        {/* {message && <p className="text-red-500 text-center">{message}</p>} */}
                         <div className="mt-4 flex justify-end gap-4">
                             <button
                                 onClick={() => { handleEditOpen(); handleClosePopup(); }}
-                                className="bg-gray-500 text-white px-2 py-1 rounded-full"
+                                className="text-white text-xs"
                             >
                                 <FontAwesomeIcon icon={faPencil} />
                             </button>
                             <button
                                 onClick={handleClosePopup}
-                                className="bg-blue-500 text-white px-2 py-1 font-poppins rounded"
+                                className="text-blue-400 font-poppins font-semibold hover:text-blue-300"
                             >
                                 Close
                             </button>
                             <button 
                                 onClick={handleLogOut}
-                                className="bg-red-500 text-xs text-white px-2 py-1 font-poppins rounded"
+                                className="text-[#f84242] font-medium hover:text-[#b64141] font-poppins"
                             >
-                                <FontAwesomeIcon icon={faSignOut} className="font-bold" /> Sign Out
+                                Sign Out
                             </button>
                         </div>
                     </div>
@@ -136,44 +136,47 @@ function Account() {
 
             {isEditPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-gray-100 w-2/12 rounded-3xl p-6">
-                        <h2 className="text-sm font-semibold text-center mb-5">Edit Account</h2>
+                    <div className="bg-[#28282B] w-2/12 rounded-3xl p-6">
+                        <h2 className="text-sm font-poppins text-white font-semibold text-center mb-5">Edit Account</h2>
                         <form onSubmit={handleEditAccount}>
+                            <label className='pl-1 text-xs font-poppins text-zinc-500 font-thin m-2'>Business Name</label>
                             <input
                                 type="text"
                                 placeholder="Business Name"
                                 required
                                 value={newDetails.businessName}
                                 onChange={(e) => setNewDetails({ ...newDetails, businessName: e.target.value })}
-                                className="w-full text-sm p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
+                                className="w-full text-sm p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl text-white font-poppins font-normal placeholder-gray-700 rounded-2xl"
                             />
+                            <label className='pl-1 text-xs font-poppins text-zinc-500 font-thin m-2'>Email</label>
                             <input
                                 type="email"
                                 placeholder="Email"
                                 required
                                 value={newDetails.email}
-                                onChange={(e) => setNewDetails({ ...newDetails, email: e.target.value })}
-                                className="w-full p-3 text-sm pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
+                                onChange={(e) => setNewDetails({ ...newDetails, email: e.target.value })}   
+                                className="w-full text-sm p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl text-white font-poppins font-normal placeholder-gray-700 rounded-2xl"
                             />
+                            <label className='pl-1 text-xs font-poppins text-zinc-500 font-thin m-2'>Name</label>
                             <input
                                 type="text"
                                 placeholder="Name"
                                 required
                                 value={newDetails.name}
                                 onChange={(e) => setNewDetails({ ...newDetails, name: e.target.value })}
-                                className="w-full p-3 pl-10 text-sm mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
+                                className="w-full text-sm p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl text-white font-poppins font-normal placeholder-gray-700 rounded-2xl"
                             />
                             <div className="mt-4 flex justify-end gap-4">
                                 <button
                                     type="submit"
-                                    className="bg-blue-500 text-white px-2 py-1 rounded-xl"
+                                    className="text-blue-400 hover:text-blue-300 font-poppins font-semibold "
                                 >
                                     Save
                                 </button>
                                 <button
                                     onClick={handleEditClose}
                                     type="button"
-                                    className="bg-gray-500 text-white px-2 py-1 rounded-xl"
+                                    className="text-[#f84242] font-semibold hover:text-[#b64141] font-poppins"
                                 >
                                     Cancel
                                 </button>

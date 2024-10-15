@@ -148,17 +148,17 @@ function StaffTable({ staff, onUpdateStaff }) {
                                 required
                                 className="bg-[#222224] shadow-xl rounded p-2 mb-4 w-full"
                             />
-                            <div className="flex justify-end">
+                            <div className="flex justify-end items-center gap-6">
                                 <button
                                     type="button"
                                     onClick={handleClosePopup}
-                                    className="bg-blue-100 text-black px-4 py-2 rounded-2xl mr-2"
+                                    className="text-white hover:text-gray-400 font-semibold"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-blue-400 text-white px-4 py-2 rounded-2xl"
+                                    className="text-white hover:text-gray-400 font-semibold"
                                 >
                                     Submit
                                 </button>
@@ -170,20 +170,20 @@ function StaffTable({ staff, onUpdateStaff }) {
 
             {isPopupVisible && !action && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white font-poppins p-6 w-1/4 rounded-2xl shadow-lg">
-                        <h2 className="text-lg font-poppins font-medium mb-4">Confirm Deletion</h2>
-                        <p>Are you sure you want to delete this staff member?</p>
-                        <div className="flex justify-end mt-4">
+                    <div className="bg-[#1d1d20] font-poppins p-6 w-1/4 rounded-2xl shadow-lg">
+                        <h2 className="text-lg text-white font-poppins font-medium mb-4">Confirm Deletion</h2>
+                        <p className="text-white">Are you sure you want to delete this staff member?</p>
+                        <div className="flex justify-end mt-4 gap-6">
                             <button
                                 type="button"
                                 onClick={handleClosePopup}
-                                className="bg-blue-100 text-black px-4 py-2 rounded-2xl mr-2"
+                                className="text-white font-semibold hover:text-gray-400 font-poppins"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleDelete}
-                                className="bg-red-500 text-white px-4 py-2 rounded-2xl"
+                                className="text-[#f84242] font-semibold hover:text-[#b64141] font-poppins"
                             >
                                 Delete
                             </button>
