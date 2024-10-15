@@ -105,7 +105,7 @@ const SalesChart = () => {
     return (
         <canvas
             ref={chartRef}
-            className="w-80 h-80"
+            className="sm:w-80 sm:h-80 w-auto h-96"
             style={{ backgroundColor: 'transparent' }}
         />
     );

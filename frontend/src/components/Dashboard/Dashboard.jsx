@@ -73,25 +73,25 @@ function Dashboard() {
         <>
             <div className="flex min-h-screen">
                 <Sidebar />
-                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] sm:full w-5/6 bg-[#141415]">
+                <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] sm:w-5/6 bg-[#141415]">
                     <CustomBtn />
                     <Account />
-                    <h1 className="m-10 text-2xl text-white font-medium font-poppins">Dashboard  </h1>
+                    <h1 className="sm:m-10 m-4 mt-20 text-2xl text-white font-medium font-poppins">Dashboard  </h1>
 
-                    <div className="mt-2 m-9 flex justify-center items-center gap-4">
-                        <div className="h-full w-1/5 ">
-                            <div className="bg-zinc-700 w-full h-24 shadow-lg rounded-2xl flex flex-col items-center">
+                    <div className="mt-2 m-9 sm:flex sm:justify-center sm:items-center sm:gap-4">
+                        <div className="h-full sm:w-1/5 w-5/6 m-6">
+                            <div className="bg-zinc-700 w-full h-24 shadow-lg rounded-2xl sm:flex sm:flex-col items-center">
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base text-white font-light font-poppins mt-1 ml-2"> <FontAwesomeIcon icon={faChartGantt} className="text-sm pr-1 text-blue-600" /> Total Sales</p>
                                     <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">₹ {totalSale.toLocaleString()}<samp className="font-poppins text-base">.00</samp></h1>
                                 </div>
-                                <div className="w-11/12 mt-1 ml-">
+                                <div className="w-11/12 mt-1 ml-3">
                                     <p className="font-normal mt-1 text-white font-poppins text-xs">From All Time</p>
                                 </div>
                             </div>
 
                         </div>
-                        <div className="h-full w-1/5 ">
+                        <div className="h-full sm:w-1/5 w-5/6 m-6">
                             <div className="bg-zinc-700 shadow-lg w-full h-24 rounded-2xl flex flex-col items-center">
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base text-white font-light font-poppins mt-1 ml-2"> <FontAwesomeIcon icon={faMoneyBill1} className="text-sm pr-1 text-teal-400" /> Total Profit</p>
@@ -100,12 +100,12 @@ function Dashboard() {
                                         <samp className="font-poppins text-base">.00</samp>
                                     </h1>
                                 </div>
-                                <div className="w-11/12 mt-1 ml-">
+                                <div className="w-11/12 mt-1">
                                     <p className="font-normal mt-1 text-white font-poppins text-xs">From All Time</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="h-full w-1/5 ">
+                        <div className="h-full sm:w-1/5 w-5/6 m-6">
 
                             <div className="bg-zinc-700 shadow-lg w-full h-24 rounded-xl flex flex-col items-center">
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
@@ -120,7 +120,7 @@ function Dashboard() {
 
                             </div>
                         </div>
-                        <div className="h-full w-1/5 ">
+                        <div className="h-full sm:w-1/5 w-5/6 m-6">
                             <div className="bg-zinc-700 shadow-lg w-full h-24 rounded-xl flex flex-col items-center">
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base text-white font-light font-poppins mt-1 ml-2"> <FontAwesomeIcon icon={faWallet} className="text-xs text-green-400 pr-1" /> Total Net Income</p>
@@ -133,16 +133,16 @@ function Dashboard() {
                         </div>
                     </div>
 
-                    <div className="gap-10 m-10 flex justify-center items-center">
+                    <div className="gap-10 m-10 sm:flex sm:justify-center sm:items-center">
 
-                        <div className="w-2/4 mt-4 bg-[#232325] shadow-lg rounded-3xl">
-                            <h1 className="text-center text-white font-medium font-poppins mt-4">Last 30 Day's Sales</h1>
-                            <div className=" mr-3">
+                        <div className="sm:w-2/4 sm:mt-4 bg-[#232325] shadow-lg rounded-3xl">
+                            <h1 className="text-center text-white font-medium font-poppins sm:mt-4">Last 30 Day's Sales</h1>
+                            <div className="mr-3">
                                 <SalesChart />
                             </div>
                         </div>
 
-                        <div className="w-1/5">
+                        <div className="sm:w-1/5 w-5/6 m-6">
                             <div className="h-full">
                                 <div className="bg-zinc-700 shadow-lg w-full h-24 rounded-2xl flex flex-col items-center">
                                     <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
@@ -168,16 +168,16 @@ function Dashboard() {
                         </div>
                     </div>
 
-                    <div className="gap-10 m-10 flex justify-center items-center">
+                    <div className="gap-10 m-10 sm:flex sm:justify-center sm:items-center">
 
-                        <div className="w-2/4 mt-4 bg-[#232325] shadow-lg rounded-3xl">
-                            <h1 className="text-center font-medium text-white font-poppins mt-4">Last 30 Day's Profit</h1>
+                        <div className="sm:w-2/4 sm:mt-4 bg-[#232325] shadow-lg rounded-3xl">
+                            <h1 className="text-center font-medium text-white font-poppins sm:mt-4">Last 30 Day's Profit</h1>
                             <div className=" mr-3">
                                 <ProfitChart />
                             </div>
                         </div>
 
-                        <div className="w-1/5 ">
+                        <div className="sm:w-1/5 w-5/6 m-6">
                             <div className="h-full">
                                 <div className="bg-zinc-700  shadow-lg w-full h-24 rounded-2xl flex flex-col items-center">
                                     <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
@@ -208,16 +208,16 @@ function Dashboard() {
 
                     </div>
 
-                    <div className="gap-10 m-10 flex justify-center items-center">
+                    <div className="gap-10 m-10 sm:flex sm:justify-center sm:items-center">
 
-                        <div className="w-2/4 mt-4 shadow-lg bg-[#232325] rounded-3xl">
-                            <h1 className="text-center font-medium text-white font-poppins mt-4">Inventory</h1>
+                        <div className="sm:w-2/4 sm:mt-4 bg-[#232325] shadow-lg rounded-3xl">
+                            <h1 className="text-center font-medium text-white font-poppins sm:mt-4">Inventory</h1>
                             <div className=" mr-3">
                                 <InventoryChart />
                             </div>
                         </div>
 
-                        <div className="w-1/5">
+                        <div className="sm:w-1/5 w-5/6 m-6">
                             <div className="w-full flex gap-4">
                                 <div className="w-2/4 bg-zinc-800 rounded-3xl text-center shadow-md">
                                     <p className="font-poppins text-white font-normal m-2 text-xs">Orders</p>
@@ -250,16 +250,16 @@ function Dashboard() {
 
                     </div>
 
-                    <div className="gap-10 m-10 flex justify-center items-center">
+                    <div className="gap-10 m-10 sm:flex sm:justify-center sm:items-center">
 
-                        <div className="w-2/4 mt-4 bg-[#232325] shadow-lg rounded-3xl">
+                        <div className="sm:w-2/4 sm:mt-4 bg-[#232325] shadow-lg rounded-3xl">
                             <h1 className="text-center font-medium text-sm text-white mb-3 font-poppins mt-4">Sales v/s Profit v/s Cost v/s Expenses</h1>
                             <div className="m-5 mr-3">
                                 <FinancialChart />
                             </div>
                         </div>
 
-                        <div className="w-1/4 mt-4 bg-[#232325] shadow-lg rounded-3xl">
+                        <div className="sm:w-1/4 sm:mt-4 bg-[#232325] shadow-lg rounded-3xl">
                             <h1 className="text-center font-medium text-sm text-white font-poppins mt-4">Financial Distribution</h1>
                             <div className=" mr-3">
                                 <FinancialDist />

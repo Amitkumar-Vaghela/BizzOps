@@ -30,7 +30,7 @@ function Sidebar() {
 
     return (
         <>
-            <div className="sm:hidden absolute top-5 left-0 h-20">
+            <div className="sm:hidden absolute top-7 left-0 h-20">
                 <button onClick={toggleSidebar}>
                     <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="text-white text-2xl ml-4" />
                 </button>

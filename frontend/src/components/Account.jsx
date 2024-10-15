@@ -93,7 +93,7 @@ function Account() {
 
     return (
         <>
-            <div className="absolute top-5 right-10">
+            <div className="absolute sm:top-5 sm:right-10 top-5 right-3">
                 <button
                     onClick={handleOpenPopup}
                     className="w-11 h-11 text-lg bg-gradient-to-r from-blue-300 text-center to-indigo-300 text-gray-700-400 font-normal font-poppins rounded-full hover:bg-gradient-to-bl transition"
