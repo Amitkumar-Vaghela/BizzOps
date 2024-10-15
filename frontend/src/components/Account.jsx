@@ -104,7 +104,7 @@ function Account() {
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#28282B] w-2/12 rounded-3xl p-6">
+                    <div className="bg-[#28282B] sm:w-2/12 w-3/4 rounded-3xl p-6">
                         <h2 className="text-sm text-white font-semibold text-center">Account</h2>
                         <h2 className="text-3xl text-white font-bold text-center m-4">{userDetails.businessName}</h2>
                         <p className="mt-2 text-center m-2 text-white text-lg">{userDetails.email}</p>
@@ -113,7 +113,7 @@ function Account() {
                         <div className="mt-4 flex justify-end gap-4">
                             <button
                                 onClick={() => { handleEditOpen(); handleClosePopup(); }}
-                                className="text-white text-xs"
+                                className="text-white sm:text-xs text-sm hover:text-gray-400"
                             >
                                 <FontAwesomeIcon icon={faPencil} />
                             </button>
@@ -136,7 +136,7 @@ function Account() {
 
             {isEditPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#28282B] w-2/12 rounded-3xl p-6">
+                    <div className="bg-[#28282B] sm:w-2/12 w-3/4 rounded-3xl p-6">
                         <h2 className="text-sm font-poppins text-white font-semibold text-center mb-5">Edit Account</h2>
                         <form onSubmit={handleEditAccount}>
                             <label className='pl-1 text-xs font-poppins text-zinc-500 font-thin m-2'>Business Name</label>
