@@ -40,13 +40,13 @@ function AddInventory({ onItemAdded }) {
     return (
         <>
             <form onSubmit={handleAddInventory}>    
-                <div className="flex gap-3 mb-2">
+                <div className="sm:flex sm:gap-3 sm:mb-2 mb-4">
                     <input
                         type="text"
                         placeholder="Item"
                         value={item}
                         onChange={(e) => setItem(e.target.value)}
-                        className="w-1/5 text-center font-normal bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl text-white"
+                        className="sm:w-1/5 w-3/4 text-center font-normal bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl text-white"
                         required
                     />
                     <input
@@ -54,7 +54,7 @@ function AddInventory({ onItemAdded }) {
                         placeholder="Category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 font-normal bg-[#2b2b2e] shadow-xl rounded-2xl text-white"
+                        className="sm:w-1/5 text-center h-10 m-2 font-normal bg-[#2b2b2e] shadow-xl rounded-2xl text-white"
                         required
                     />
                     <input
@@ -62,14 +62,14 @@ function AddInventory({ onItemAdded }) {
                         placeholder="Add Stock"
                         value={stockRemain}
                         onChange={(e) => setStockRemain(e.target.value)}
-                        className="w-1/5 text-center h-10 m-2 rounded-2xl font-normal bg-[#2b2b2e] shadow-xl text-white"
+                        className="sm:w-1/5 w-1/4 text-center h-10 m-2 rounded-2xl text-sm font-normal bg-[#2b2b2e] shadow-xl text-white"
                         required
                     />
                     <input
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-1/5 p-2 text-center h-10 m-2 rounded-2xl font-normal bg-[#2b2b2e] shadow-xl text-white"
+                        className="sm:w-1/5 w-3/5 p-2 text-center h-10 m-2 rounded-2xl font-normal bg-[#2b2b2e] shadow-xl text-white"
                         required
                     />
                     <button 
@@ -82,13 +82,13 @@ function AddInventory({ onItemAdded }) {
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#28282B] rounded p-6 max-w-sm w-full">
+                    <div className="bg-[#28282B] rounded p-6 max-w-sm sm:w-full w-4/5">
                         <h2 className="text-lg text-white font-poppins font-bold">Success!</h2>
                         <p className="mt-2 text-white font-poppins">Product added to inventory successfully.</p>
                         <div className="mt-4 flex justify-end">
                             <button
                                 onClick={handleClosePopup}
-                                className="text-white px-4 py-2 font-bold rounded"
+                                className="text-blue-400 hover:text-blue-300 px-4 py-2 font-bold rounded"
                             >
                                 Close
                             </button>
