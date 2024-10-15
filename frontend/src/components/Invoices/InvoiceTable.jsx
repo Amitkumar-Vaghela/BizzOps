@@ -110,7 +110,7 @@ const InvoiceTable = () => {
 
                 {isModalOpen && selectedInvoice && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                        <div className="bg-[#1d1d20] p-6 rounded-3xl shadow-lg max-w-lg w-full relative">
+                        <div className="bg-[#1d1d20] p-6 rounded-3xl shadow-lg max-w-lg sm:w-full w-4/5 relative">
                             <h2 className="text-lg font-poppins font-normal text-white mb-4"># Invoice Details</h2>
                             <div>
                                 <p className="text-sm text-white font-poppins font-light mb-1"><strong >Customer Name :</strong> {selectedInvoice.name}</p>
@@ -121,13 +121,13 @@ const InvoiceTable = () => {
                             </div>
                             <div className="mt-4 flex justify-end items-center gap-6">
                                 <button
-                                    className="text-blue-500 font-semibold hover:text-blue-300 font-poppins"
+                                    className="text-blue-400 font-semibold hover:text-blue-300 font-poppins"
                                     onClick={togglePaidStatus}
                                 >
                                     {selectedInvoice.paid ? 'Mark as Unpaid' : 'Mark as Paid'}
                                 </button>
                                 <button
-                                    className="text-blue-500 font-semibold hover:text-blue-300 font-poppins"
+                                    className="text-blue-400 font-semibold hover:text-blue-300 font-poppins"
                                     onClick={closeModal}
                                 >
                                     Close
