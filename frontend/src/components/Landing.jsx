@@ -3,14 +3,14 @@ import one from '../assets/one.png';
 import two from '../assets/two.png';
 import three from '../assets/three.png';
 import four from '../assets/four.png';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo2.png';
 import { useNavigate } from "react-router-dom";
 
 function Landing() {
     const navigate = useNavigate()
     return (
         <>
-            <div className="w-full h-full flex justify-center items-center bg-gradient-to-r from-blue-200 to-indigo-400">
+            <div className="w-full h-full flex justify-center items-center bg-[#141415]">
                 <div className="absolute top-8 left-16 flex">
                     <img className="w-36 h-9" src={logo} alt="BizzOps Logo" />
                 </div>
@@ -21,13 +21,13 @@ function Landing() {
                     <button className="border-indigo-500 border-b-2 border-r-2 bg-white text-black font-semibold text-sm font-poppins px-4 py-2 rounded-full hover:text-black transition-all duration-500 hover:scale-110">Pricing</button>
                 </div>
 
-                <div className="w-3/5 m-16 mt-28">
-                    <h3 className="text-xl font-poppins font-normal mt-5">Manage Your Business, Smarter and Faster with</h3>
-                    <h1 className="text-9xl font-font4 font-medium">BizzOps</h1>
-                    <p className="text-md font-poppins font-normal mt-5">BizzOps is the ultimate business management platform, featuring a real-time dashboard, comprehensive reports, and insightful analysis tools. Streamline inventory, finance, and staff management to enhance efficiency and make informed decisions for your business success.</p>
+                <div className="sm:w-3/5 sm:m-16 sm:mt-28 m-10 w-full">
+                    <h3 className="text-xl text-white font-poppins font-normal mt-5">Manage Your Business, Smarter and Faster with</h3>
+                    <h1 className="sm:text-9xl text-7xl text-white font-font4 font-medium">BizzOps</h1>
+                    <p className="text-md font-poppins text-white font-normal mt-5">BizzOps is the ultimate business management platform, featuring a real-time dashboard, comprehensive reports, and insightful analysis tools. Streamline inventory, finance, and staff management to enhance efficiency and make informed decisions for your business success.</p>
                     <button className="mt-5 bg-gradient-to-r from-blue-300 to-indigo-300 text-gray-700-400 font-medium font-poppins px-6 py-3 rounded-full hover:bg-gradient-to-bl transition">Request a Demo</button>
-                    <h4 className="mt-5 text-lg font-poppins font-normal">Trusted by Businesses Worldwide</h4>
-                    <p className="text-sm font-poppins text-gray-700 mt-2">Join thousands of businesses who have transformed their operations with BizzOps. Start streamlining your business today!</p>
+                    <h4 className="mt-5 text-lg font-poppins text-white font-normal">Trusted by Businesses Worldwide</h4>
+                    <p className="text-sm font-poppins text-zinc-400 mt-2">Join thousands of businesses who have transformed their operations with BizzOps. Start streamlining your business today!</p>
 
 
                 </div>
@@ -37,30 +37,30 @@ function Landing() {
                 </div>
             </div>
 
-            <div className="w-full h-full flex justify-center items-center bg-gradient-to-r from-blue-200 to-indigo-400">
+            <div className="w-full h-full flex justify-center items-center bg-[#141415]">
                 <div className="w-3/5 ml-14">
-                    <h1 className="text-5xl font-poppins font-medium">Why Choose BizzOps?</h1>
+                    <h1 className="text-5xl font-poppins font-medium text-white">Why Choose BizzOps?</h1>
                     <img className="" src={three} alt="Why Choose BizzOps" />
                 </div>
                 <div className="w-3/4 m-6">
                     <div className="w-full flex gap-4 mt-4">
-                        <div className="w-2/4 h-36 bg-indigo-200 rounded-2xl shadow-indigo-500 shadow-md transition-all duration-500 hover:scale-105">
-                            <h4 className="ml-2 text-2xl font-poppins font-normal mt-4 mb-2">Real-Time Dashboard</h4>
-                            <p className="ml-2 text-md font-poppins font-light">Get a comprehensive view of your business operations at a glance, enabling quick decision-making.</p>
+                        <div className="w-2/4 h-36 bg-[#28282B] rounded-2xl transition-all duration-500 hover:scale-105">
+                            <h4 className="ml-2 text-2xl text-white font-poppins font-normal mt-4 mb-2">Real-Time Dashboard</h4>
+                            <p className="ml-2 text-md font-poppins text-zinc-300 font-light">Get a comprehensive view of your business operations at a glance, enabling quick decision-making.</p>
                         </div>
-                        <div className="w-2/4 bg-indigo-200 rounded-2xl shadow-indigo-500 shadow-md transition-all duration-500 hover:scale-105">
-                            <h4 className="ml-2 text-2xl font-poppins font-normal mt-4 mb-2">Detailed Invoices & Reports</h4>
-                            <p className="ml-2 text-md font-poppins font-light">Invoices and generate insightful reports to analyze performance, identify trends, and support strategic decisions.</p>
+                        <div className="w-2/4 h-36 bg-[#28282B] rounded-2xl transition-all duration-500 hover:scale-105">
+                            <h4 className="ml-2 text-2xl text-white font-poppins font-normal mt-4 mb-2">Detailed Invoices & Reports</h4>
+                            <p className="ml-2 text-md font-poppins text-white font-light">Invoices and generate insightful reports to analyze performance, identify trends, and support strategic decisions.</p>
                         </div>
                     </div>
                     <div className="w-full flex gap-4  mt-10">
-                        <div className="w-2/4 h-36 bg-indigo-200 rounded-2xl shadow-indigo-500 shadow-md transition-all duration-500 hover:scale-105">
-                            <h4 className="ml-2 text-2xl font-poppins font-normal mb-2 mt-4">Business Analysis Tools</h4>
-                            <p className="ml-2 text-md font-poppins font-light">Utilize powerful analysis tools to assess your business health and uncover opportunities for growth.</p>
+                        <div className="w-2/4 h-36 bg-[#28282B] rounded-2xl transition-all duration-500 hover:scale-105">
+                            <h4 className="ml-2 text-2xl font-poppins font-normal text-white mb-2 mt-4">Business Analysis Tools</h4>
+                            <p className="ml-2 text-md font-poppins text-white font-light">Utilize powerful analysis tools to assess your business health and uncover opportunities for growth.</p>
                         </div>
-                        <div className="w-2/4 h-36 bg-indigo-200 rounded-2xl shadow-indigo-500 shadow-md transition-all duration-500 hover:scale-105">
-                            <h4 className="ml-2 text-2xl font-poppins font-normal mt-4 mb-2">Streamlined Operations</h4>
-                            <p className="ml-2 text-md font-poppins font-light">Simplify inventory, finance, and staff management for a more efficient and productive workplace.</p>
+                        <div className="w-2/4 h-36 bg-[#28282B] rounded-2xl transition-all duration-500 hover:scale-105">
+                            <h4 className="ml-2 text-2xl font-poppins font-normal text-white mt-4 mb-2">Streamlined Operations</h4>
+                            <p className="ml-2 text-white text-md font-poppins font-light">Simplify inventory, finance, and staff management for a more efficient and productive workplace.</p>
                         </div>
                     </div>
                 </div>
