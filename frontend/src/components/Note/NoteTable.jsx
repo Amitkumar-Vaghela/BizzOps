@@ -75,21 +75,21 @@ function NoteTable() {
 
             {isModalOpen && selectedNote && (
                 <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-[#1d1d20] p-8 rounded-lg shadow-lg max-w-lg w-full relative">
+                    <div className="bg-[#1d1d20] p-8 rounded-lg shadow-lg max-w-lg sm:w-full w-4/5 relative">
                         <h2 className="text-2xl text-white font-semibold mb-4 font-poppins">Note Details</h2>
                         <div className="mb-4">
                             <h3 className="text-lg font-semibold text-gray-300 mb-2 font-poppins">{selectedNote.title}</h3>
                             <p className="text-gray-400 font-poppins">{selectedNote.content}</p>
                         </div>
-                        <div className="mt-6 flex justify-end">
+                        <div className="mt-6 flex justify-end gap-6">
                             <button
-                                className="bg-blue-500 m-2 hover:bg-blue-400 text-white px-4 py-2 rounded-lg font-poppins"
+                                className="text-blue-500 font-semibold text-lg font-poppins"
                                 onClick={closeModal}
                             >
                                 Close
                             </button>
                             <button
-                                className="bg-red-500 m-2 hover:bg-red-400 text-white px-4 py-2 rounded-lg font-poppins"
+                                className="text-red-500 font-semibold text-lg font-poppins"
                                 onClick={() => deleteNote(selectedNote._id)}
                             >
                                 Delete
