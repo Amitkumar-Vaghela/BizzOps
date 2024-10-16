@@ -117,86 +117,86 @@ function Sidebar() {
             </div>
 
 
-            <div className={`fixed top-0 left-0 w-full h-full bg-[#28282B] z-40 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out sm:hidden`}>
+            <div className={`fixed top-0 left-0 w-2/4 h-[calc(100vh)] bg-[#28282B] z-40 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out sm:hidden`}>
                 <div className="p-4 flex justify-between items-center">
-                    <img className="w-32 h-10 mt-6" src={logo} alt="logo" />
+                    <img className="w-24 h-6 mt-6" src={logo} alt="logo" />
                     <button onClick={toggleSidebar}>
-                        <FontAwesomeIcon icon={faTimes} className="text-white text-3xl mt-6" />
+                        <FontAwesomeIcon icon={faTimes} className="text-white text-xl mt-6" />
                     </button>
                 </div>
 
                 <div className="mt-10 ">
-                    <h1 onClick={() => { navigate('/Dashboard'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Dashboard'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faChartLine} className="text-blue-500 pr-2" /> 
                         <span className={`${isActive('/Dashboard') ? 'text-blue-300' : 'text-white'}`}>
                             Dashboard
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Inventory'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Inventory'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faShop} className="text-green-600 pr-2" /> 
                         <span className={`${isActive('/Inventory') ? 'text-blue-300' : 'text-white'}`}>
                             Inventory
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Sales'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Sales'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faMoneyBill} className="text-yellow-500 pr-2" /> 
                         <span className={`${isActive('/Sales') ? 'text-blue-300' : 'text-white'}`}>
                             Sales
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Invoices'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Invoices'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faFileInvoice} className="text-purple-500 pr-2" /> 
                         <span className={`${isActive('/Invoices') ? 'text-blue-300' : 'text-white'}`}>
                             Invoices
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Report'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Report'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faReceipt} className="text-orange-500 pr-2" /> 
                         <span className={`${isActive('/Report') ? 'text-blue-300' : 'text-white'}`}>
                             Report
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Expenses'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Expenses'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faDollar} className="text-red-500 pr-2" /> 
                         <span className={`${isActive('/Expenses') ? 'text-blue-300' : 'text-white'}`}>
                             Expenses
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Payment'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Payment'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faMoneyBill} className="text-teal-500 pr-2" /> 
                         <span className={`${isActive('/Payment') ? 'text-blue-300' : 'text-white'}`}>
                             Payment
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Orders'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Orders'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faClockFour} className="text-indigo-500 pr-2" /> 
                         <span className={`${isActive('/Orders') ? 'text-blue-300' : 'text-white'}`}>
                             Orders
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Customer'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Customer'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faUser} className="text-pink-500 pr-2" /> 
                         <span className={`${isActive('/Customer') ? 'text-blue-300' : 'text-white'}`}>
                             Customer
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Staff'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Staff'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-7 cursor-pointer">
                         <FontAwesomeIcon icon={faUsers} className="text-gray-600 pr-2" /> 
                         <span className={`${isActive('/Staff') ? 'text-blue-300' : 'text-white'}`}>
                             Staff
                         </span>
                     </h1>
 
-                    <h1 onClick={() => { navigate('/Notes'); toggleSidebar(); }} className="font-poppins font-light text-3xl ml-7 mt-7 mb-2 cursor-pointer">
+                    <h1 onClick={() => { navigate('/Notes'); toggleSidebar(); }} className="font-poppins font-light text-base ml-7 mt-5 mb-2 cursor-pointer">
                         <FontAwesomeIcon icon={faNoteSticky} className="text-lime-500 pr-2" /> 
                         <span className={`${isActive('/Notes') ? 'text-blue-300' : 'text-white'}`}>
                             Notes

@@ -43,10 +43,10 @@ function CustomerTable() {
                         {customers.length > 0 ? (
                             customers.map((customer) => (
                                 <tr key={customer._id} className="text-center   ">
-                                    <td className="px-4 py-2 font-medium text-white text-sm font-poppins">{customer.name}</td>
-                                    <td className="px-4 py-2 font-medium text-white text-sm font-poppins">{customer.email}</td>
-                                    <td className="px-4 py-2 font-medium text-white text-sm font-poppins">{customer.phone}</td>
-                                    <td className="px-4 py-2 font-medium text-white text-sm font-poppins">{customer.city}</td>
+                                    <td className="px-4 py-6 font-medium text-white text-sm font-poppins">{customer.name}</td>
+                                    <td className="px-4 py-6 font-medium text-white text-sm font-poppins">{customer.email}</td>
+                                    <td className="px-4 py-6 font-medium text-white text-sm font-poppins">{customer.phone}</td>
+                                    <td className="px-4 py-6 font-medium text-white text-sm font-poppins">{customer.city}</td>
                                 </tr>
                             ))
                         ) : (

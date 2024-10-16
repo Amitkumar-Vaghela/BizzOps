@@ -28,14 +28,14 @@ function AddCustomers() {
 
     return (
         <> 
-            <form onSubmit={handleAddCustomer} className="space-y-4 mb-2">
+            <form onSubmit={handleAddCustomer} className="space-y-4 mt-3 sm:mb-2 mb-4">
                 <input
                     type="text"
                     placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-1/5 text-center bg-[#2b2b2e] h-10 m-2 rounded-2xl font-poppins font-normal text-white shadow-xl "
+                    className="sm:w-1/5 w-4/5 text-center bg-[#2b2b2e] h-10 m-2 rounded-2xl font-poppins font-normal text-white shadow-xl "
                 />
 
                 <input
@@ -44,7 +44,7 @@ function AddCustomers() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-1/11 text-center h-10 m-2 bg-[#2b2b2e] rounded-2xl  font-poppins font-normal text-white shadow-xl"
+                    className="sm:w-1/11 w-4/5 text-center h-10 m-2 bg-[#2b2b2e] rounded-2xl  font-poppins font-normal text-white shadow-xl"
                 />
 
                 <input
@@ -53,7 +53,7 @@ function AddCustomers() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
-                    className="w-1/5 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e]  font-poppins font-normal text-white shadow-xl"
+                    className="sm:w-1/5 w-3/6 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e]  font-poppins font-normal text-white shadow-xl"
                 />
 
                 <input
@@ -62,14 +62,14 @@ function AddCustomers() {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     required
-                    className="w-1/12 text-center pl-4 h-10 m-2 rounded-2xl bg-[#2b2b2e] font-poppins font-normal text-white shadow-xl"
+                    className="sm:w-1/12 w-2/6 text-center pl-4 h-10 m-2 rounded-2xl bg-[#2b2b2e] font-poppins font-normal text-white shadow-xl"
                 />
                     <button type="submit" className="bg-white h-10 m-2 hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Customer</button>
             </form>
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#28282B] rounded p-6 max-w-sm w-full">
+                    <div className="bg-[#28282B] rounded p-6 max-w-sm sm:w-full w-4/5">
                         <h2 className="text-lg font-poppins text-white font-bold">Success!</h2>
                         <p className="mt-2 font-poppins text-white">Customer added successfully.</p>
                         <div className="mt-4 flex justify-end">
