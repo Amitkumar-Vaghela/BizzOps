@@ -40,10 +40,10 @@ function ExpenseTable() {
                         {expense.length > 0 ? (
                             expense.map((expense) => ( 
                                 <tr key={expense._id} className="text-center">
-                                    <td className="px-4 py-2 text-white text-sm font-poppins">{formatDate(expense.date)}</td>
-                                    <td className="px-4 py-2 text-white text-sm font-poppins">{expense.name}</td>
-                                    <td className="px-4 py-2 text-white text-sm font-poppins">₹{expense.expAmount.toFixed(2)}</td>
-                                    <td className="px-4 py-2 text-white text-sm font-poppins">{expense.description}</td>
+                                    <td className="px-5 py-6 text-white text-sm font-poppins">{formatDate(expense.date)}</td>
+                                    <td className="px-5 py-6 text-white text-sm font-poppins">{expense.name}</td>
+                                    <td className="px-5 py-6 text-white text-sm font-poppins">₹{expense.expAmount.toFixed(2)}</td>
+                                    <td className="px-5 py-6 text-white text-sm font-poppins">{expense.description}</td>
                                 </tr>
                             ))
                         ) : (

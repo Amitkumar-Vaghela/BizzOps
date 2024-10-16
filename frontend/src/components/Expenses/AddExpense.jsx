@@ -29,14 +29,14 @@ function AddExpense(){
 
     return(
         <>
-            <form onSubmit={handleAddExpense} className="space-y-4 mb-2">
+            <form onSubmit={handleAddExpense} className="space-y-4 sm:mb-2 mb-4">
                 <input
                     type="text"
                     placeholder="Item"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-1/5 text-center bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl font-poppins font-normal text-white"
+                    className="sm:w-1/5 w-2/4 text-center bg-[#2b2b2e] shadow-xl h-10 m-2 rounded-2xl font-poppins font-normal text-white"
                 />
 
                 <input
@@ -45,7 +45,7 @@ function AddExpense(){
                     value={expAmount}
                     onChange={(e) => setExpAmount(e.target.value)}
                     required
-                    className="w-1/11 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl  font-poppins font-normal text-white"
+                    className="sm:w-1/11 w-2/6 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl  font-poppins font-normal text-white"
                 />
 
                 <input
@@ -54,7 +54,7 @@ function AddExpense(){
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
-                    className="w-1/5 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl  font-poppins font-normal text-white"
+                    className="sm:w-1/5 w-4/5 text-center h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl  font-poppins font-normal text-white"
                 />
 
                 <input
@@ -62,7 +62,7 @@ function AddExpense(){
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
-                    className="w-1/11 text-center pr-4 h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
+                    className="sm:w-1/11 w-3/6 text-center sm:pr-4 pr-2 h-10 m-2 rounded-2xl bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
                 />
 
                 <button type="submit" className="bg-white hover:bg-blue-200 text-black px-4 py-2 rounded-xl">Add Expense</button>
@@ -70,7 +70,7 @@ function AddExpense(){
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#28282B] rounded p-6 max-w-sm w-full">
+                    <div className="bg-[#28282B] rounded p-6 max-w-sm sm:w-full w-4/5">
                         <h2 className="text-lg text-white font-bold">Success!</h2>
                         <p className="mt-2 text-white">Expense added successfully.</p>
                         <div className="mt-4 flex justify-end">
