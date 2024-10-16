@@ -93,10 +93,10 @@ function Account() {
 
     return (
         <>
-            <div className="absolute sm:top-5 sm:right-10 top-5 right-3">
+            <div className="absolute sm:top-5 sm:right-10 top-6 right-3">
                 <button
                     onClick={handleOpenPopup}
-                    className="w-11 h-11 text-lg bg-gradient-to-r from-blue-300 text-center to-indigo-300 text-gray-700-400 font-normal font-poppins rounded-full hover:bg-gradient-to-bl transition"
+                    className="sm:w-11 sm:h-11 h-10 w-10 sm:text-lg text-sm bg-gradient-to-r from-blue-300 text-center to-indigo-300 text-gray-700-400 font-normal font-poppins rounded-full hover:bg-gradient-to-bl transition"
                 >
                     <FontAwesomeIcon icon={faUser} />
                 </button>
@@ -113,7 +113,7 @@ function Account() {
                         <div className="mt-4 flex justify-end gap-4">
                             <button
                                 onClick={() => { handleEditOpen(); handleClosePopup(); }}
-                                className="text-white sm:text-xs text-sm hover:text-gray-400"
+                                className="text-white mr-14 sm:text-xs text-sm hover:text-gray-400"
                             >
                                 <FontAwesomeIcon icon={faPencil} />
                             </button>
