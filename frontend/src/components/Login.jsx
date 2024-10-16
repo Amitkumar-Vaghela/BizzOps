@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import logo from '../assets/logo.png';
+import logo from '../assets/logo2.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
@@ -34,7 +34,7 @@ function Login() {
                     login();
                     navigate('/dashboard')
                 }
-                
+
             }
             console.log(response.data.message);
         } catch (error) {
@@ -55,55 +55,57 @@ function Login() {
 
     return (
         <>
-            <div className="w-full h-screen flex justify-center items-center bg-gradient-to-r from-blue-200 to-indigo-400">
-                <div className="w-3/5 m-20">
-                    <div>
-                        <img src={logo} alt="" srcset="" />
-                        <h1 className="text-xl font-poppins font-normal mt-5">Manage Your Business, Smarter and Faster.</h1>
-                        <p className="text-lg text-gray-700 mt-9">
-                            Streamline your operations and gain insights to make informed decisions.Join us and take the first step towards optimizing your business today!
-                        </p>
-                        <h1 className="font-poppins font-light mt-4"><FontAwesomeIcon icon={faCheck} className="text-black pr-4" />Ultimate Business Tool</h1>
-                        <h1 className="font-poppins font-light mt-4"><FontAwesomeIcon icon={faCheck} className="text-black pr-4" />Run and Scale Your CRM ERP Apps</h1>
-                        <h1 className="font-poppins font-light mt-4"><FontAwesomeIcon icon={faCheck} className="text-black pr-4" />Easily Add And Manage Your Services</h1>
-                        <h1 className="font-poppins font-light mt-4"><FontAwesomeIcon icon={faCheck} className="text-black pr-4" />It Bring Together Your Invoices,Clients And Leads</h1>
-                    </div>
-                </div>
-                <div className="w-2/4 m-16 mt-28">
-                    <form onSubmit={handleLogin} className="p-8">
-                        <h2 className="text-4xl font-poppins font-bold mb-10">Sign In</h2>
+            <div className="w-full h-screen sm:flex sm:justify-center sm:items-center bg-[#141415]">
+                <div className="sm:w-1/4 sm:m-28 sm:mt-20 ">
+                    <img src={logo} alt="" className="w-24 h-6 sm:w-auto sm:h-auto xl:w-36 xl:h-9 absolute top-6 left-8" />
+                    <form onSubmit={handleLogin} className="p-8 mt-20">
+                        <h2 className="text-4xl text-white font-poppins font-bold mb-10">Sign In</h2>
                         <div className="relative mb-4">
-                            <FontAwesomeIcon icon={faEnvelope} className="absolute left-3 top-4 text-black" />
+                            <FontAwesomeIcon icon={faEnvelope} className="absolute left-3 top-4 text-zinc-300" />
                             <input
                                 type="text"
                                 placeholder="Email"
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
+                                className="w-full p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl text-white font-medium rounded-2xl placeholder-zinc-300"
                             />
                         </div>
                         <div className="relative mb-4">
-                            <FontAwesomeIcon icon={faLock} className="absolute left-3 top-4 text-black" />
+                            <FontAwesomeIcon icon={faLock} className="absolute left-3 top-4 text-zinc-300" />
                             <input
                                 type="password"
                                 placeholder="Password"
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-3/5 p-3 pl-10 mb-4 bg-indigo-200 rounded-2xl shadow-md placeholder-gray-700"
+                                className="w-full p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl rounded-2xl font-medium text-white placeholder-zinc-300"
                             />
                         </div>
                         <div className='relative mb-4' onClick={() => navigate('/register')}>
-                            <p className='text-xs ml-2 font-font4 font-medium text-black'>
-                                Don’t have an account? <span className="text-black font-bold underline cursor-pointer">Sign up</span>
+                            <p className='text-xs ml-2 font-font4 font-medium text-zinc-300'>
+                                Don’t have an account? <span className="text-zinc-200 font-bold underline cursor-pointer">Sign up</span>
                             </p>
                         </div>
-                        <button type="submit" className="w-1/4 py-3 bg-white text-black font-poppins font-bold rounded-full hover:bg-gray-200 transition-all duration-500 hover:scale-110">
+                        <button type="submit" className="w-2/5 py-3 bg-white text-black font-poppins font-bold rounded-full hover:bg-gray-200 transition-all duration-500 hover:scale-110">
                             Login
                         </button>
                     </form>
                 </div>
+                <div className="sm:w-3/5 sm:m-20 w-11/12 m-10">
+                    <div>
+                        {/* <img src={logo} alt="" srcset="" className="hidden sm:block sm:w-auto sm:h-auto w-26 h-10" /> */}
+                        <h1 className="text-3xl text-white font-poppins font-normal mt-5">Manage Your Business, Smarter and Faster.</h1>
+                        <p className="text-xl text-zinc-400 mt-9">
+                            Streamline your operations and gain insights to make informed decisions.Join us and take the first step towards optimizing your business today!
+                        </p>
+                        <h1 className="font-poppins text-zinc-400 font-light mt-4"><FontAwesomeIcon icon={faCheck} className="text-zinc-400 pr-4" />Ultimate Business Tool</h1>
+                        <h1 className="font-poppins text-zinc-400 font-light mt-4"><FontAwesomeIcon icon={faCheck} className="text-zinc-400 pr-4" />Run and Scale Your CRM ERP Apps</h1>
+                        <h1 className="font-poppins text-zinc-400 font-light mt-4"><FontAwesomeIcon icon={faCheck} className="text-zinc-400 pr-4" />Easily Add And Manage Your Services</h1>
+                        <h1 className="font-poppins text-zinc-400 font-light mt-4"><FontAwesomeIcon icon={faCheck} className="text-zinc-400 pr-4" />It Bring Together Your Invoices,Clients And Leads</h1>
+                    </div>
+                </div>
+
                 {errorPopup && (
                     <div className="fixed top-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-5 bg-red-300 font-medium font-poppins px-6 py-3 rounded-full">
                         <FontAwesomeIcon icon={faLock} className="text-red-500 mr-2" />
