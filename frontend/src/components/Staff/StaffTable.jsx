@@ -88,7 +88,7 @@ function StaffTable({ staff, onUpdateStaff }) {
                                 <th className="px-4 py-2 font-poppins text-white">Phone</th>
                                 <th className="px-4 py-2 font-poppins text-white">Salary</th>
                                 <th className="px-4 py-2 font-poppins text-white">To be Paid</th>
-                                <th className="px-4 py-2 font-poppins text-white">Actions</th>
+                                <th className="px-20 py-6 font-poppins text-white">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,7 +100,7 @@ function StaffTable({ staff, onUpdateStaff }) {
                                         <td className="px-4 py-2 text-sm font-medium text-white font-poppins">{staffMember.phone}</td>
                                         <td className="px-4 py-2 text-sm font-medium text-white font-poppins">{staffMember.salary}</td>
                                         <td className="px-4 py-2 text-sm font-medium text-white font-poppins">{staffMember.debitCreditHistory}</td>
-                                        <td className="text-center">
+                                        <td className="text-center py-4">
                                             <button
                                                 onClick={() => handleStaffClick(staffMember._id, "add")}
                                                 className="bg-green-400 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-green-300 mr-2"
@@ -115,7 +115,7 @@ function StaffTable({ staff, onUpdateStaff }) {
                                             </button>
                                             <button
                                                 onClick={() => confirmDelete(staffMember._id)}
-                                                className="bg-blue-400 pt-2 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-blue-300 mr-2"
+                                                className="bg-blue-400 text-center text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-blue-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faTrash} />
                                             </button>
@@ -134,7 +134,7 @@ function StaffTable({ staff, onUpdateStaff }) {
 
             {isPopupVisible && action && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#1d1d20] font-poppins p-6 w-1/4 rounded-2xl shadow-lg">
+                    <div className="bg-[#1d1d20] font-poppins p-6 sm:w-1/4 w-4/5 rounded-2xl shadow-lg">
                         <h2 className="text-lg font-poppins text-white font-medium mb-4">
                             {action === "add" ? "+ Credit" : "- Debit"}
                         </h2>
@@ -170,7 +170,7 @@ function StaffTable({ staff, onUpdateStaff }) {
 
             {isPopupVisible && !action && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#1d1d20] font-poppins p-6 w-1/4 rounded-2xl shadow-lg">
+                    <div className="bg-[#1d1d20] font-poppins p-6 sm:w-1/4 w-4/5 rounded-2xl shadow-lg">
                         <h2 className="text-lg text-white font-poppins font-medium mb-4">Confirm Deletion</h2>
                         <p className="text-white">Are you sure you want to delete this staff member?</p>
                         <div className="flex justify-end mt-4 gap-6">
