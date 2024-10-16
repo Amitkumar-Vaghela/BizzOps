@@ -103,7 +103,7 @@ function OrderTable() {
             </div>
             {isModalOpen && selectedOrder && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                        <div className="bg-[#1d1d20] p-6 rounded-3xl shadow-lg max-w-lg w-full relative">
+                        <div className="bg-[#1d1d20] p-6 rounded-3xl shadow-lg max-w-lg sm:w-full w-4/5 relative">
                             <h2 className="text-lg text-white font-poppins font-normal mb-4"># Order Details</h2>
                             <div>
                                 <p className="text-sm font-poppins text-white font-light mb-1"><strong>item:</strong> {selectedOrder.item}</p>
