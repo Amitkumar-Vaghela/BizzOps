@@ -58,7 +58,7 @@ function AddStaff({ onStaffAdded }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="sm:w-1/11 w-5/6 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl font-poppins font-normal text-white"
+                    className="sm:w-auto w-5/6 text-center h-10 m-2 bg-[#2b2b2e] shadow-xl rounded-2xl font-poppins font-normal text-white"
                 />
                 <input
                     type="text"

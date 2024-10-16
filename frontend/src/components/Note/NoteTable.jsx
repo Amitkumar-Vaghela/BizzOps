@@ -83,7 +83,7 @@ function NoteTable() {
                         </div>
                         <div className="mt-6 flex justify-end gap-6">
                             <button
-                                className="text-blue-500 font-semibold text-lg font-poppins"
+                                className="text-white font-semibold text-lg font-poppins"
                                 onClick={closeModal}
                             >
                                 Close

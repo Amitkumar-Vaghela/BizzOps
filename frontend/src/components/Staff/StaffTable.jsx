@@ -103,19 +103,19 @@ function StaffTable({ staff, onUpdateStaff }) {
                                         <td className="text-center py-4">
                                             <button
                                                 onClick={() => handleStaffClick(staffMember._id, "add")}
-                                                className="bg-green-400 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-green-300 mr-2"
+                                                className="bg-white text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-green-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faPlus} /> Credit
                                             </button>
                                             <button
                                                 onClick={() => handleStaffClick(staffMember._id, "remove")}
-                                                className="bg-red-500 text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-red-400 mr-2"
+                                                className="bg-white text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-red-400 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faMinus} className=""/> Debit
                                             </button>
                                             <button
                                                 onClick={() => confirmDelete(staffMember._id)}
-                                                className="bg-blue-400 text-center text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-blue-300 mr-2"
+                                                className="bg-white text-center text-black text-xs font-poppins font-medium px-2 py-1 rounded hover:bg-blue-300 mr-2"
                                             >
                                                 <FontAwesomeIcon icon={faTrash} />
                                             </button>
@@ -146,7 +146,7 @@ function StaffTable({ staff, onUpdateStaff }) {
                                 min="1"
                                 placeholder="Amount"
                                 required
-                                className="bg-[#222224] shadow-xl rounded p-2 mb-4 w-full"
+                                className="bg-[#222224] text-white shadow-xl rounded p-2 mb-4 w-full"
                             />
                             <div className="flex justify-end items-center gap-6">
                                 <button
@@ -158,7 +158,7 @@ function StaffTable({ staff, onUpdateStaff }) {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="text-white hover:text-gray-400 font-semibold"
+                                    className="text-blue-500 hover:text-gray-400 font-semibold"
                                 >
                                     Submit
                                 </button>

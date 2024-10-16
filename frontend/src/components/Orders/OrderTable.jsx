@@ -106,26 +106,26 @@ function OrderTable() {
                         <div className="bg-[#1d1d20] p-6 rounded-3xl shadow-lg max-w-lg sm:w-full w-4/5 relative">
                             <h2 className="text-lg text-white font-poppins font-normal mb-4"># Order Details</h2>
                             <div>
-                                <p className="text-sm font-poppins text-white font-light mb-1"><strong>item:</strong> {selectedOrder.item}</p>
-                                <p className="text-sm font-poppins text-white font-light mb-1"><strong>Qty:</strong> ₹{selectedOrder.qty}</p>
-                                <p className="text-sm font-poppins text-white font-light mb-1"><strong>Date of Delivery:</strong> {new Date(selectedOrder.dateToDilivery).toLocaleDateString()}</p>
-                                <p className="text-sm font-poppins text-white font-light mb-1"><strong>Sale:</strong> ₹{selectedOrder.sale.toFixed(2)}</p>
-                                <p className="text-sm font-poppins text-white font-light mb-1"><strong>Profit:</strong> ₹{selectedOrder.profit.toFixed(2)}</p>
-                                <p className="text-sm font-poppins text-white font-light mb-1"><strong>Cost:</strong> ₹{selectedOrder.cost.toFixed(2)}</p>
-                                <p className="text-sm font-poppins text-white font-light mb-1 "><strong className='font-medium'>Status:</strong> {selectedOrder.paid ? 'Delivered' : 'Pending'}</p>
+                                <p className="text-base font-poppins text-white font-light mb-1"><strong>item:</strong> {selectedOrder.item}</p>
+                                <p className="text-base font-poppins text-white font-light mb-1"><strong>Qty:</strong> ₹{selectedOrder.qty}</p>
+                                <p className="text-base font-poppins text-white font-light mb-1"><strong>Date of Delivery:</strong> {new Date(selectedOrder.dateToDilivery).toLocaleDateString()}</p>
+                                <p className="text-base font-poppins text-white font-light mb-1"><strong>Sale:</strong> ₹{selectedOrder.sale.toFixed(2)}</p>
+                                <p className="text-base font-poppins text-white font-light mb-1"><strong>Profit:</strong> ₹{selectedOrder.profit.toFixed(2)}</p>
+                                <p className="text-base font-poppins text-white font-light mb-1"><strong>Cost:</strong> ₹{selectedOrder.cost.toFixed(2)}</p>
+                                <p className="text-base font-poppins text-white font-light mb-1 "><strong className='font-medium'>Status:</strong> {selectedOrder.paid ? 'Delivered' : 'Pending'}</p>
                             </div>
-                            <div className="flex justify-end items-center gap-6">
+                            <div className="flex justify-end items-center gap-4 mt-4">
+                                <button
+                                    className="text-white font-poppins font-semibold"
+                                    onClick={closeModal}
+                                >
+                                    Close
+                                </button>
                                 <button
                                     className="text-blue-500 font-semibold hover:text-blue-300 font-poppins"
                                     onClick={toggleDoneStatus}
                                 >
                                     {selectedOrder.done ? 'Mark as Pending' : 'Mark as Delivered'}
-                                </button>
-                                <button
-                                    className="text-blue-400 font-poppins font-semibold hover:text-blue-300"
-                                    onClick={closeModal}
-                                >
-                                    Close
                                 </button>
                             </div>
                         </div>

@@ -149,7 +149,7 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
                                 <button
                                     type="button"
                                     onClick={handleClosePopup}
-                                    className="text-red-500 hover:text-red-300 font-poppins font-semibold rounded-2xl mr-2"
+                                    className="text-white font-poppins font-semibold rounded-2xl mr-2"
                                 >
                                     Cancel
                                 </button>

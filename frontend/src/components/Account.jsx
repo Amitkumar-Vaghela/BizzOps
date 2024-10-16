@@ -113,7 +113,7 @@ function Account() {
                         <div className="mt-4 flex justify-end gap-4">
                             <button
                                 onClick={() => { handleEditOpen(); handleClosePopup(); }}
-                                className="text-white mr-14 sm:text-xs text-sm hover:text-gray-400"
+                                className="text-white mr-10 sm:text-xs text-sm hover:text-gray-400"
                             >
                                 <FontAwesomeIcon icon={faPencil} />
                             </button>
