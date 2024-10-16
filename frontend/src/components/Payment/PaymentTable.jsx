@@ -33,9 +33,9 @@ const PaymentTable = () => {
 
 
     return (
-        <div className="flex justify-center items-center">
-            <div className="w-full max-w-6xl bg-[#28282B] shadow-md rounded-lg p-6">
-                <h1 className="text-lg font-semibold mb-6 text-center text-white font-poppins">Payments</h1>
+        <div className="sm:sw-full bg-[#28282B] shadow-md rounded-lg p-6">
+            <h2 className="text-base font-poppins font-semibold mb-4 text-white">Payments Records</h2>
+            <div className="overflow-x-auto">
                 <table className="w-full table-auto text-left">
                     <thead className="bg-zinc-900">
                         <tr>
