@@ -51,7 +51,7 @@ function Register() {
     return (
         <div className="w-full h-screen sm:flex justify-center items-center bg-[#141415]">
             <div className="sm:w-1/4 sm:m-32 sm:mt-20">
-            <img src={logo} alt="" className="w-24 h-6 sm:w-auto sm:h-auto xl:w-36 xl:h-9 absolute top-6 left-8" />
+            <img src={logo} alt="" className="w-24 h-6 sm:w-auto sm:h-auto xl:w-36 xl:h-9 absolute top-6 left-8 " onClick={()=>{navigate('/')}} />
                 <form onSubmit={handleRegister} className="p-8 mt-20">
                     <h2 className="text-4xl text-white font-poppins font-bold mb-10">Sign Up</h2>
                     <div className="relative mb-4">
