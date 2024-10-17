@@ -53,7 +53,7 @@ function AddSales({ addNewSale }) {
 
     const handleClosePopup = () => {
         setPopupVisible(false);
-        window.location.reload();
+        // window.location.reload();
     };
 
     return (
