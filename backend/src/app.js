@@ -3,12 +3,13 @@ import cookieParser from "cookie-parser";
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Load env variables
+// Load environment variables
+dotenv.config();
 
 const app = express();
 
 // CORS configuration
-const allowedOrigins = process.env.CORS_ORIGIN.split(',');
+const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [];
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -20,12 +21,12 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(express.json({limit: '16kb'})); 
+// Middleware
+app.use(express.json({ limit: '16kb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); 
 app.use(cookieParser());
 
-// Routes
 import userRouter from "../routes/user.routes.js";
 import inventoryRouter from "../routes/inventory.routes.js";
 import salesRouter from "../routes/sales.routes.js";
@@ -36,7 +37,6 @@ import expenseRouter from "../routes/expense.routes.js";
 import notesRouter from "../routes/notes.routes.js";
 import ordersRouter from "../routes/orders.routes.js";
 
-// Declare routes
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/inventory", inventoryRouter);
 app.use("/api/v1/sales", salesRouter);
@@ -47,10 +47,13 @@ app.use("/api/v1/expense", expenseRouter);
 app.use("/api/v1/orders", ordersRouter);
 app.use("/api/v1/notes", notesRouter);
 
-// Global error handler (optional)
+// Global error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send('Something went wrong!');
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode).json({
+        message: err.message || 'Something went wrong!' 
+    });
 });
 
 export { app };
