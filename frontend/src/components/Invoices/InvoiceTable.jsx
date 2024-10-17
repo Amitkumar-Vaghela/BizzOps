@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+const token = localStorage.getItem('accessToken')
 
 const InvoiceTable = () => {
     const [invoices, setInvoices] = useState([]);
@@ -10,7 +11,7 @@ const InvoiceTable = () => {
 
     const fetchInvoices = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/v1/invoice/get-invoice', { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/get-invoice`, { headers:{'Authorization':token},withCredentials: true });
             setInvoices(response.data.data.invoice);
         } catch (error) {
             console.error('Error fetching invoices:', error);
@@ -35,8 +36,8 @@ const InvoiceTable = () => {
         if (!selectedInvoice) return;
     
         try {
-            await axios.put(`http://localhost:8000/api/v1/invoice/invoices/${selectedInvoice._id}/toggle-paid`, {}, 
-            { withCredentials: true });
+            await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/invoices/${selectedInvoice._id}/toggle-paid`, {}, 
+            { headers:{'Authorization':token},withCredentials: true });
     
             // Refresh the invoice list
             await fetchInvoices();

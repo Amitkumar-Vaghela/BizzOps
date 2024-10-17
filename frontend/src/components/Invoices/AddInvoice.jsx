@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+const token = localStorage.getItem('accessToken');
 
 const AddInvoice = () => {
     const navigate = useNavigate();
@@ -47,7 +48,7 @@ const AddInvoice = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/invoice/add-invoice', invoiceData, { withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/add-invoice`, invoiceData, { headers:{'Authorization':token},withCredentials: true });
             if (response.status === 200) {   
                 setCustomer('');
                 setItems([{ itemName: '', qty: null, price: null, tax: null }]);
