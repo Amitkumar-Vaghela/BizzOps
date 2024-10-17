@@ -3,6 +3,8 @@ import axios from "axios";
 import { Pie } from "react-chartjs-2";
 import "chart.js/auto";
 
+const token = localStorage.getItem('accessToken')
+
 const FinancialDist = () => {
   const [chartData, setChartData] = useState(null);
   const [error, setError] = useState("");
@@ -10,9 +12,9 @@ const FinancialDist = () => {
   const fetchData = async () => {
     try {
       const [profitResponse, costResponse, salesResponse] = await Promise.all([
-        axios.get("http://localhost:8000/api/v1/sales/get-daily-profit-30Day", { withCredentials: true }),
-        axios.get("http://localhost:8000/api/v1/sales/get-daily-cost-30Day", { withCredentials: true }),
-        axios.get("http://localhost:8000/api/v1/sales/get-daily-sale-30Day", { withCredentials: true }),
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-daily-profit-30Day`, {headers:{'Authorization':token}, withCredentials: true }),
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-daily-cost-30Day`, { headers:{'Authorization':token},withCredentials: true }),
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-daily-sale-30Day`, { headers:{'Authorization':token},withCredentials: true }),
       ]);
 
       const totalProfit = Object.values(profitResponse.data.data).reduce((acc, val) => acc + val, 0);

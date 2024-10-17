@@ -8,6 +8,7 @@ import CustomBtn from "../CustomBtn.jsx";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Account from "../Account.jsx";
+const token = localStorage.getItem('accessToken');
 
 function Inventory() {
     const navigate = useNavigate()
@@ -18,7 +19,7 @@ function Inventory() {
     const fetchInventory = useCallback(async () => {
         if (!isMounted.current) return;
         try {
-            const response = await axios.get('http://localhost:8000/api/v1/inventory/get-item', { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { headers:{'Authorization':token},withCredentials: true });
             if (response.status === 200 && response.data && response.data.data) {
                 setInventoryItems(response.data.data);
             }
@@ -42,13 +43,13 @@ function Inventory() {
     const updateInventory = async (action, productId, quantity) => {
         try {
             const endpoint = action === "add"
-                ? "http://localhost:8000/api/v1/inventory/add-stock"
-                : "http://localhost:8000/api/v1/inventory/remove-stock";
+                ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/add-stock`
+                : `${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/remove-stock`;
 
             const response = await axios.post(
                 endpoint,
                 { product: productId, newQty: quantity },
-                { withCredentials: true }
+                { headers:{'Authorization':token},withCredentials: true }
             );
 
             if (response.data.message === 200) {

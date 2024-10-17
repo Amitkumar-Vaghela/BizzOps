@@ -18,15 +18,15 @@ function Login() {
         const data = { email, password };
 
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/users/login', data, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/login`, data, {
                 withCredentials: true
             });
 
             if (response.status === 200) {
-                const { accessToken } = response.data;
+                const { accessToken } = response.data.data;
 
                 if (accessToken) {
-                    localStorage.setItem("accessToken", "Bearer " + accessToken);
+                    localStorage.setItem("accessToken",accessToken);
                 }
                 const isSuccess = true;
 

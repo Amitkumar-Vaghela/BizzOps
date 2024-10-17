@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
+const token = localStorage.getItem('accessToken');
 
 function Account() {
     const {logout} = useAuth()
@@ -20,7 +21,7 @@ function Account() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/v1/users/get-details', { withCredentials: true });
+            const response = await axios.get('https://bizzops.onrender.com/api/v1/users/get-details', {headers:{'Authorization': token}, withCredentials: true });
             if (response.data.statusCode === 200) {
                 setUserDetails(response.data.data);
                 setNewDetails(response.data.data); // Initialize new details
@@ -39,9 +40,11 @@ function Account() {
 
         try {
             const response = await axios.post(
-                'http://localhost:8000/api/v1/users/update-account',
+                'https://bizzops.onrender.com/api/v1/users/update-account',
                 newDetails,
-                { withCredentials: true }
+                { headers:{
+                    'Authorization':token
+                },withCredentials: true }
             );
 
             if (response.data.statusCode === 200) {
@@ -58,7 +61,7 @@ function Account() {
 
     const handleLogOut = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/users/logout', {}, { withCredentials: true });
+            const response = await axios.post('https://bizzops.onrender.com/api/v1/users/logout', {}, { headers:{'Authorization':token},withCredentials: true });
             if (response.data.statusCode === 200) {
                 console.log("User logged out");
                 logout()

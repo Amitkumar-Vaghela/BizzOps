@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../Sidebar";
 import CustomBtn from "../CustomBtn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCalendar, faChain, faChartArea, faChartGantt, faDollar, faMoneyBill1, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCalendar, faChain, faChartArea, faChartGantt, faDollar, faMoneyBill1, faSpinner, faWallet } from "@fortawesome/free-solid-svg-icons";
 import InventoryChart from "../Inventory/InventoryChart";
 import SalesChart from "../Sales/SalesChart.jsx";
 import ProfitChart from "./ProfitChart";
@@ -10,6 +10,10 @@ import FinancialChart from "./FinancialCharts";
 import FinancialDist from "./FinancialDist";
 import axios from "axios";
 import Account from "../Account.jsx";
+import ClipLoader from "react-spinners/ClipLoader";
+
+const token = localStorage.getItem('accessToken');
+
 
 function Dashboard() {
 
@@ -30,19 +34,91 @@ function Dashboard() {
 
     const fetchData = async () => {
         try {
-            const totalSaleResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-alltime-sale", { withCredentials: true })
-            const totalProfitResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-alltime-profit", { withCredentials: true })
-            const totalCostResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-alltime-cost", { withCredentials: true })
-            const totalExpenseResponse = await axios.get("http://localhost:8000/api/v1/expense/get-alltime-expense", { withCredentials: true })
-            const todaySaleResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-oneday-sale", { withCredentials: true })
-            const todayProfitResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-one-profit", { withCredentials: true })
-            const monthSaleResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-last30Day-sale", { withCredentials: true })
-            const monthProfitResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-last30Day-profit", { withCredentials: true })
-            const orderResponse = await axios.get("http://localhost:8000/api/v1/orders/count-order", { withCredentials: true })
-            const pendingOrderResponse = await axios.get("http://localhost:8000/api/v1/orders/get-pending-order", { withCredentials: true })
-            const invoicesResponse = await axios.get("http://localhost:8000/api/v1/invoice/count-invoice", { withCredentials: true })
-            const unpaidInvoicesResponse = await axios.get("http://localhost:8000/api/v1/invoice/unpaid-invoice", { withCredentials: true })
-            const customersResponse = await axios.get("http://localhost:8000/api/v1/customer/count-customer", { withCredentials: true })
+            const totalSaleResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-alltime-sale`, {
+                headers: {
+                    'Authorization': token // Include the token in the Authorization header
+                },
+                withCredentials: true // This ensures cookies are sent with the request
+            });
+
+            const totalProfitResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-alltime-profit`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+
+            const totalCostResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-alltime-cost`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+
+            const totalExpenseResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/expense/get-alltime-expense`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+
+            const todaySaleResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-oneday-sale`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+
+            const todayProfitResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-one-profit`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+
+            const monthSaleResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-last30Day-sale`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+
+            const monthProfitResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-last30Day-profit`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+            const orderResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/count-order`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+            const pendingOrderResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/get-pending-order`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+            const invoicesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/count-invoice`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+            const unpaidInvoicesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/unpaid-invoice`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
+            const customersResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/customer/count-customer`, {
+                headers: {
+                    'Authorization': token
+                },
+                withCredentials: true
+            });
 
             setTotalSales(totalSaleResponse.data.data.totalSalesValue)
             setMonthSales(monthSaleResponse.data.data.totalSalesValue)
@@ -83,7 +159,7 @@ function Dashboard() {
                             <div className="bg-zinc-700 w-full h-24 shadow-lg rounded-2xl sm:flex sm:flex-col items-center">
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base text-white font-light font-poppins mt-1 ml-2"> <FontAwesomeIcon icon={faChartGantt} className="text-sm pr-1 text-blue-600" /> Total Sales</p>
-                                    <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">₹ {totalSale.toLocaleString()}<samp className="font-poppins text-base">.00</samp></h1>
+                                    <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">₹ {totalSale ? totalSale.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                 </div>
                                 <div className="w-11/12 mt-1 ml-3">
                                     <p className="font-normal mt-1 text-white font-poppins text-xs">From All Time</p>
@@ -96,9 +172,7 @@ function Dashboard() {
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base text-white font-light font-poppins mt-1 ml-2"> <FontAwesomeIcon icon={faMoneyBill1} className="text-sm pr-1 text-teal-400" /> Total Profit</p>
                                     <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">
-                                        ₹ {totalProfit.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                                        <samp className="font-poppins text-base">.00</samp>
-                                    </h1>
+                                    ₹ {totalProfit ? totalProfit.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                 </div>
                                 <div className="w-11/12 mt-1">
                                     <p className="font-normal mt-1 text-white font-poppins text-xs">From All Time</p>
@@ -111,8 +185,7 @@ function Dashboard() {
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base text-white font-light font-poppins mt-1 ml-2"> <FontAwesomeIcon icon={faDollar} className="text-red-400 text-sm pr-2" /> Total Cost</p>
                                     <h1 className="text-white text-2xl mb-1 font-medium font-poppins ml-2">
-                                    ₹ {totalCost.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                                        <samp className="font-poppins text-base">.00</samp></h1>
+                                    ₹ {totalCost ? totalCost.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                 </div>
                                 <div className="w-11/12 mt-1 ml-">
                                     <p className="font-normal mt-1 font-poppins text-xs text-white">From All Time</p>
@@ -124,7 +197,7 @@ function Dashboard() {
                             <div className="bg-zinc-700 shadow-lg w-full h-24 rounded-xl flex flex-col items-center">
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base text-white font-light font-poppins mt-1 ml-2"> <FontAwesomeIcon icon={faWallet} className="text-xs text-green-400 pr-1" /> Total Net Income</p>
-                                    <h1 className="text-white text-2xl mb-1 font-medium font-poppins ml-2">₹ {totalProfit - totalExpense}</h1>
+                                    <h1 className="text-white text-2xl mb-1 font-medium font-poppins ml-2">₹ ₹ {totalProfit ? (totalProfit-totalExpense) : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                 </div>
                                 <div className="w-11/12 mt-1 ml-">
                                     <p className="font-normal mt-1 text-white font-poppins text-xs">From All Time</p>
@@ -147,7 +220,7 @@ function Dashboard() {
                                 <div className="bg-zinc-700 shadow-lg w-full h-24 rounded-2xl flex flex-col items-center">
                                     <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                         <p className="text-base text-white font-light font-poppins mt-1 ml-2">Sales</p>
-                                        <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">₹ {todaySale.toLocaleString()}<samp className="font-poppins text-base">.00</samp></h1>
+                                        <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">₹ {todaySale ? todaySale.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>} </h1>
                                     </div>
                                     <div className="w-11/12 mt-1 ml-">
                                         <p className="font-medium mt-1 text-white font-poppins text-xs">Today's</p>
@@ -158,7 +231,7 @@ function Dashboard() {
                                 <div className="bg-zinc-700 w-full shadow-lg h-24 rounded-2xl flex flex-col items-center">
                                     <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                         <p className="text-base text-white font-light font-poppins mt-1 ml-2">Sales</p>
-                                        <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">₹ {MonthSale.toLocaleString()}<samp className="font-poppins text-base">.00</samp></h1>
+                                        <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">₹ {MonthSale ? MonthSale.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                     </div>
                                     <div className="w-11/12 mt-1 ml-">
                                         <p className="font-medium mt-1 text-white font-poppins text-xs">Last 30 Day's</p>
@@ -183,8 +256,7 @@ function Dashboard() {
                                     <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                         <p className="text-base text-white font-light font-poppins mt-1 ml-2">Profit</p>
                                         <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">
-                                        ₹ {todayProfit.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                                            <samp className="font-poppins text-base">.00</samp></h1>
+                                        ₹ {todayProfit ? todayProfit.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                     </div>
                                     <div className="w-11/12 mt-1 ml-">
                                         <p className="font-medium mt-1 text-white font-poppins text-xs">Today's</p>
@@ -196,8 +268,7 @@ function Dashboard() {
                                     <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                         <p className="text-base font-light text-white font-poppins mt-1 ml-2">Profit</p>
                                         <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">
-                                        ₹ {monthProfit.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                                            <samp className="font-poppins text-base">.00</samp></h1>
+                                        ₹ {monthProfit ? monthProfit.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                     </div>
                                     <div className="w-11/12 mt-1 ml-">
                                         <p className="font-medium mt-1 text-white font-poppins text-xs">Last 30 Day's</p>
@@ -221,22 +292,22 @@ function Dashboard() {
                             <div className="w-full flex gap-4">
                                 <div className="w-2/4 bg-zinc-800 rounded-3xl text-center shadow-md">
                                     <p className="font-poppins text-white font-normal m-2 text-xs">Orders</p>
-                                    <h1 className="font-poppins text-white font-semibold text-xl m-2">{orders}</h1>
+                                    <h1 className="font-poppins text-white font-semibold text-xl m-2">{orders ? orders : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                 </div>
                                 <div className="w-2/4 bg-zinc-800 rounded-3xl text-center shadow-md">
                                     <p className="font-poppins text-white font-normal m-2 text-xs">Pending Orders</p>
-                                    <h1 className="font-poppins font-semibold text-white text-xl m-2">{pendingOrders}</h1>
+                                    <h1 className="font-poppins font-semibold text-white text-xl m-2">{pendingOrders ? pendingOrders : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                 </div>
                             </div>
                             <div className="w-full flex gap-4 mt-4">
                                 <div className="w-2/4 bg-zinc-800 rounded-3xl text-center shadow-md">
                                     <p className="font-poppins text-white font-normal m-2 text-xs">Total Invoices</p>
-                                    <h1 className="font-poppins text-white font-semibold text-xl m-2">{invoices}</h1>
+                                    <h1 className="font-poppins text-white font-semibold text-xl m-2">{invoices ? invoices : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                 </div>
                                 <div className="w-2/4 bg-zinc-800 rounded-3xl text-center shadow-md">
                                     <p className="font-poppins text-white font-normal m-2 text-xs">Unpaid Invoices</p>
                                     <h1 className="font-poppins text-white font-semibold text-md m-2">
-                                    ₹ {unpaidInvoices.toFixed(2) }
+                                    ₹ {unpaidInvoices ? unpaidInvoices.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}
                                     </h1>
                                 </div>
                             </div>

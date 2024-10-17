@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+const token = localStorage.getItem('accessToken')
 
 function AddInventory({ onItemAdded }) {
     const [item, setItem] = useState("");
@@ -15,7 +16,7 @@ function AddInventory({ onItemAdded }) {
         const data = { item, category, stockRemain, date };
 
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/inventory/add-item', data, { withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/add-item`, data, { headers:{'Authorization':token},withCredentials: true });
             
             if (response.status === 200 && response.data && response.data.data) {
                 onItemAdded(response.data.data);  

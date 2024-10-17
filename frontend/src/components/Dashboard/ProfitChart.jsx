@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 import axios from 'axios';
+const token = localStorage.getItem('accessToken')
 
 Chart.register(...registerables);
 
@@ -11,7 +12,7 @@ const ProfitChart = () => {
     useEffect(() => {
         const fetchProfitData = async () => {
             try {
-                const response = await axios.get("http://localhost:8000/api/v1/sales/get-daily-profit-30Day", { withCredentials: true });
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-daily-profit-30Day`, {headers:{'Authorization':token}, withCredentials: true });
 
                 const labels = Object.keys(response.data.data);
                 const profitValues = Object.values(response.data.data);
