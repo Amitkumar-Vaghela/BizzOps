@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
+const token = localStorage.getItem('accessToken')
 
 function AddCustomers() {
     const [name, setName] = useState('');
@@ -13,7 +14,7 @@ function AddCustomers() {
         e.preventDefault()
         const data = { name, email, phone, city }
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/customer/add-customer', data, { withCredentials: true })
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/customer/add-customer`, data, { headers:{'Authorization':token},withCredentials: true })
             if (response.data.statusCode === 200) {
                 setPopupVisible(true);
             }
@@ -44,7 +45,7 @@ function AddCustomers() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="sm:w-1/11 w-4/5 text-center h-10 m-2 bg-[#2b2b2e] rounded-2xl  font-poppins font-normal text-white shadow-xl"
+                    className="sm:w-1/5 w-4/5 text-center h-10 m-2 bg-[#2b2b2e] rounded-2xl  font-poppins font-normal text-white shadow-xl"
                 />
 
                 <input

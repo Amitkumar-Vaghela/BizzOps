@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+const token = localStorage.getItem('accessToken')
 
 function OrderTable() {
     const [orders, setOrders] = useState([]);
@@ -14,7 +15,7 @@ function OrderTable() {
 
     const getOrders = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/v1/orders/get-order', { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/get-order`, {headers:{'Authorization':token}, withCredentials: true });
             if (response.data.statusCode === 200) {
                 setOrders(response.data.data);
             }
@@ -41,8 +42,8 @@ function OrderTable() {
         if (!selectedOrder) return;
     
         try {
-            await axios.put(`http://localhost:8000/api/v1/orders/order/${selectedOrder._id}/markDone`, {}, 
-            { withCredentials: true });
+            await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/order/${selectedOrder._id}/markDone`, {}, 
+            { headers:{'Authorization':token},withCredentials: true });
             await getOrders();
             closeModal();
         } catch (error) {

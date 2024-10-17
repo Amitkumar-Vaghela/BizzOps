@@ -159,7 +159,7 @@ function Dashboard() {
                             <div className="bg-zinc-700 w-full h-24 shadow-lg rounded-2xl sm:flex sm:flex-col items-center">
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base text-white font-light font-poppins mt-1 ml-2"> <FontAwesomeIcon icon={faChartGantt} className="text-sm pr-1 text-blue-600" /> Total Sales</p>
-                                    <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">₹ {totalSale ? totalSale.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
+                                    <h1 className="text-white mb-1 text-2xl font-medium font-poppins ml-2">₹ {totalSale ? totalSale.toLocaleString() : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/></spam> }</h1>
                                 </div>
                                 <div className="w-11/12 mt-1 ml-3">
                                     <p className="font-normal mt-1 text-white font-poppins text-xs">From All Time</p>
@@ -197,7 +197,7 @@ function Dashboard() {
                             <div className="bg-zinc-700 shadow-lg w-full h-24 rounded-xl flex flex-col items-center">
                                 <div className="w-full bg-[#232325] shadow-lg h-16  rounded-t-xl">
                                     <p className="text-base text-white font-light font-poppins mt-1 ml-2"> <FontAwesomeIcon icon={faWallet} className="text-xs text-green-400 pr-1" /> Total Net Income</p>
-                                    <h1 className="text-white text-2xl mb-1 font-medium font-poppins ml-2">₹ ₹ {totalProfit ? (totalProfit-totalExpense) : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
+                                    <h1 className="text-white text-2xl mb-1 font-medium font-poppins ml-2">₹ {totalProfit ? (totalProfit-totalExpense) : <spam className="text-sm text-center"><ClipLoader color='white' size={15}/> </spam>}</h1>
                                 </div>
                                 <div className="w-11/12 mt-1 ml-">
                                     <p className="font-normal mt-1 text-white font-poppins text-xs">From All Time</p>

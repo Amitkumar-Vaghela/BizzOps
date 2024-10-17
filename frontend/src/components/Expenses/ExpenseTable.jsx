@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
+const token = localStorage.getItem('accessToken')
 
 function ExpenseTable() {
     const [expense, setExpense] = useState([]); 
@@ -10,7 +11,7 @@ function ExpenseTable() {
 
     const getExpense = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/v1/expense/get-expense', { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/expense/get-expense`, {headers:{'Authorization':token} ,withCredentials: true });
             if (response.data.statusCode === 200) {
                 setExpense(response.data.data.expense); 
             }

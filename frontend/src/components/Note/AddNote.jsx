@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
+const token = localStorage.getItem('accessToken');
 
 function AddNote() {
     const [title, setTitle] = useState('')
@@ -11,7 +12,7 @@ function AddNote() {
         e.preventDefault()
         const data = { title, content }
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/notes/add-notes', data, { withCredentials: true })
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/notes/add-notes`, data, { headers:{'Authorization':token},withCredentials: true })
             if (response.data.statusCode === 200) {
                 console.log("Note added successfully");
                 setPopupVisible(true);

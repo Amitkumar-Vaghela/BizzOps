@@ -3,6 +3,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+const token = localStorage.getItem('accessToken')
 
 function StaffTable({ staff, onUpdateStaff }) {
     const [amount, setAmount] = useState('');
@@ -18,7 +19,7 @@ function StaffTable({ staff, onUpdateStaff }) {
 
     const deleteStaff = async (staffId) => {
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/staff/delete-staff', { staff: staffId }, { withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/staff/delete-staff`, { staff: staffId }, { headers:{'Authorization':token},withCredentials: true });
             if (response.status === 200) {
                 console.log("Staff deleted");
                 setLocalStaff((prevStaff) => prevStaff.filter(item => item._id !== staffId));

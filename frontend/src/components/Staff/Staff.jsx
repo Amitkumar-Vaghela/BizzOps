@@ -8,6 +8,7 @@ import CustomBtn from "../CustomBtn.jsx";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Account from "../Account.jsx";
+const token = localStorage.getItem('accessToken');
 
 function Staff() {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ function Staff() {
 
     const fetchStaff = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/v1/staff/get-staff', { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/staff/get-staff`, {headers:{'Authorization':token} ,withCredentials: true });
             if (response.data.statusCode === 200 && response.data.success) {
                 setStaffItems(response.data.data.staff);
             } else {
@@ -38,13 +39,13 @@ function Staff() {
     const updateStaff = async (action, staffId, newAmount) => {
         try {
             const endpoint = action === "add"
-                ? "http://localhost:8000/api/v1/staff/staff-credit"
-                : "http://localhost:8000/api/v1/staff/staff-debit";
+                ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/staff/staff-credit`
+                : `${import.meta.env.VITE_BACKEND_URL}/api/v1/staff/staff-debit`;
 
             const response = await axios.post(
                 endpoint,
                 { staff: staffId, amount: newAmount },
-                { withCredentials: true }
+                { headers:{'Authorization':token},withCredentials: true }
             );
 
             if (response.data.statusCode === 200) {

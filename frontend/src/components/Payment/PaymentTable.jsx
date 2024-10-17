@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+const token = localStorage.getItem('accessToken')
 
 const PaymentTable = () => {
     const [invoices, setInvoices] = useState([]);
@@ -10,7 +11,7 @@ const PaymentTable = () => {
 
     const fetchInvoices = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/v1/invoice/paid-invoice', { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/paid-invoice`, {headers:{'Authorization':token} ,withCredentials: true });
             setInvoices(response.data.data.paidInvoices);
         } catch (error) {
             console.error('Error fetching invoices:', error);

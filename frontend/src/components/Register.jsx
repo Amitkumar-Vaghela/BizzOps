@@ -19,7 +19,7 @@ function Register() {
         const data = { name, email, businessName, password };
 
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/users/register', data, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/register`, data, {
                 withCredentials: true,
             });
 

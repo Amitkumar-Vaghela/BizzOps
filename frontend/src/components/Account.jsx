@@ -64,6 +64,7 @@ function Account() {
             const response = await axios.post('https://bizzops.onrender.com/api/v1/users/logout', {}, { headers:{'Authorization':token},withCredentials: true });
             if (response.data.statusCode === 200) {
                 console.log("User logged out");
+                localStorage.removeItem('accessToken');
                 logout()
                 navigate('/');
             }

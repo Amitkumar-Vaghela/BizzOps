@@ -8,6 +8,7 @@ import CustomBtn from "../CustomBtn";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Account from "../Account.jsx";
+const token = localStorage.getItem('accessToken');
 
 function Report() {
     const navigate = useNavigate()
@@ -30,21 +31,21 @@ function Report() {
 
     const fetchData = async () => {
         try {
-            const totalSaleResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-alltime-sale", { withCredentials: true })
-            const monthSaleResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-last30Day-sale", { withCredentials: true })
-            const todaySaleResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-oneday-sale", { withCredentials: true })
-            const monthProfitResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-last30Day-profit", { withCredentials: true })
-            const totalProfitResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-alltime-profit", { withCredentials: true })
-            const todayProfitResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-one-profit", { withCredentials: true })
-            const totalCostResponse = await axios.get("http://localhost:8000/api/v1/sales/get-total-alltime-cost", { withCredentials: true })
-            const totalExpenseResponse = await axios.get("http://localhost:8000/api/v1/expense/get-alltime-expense", { withCredentials: true })
-            const monthExpenseResponse = await axios.get("http://localhost:8000/api/v1/expense/get-last30day-expense", { withCredentials: true })
-            const oneExpenseResponse = await axios.get("http://localhost:8000/api/v1/expense/get-oneday-expense", { withCredentials: true })
-            const orderResponse = await axios.get("http://localhost:8000/api/v1/orders/count-order", { withCredentials: true })
-            const pendingOrderResponse = await axios.get("http://localhost:8000/api/v1/orders/get-pending-order", { withCredentials: true })
-            const invoicesResponse = await axios.get("http://localhost:8000/api/v1/invoice/count-invoice", { withCredentials: true })
-            const unpaidInvoicesResponse = await axios.get("http://localhost:8000/api/v1/invoice/unpaid-invoice", { withCredentials: true })
-            const customersResponse = await axios.get("http://localhost:8000/api/v1/customer/count-customer", { withCredentials: true })
+            const totalSaleResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-alltime-sale`, {headers:{'Authorization':token},withCredentials: true })
+            const monthSaleResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-last30Day-sale`, {headers:{'Authorization':token}, withCredentials: true })
+            const todaySaleResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-oneday-sale`, {headers:{'Authorization':token}, withCredentials: true })
+            const monthProfitResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-last30Day-profit`, {headers:{'Authorization':token}, withCredentials: true })
+            const totalProfitResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-alltime-profit`, {headers:{'Authorization':token}, withCredentials: true })
+            const todayProfitResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-one-profit`, {headers:{'Authorization':token}, withCredentials: true })
+            const totalCostResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-alltime-cost`, {headers:{'Authorization':token}, withCredentials: true })
+            const totalExpenseResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/expense/get-alltime-expense`, {headers:{'Authorization':token}, withCredentials: true })
+            const monthExpenseResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/expense/get-last30day-expense`, { headers:{'Authorization':token},withCredentials: true })
+            const oneExpenseResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/expense/get-oneday-expense`, { headers:{'Authorization':token},withCredentials: true })
+            const orderResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/count-order`, {headers:{'Authorization':token}, withCredentials: true })
+            const pendingOrderResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/get-pending-order`, {headers:{'Authorization':token}, withCredentials: true })
+            const invoicesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/count-invoice`, {headers:{'Authorization':token}, withCredentials: true })
+            const unpaidInvoicesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/unpaid-invoice`, {headers:{'Authorization':token}, withCredentials: true })
+            const customersResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/customer/count-customer`, {headers:{'Authorization':token}, withCredentials: true })
 
             setTotalSales(totalSaleResponse.data.data.totalSalesValue)
             setMonthSales(monthSaleResponse.data.data.totalSalesValue)
