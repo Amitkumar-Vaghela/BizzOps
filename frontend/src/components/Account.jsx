@@ -79,7 +79,7 @@ function Account() {
 
     const handleClosePopup = () => {
         setPopupVisible(false);
-        setMessage(''); // Clear message on close
+        setMessage('');
     };
 
     const handleOpenPopup = () => {
@@ -92,7 +92,7 @@ function Account() {
 
     const handleEditClose = () => {
         setEditPopupVisible(false);
-        setNewDetails(userDetails); // Reset new details
+        setNewDetails(userDetails);
     };
 
     return (
@@ -129,7 +129,7 @@ function Account() {
                             </button>
                             <button 
                                 onClick={handleLogOut}
-                                className="text-[#f84242] font-medium hover:text-[#b64141] font-poppins"
+                                className="text-[#f84242] font-normal hover:text-[#b64141] font-poppins"
                             >
                                 Sign Out
                             </button>
