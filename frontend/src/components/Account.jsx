@@ -21,7 +21,7 @@ function Account() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('https://bizzops.onrender.com/api/v1/users/get-details', {headers:{'Authorization': token}, withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/get-details`, {headers:{'Authorization': token}, withCredentials: true });
             if (response.data.statusCode === 200) {
                 setUserDetails(response.data.data);
                 setNewDetails(response.data.data); // Initialize new details
@@ -40,7 +40,7 @@ function Account() {
 
         try {
             const response = await axios.post(
-                'https://bizzops.onrender.com/api/v1/users/update-account',
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/update-account`,
                 newDetails,
                 { headers:{
                     'Authorization':token
@@ -61,7 +61,7 @@ function Account() {
 
     const handleLogOut = async () => {
         try {
-            const response = await axios.post('https://bizzops.onrender.com/api/v1/users/logout', {}, { headers:{'Authorization':token},withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/logout`, {}, { headers:{'Authorization':token},withCredentials: true });
             if (response.data.statusCode === 200) {
                 console.log("User logged out");
                 localStorage.removeItem('accessToken');
