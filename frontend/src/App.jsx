@@ -14,6 +14,7 @@ import OrderPage from "./pages/OrderPage.jsx";
 import CustomerPage from "./pages/CustomerPage.jsx";
 import StaffPage from "./pages/SatffPage.jsx";
 import Notes from "./components/Note/Note.jsx";
+import Customizes from "./components/Customize/Customize.jsx";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Signin />} />
         <Route path="/register" element={<Signup />} />
+        <Route path="/Customizes" element={<Customizes />}/>
         
         {/* Protected Routes */}
         <Route path="/dashboard" element={<ProtectedRoute element={<DashboardPage />} />} />

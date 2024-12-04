@@ -10,6 +10,7 @@ import FinancialChart from "./FinancialCharts";
 import FinancialDist from "./FinancialDist";
 import axios from "axios";
 import Account from "../Account.jsx";
+import Customize from "../Customize/Customize.jsx";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const token = localStorage.getItem('accessToken');
