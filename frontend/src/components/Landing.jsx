@@ -18,7 +18,7 @@ function Landing() {
                 <div className="absolute top-5 right-4  md:right-8 flex gap-2 sm:gap-4">
                     <button onClick={() => { navigate('/login') }} className="border-indigo-500 border-b-2 border-r-2 bg-white text-black font-semibold text-xs sm:text-sm px-2 sm:px-4 py-2 rounded-full hover:scale-110 transition-all duration-500">Sign In</button>
                     <button onClick={() => { navigate('/register') }} className="border-indigo-500 border-b-2 border-r-2 bg-white text-black font-semibold text-xs sm:text-sm px-2 sm:px-4 py-2 rounded-full hover:scale-110 transition-all duration-500">Sign Up</button>
-                    <button className="border-indigo-500 border-b-2 border-r-2 bg-white text-black font-semibold text-xs sm:text-sm px-2 sm:px-4 py-2 rounded-full hover:scale-110 transition-all duration-500">Pricing</button>
+                    <button onClick={()=>{navigate("/Customizes")}} className="border-indigo-500 border-b-2 border-r-2 bg-white text-black font-semibold text-xs sm:text-sm px-2 sm:px-4 py-2 rounded-full hover:scale-110 transition-all duration-500">Pricing</button>
                 </div>
 
                 <div className="sm:w-3/5 sm:m-16 m-10 mt-20 sm:mt-28 w-full">
