@@ -12,7 +12,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 const token = localStorage.getItem('accessToken')
 
 function Payment() {
-
+    
+    const navigate = useNavigate()
     const [paid, setPaid] = useState(0)
     const [unPaid, setUnPaid] = useState(0)
     const fetchInvoices = async () => {
