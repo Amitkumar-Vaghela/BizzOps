@@ -6,7 +6,7 @@ function Customize() {
     return (
         <>
             <div className="flex min-h-screen">
-                <Sidebar />
+                <Sidebar /> 
                 <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] sm:w-5/6 bg-[#141415]">
                     <Account />
                     <div className="flex w-full justify-center items-center">

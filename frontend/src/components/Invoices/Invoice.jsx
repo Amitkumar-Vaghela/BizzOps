@@ -10,6 +10,7 @@ import { faArrowLeft, faBackward } from "@fortawesome/free-solid-svg-icons";
 import Account from "../Account.jsx";
 
 function Invoice(){
+    const navigate = useNavigate()
 
     return (
         <div className="flex min-h-screen">
