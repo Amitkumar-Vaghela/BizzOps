@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -7,13 +7,30 @@ const token = localStorage.getItem('accessToken');
 
 const AddInvoice = () => {
     const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
     const [customer, setCustomer] = useState('');
-    const [items, setItems] = useState([{ itemName: '', qty: '', price: '', tax: '' }]);
+    const [items, setItems] = useState([{ itemName: '', qty: '', price: '', tax: '', availableStock: 0 }]);
     const [paid, setPaid] = useState(false);
     const [date, setDate] = useState('');
     const [subTotal, setSubTotal] = useState(0);
     const [grandTotal, setGrandTotal] = useState(0);
-    const [isPopupVisible, setPopupVisible] = useState(false); 
+    const [isPopupVisible, setPopupVisible] = useState(false);
+    const [inventoryItems, setInventoryItems] = useState([]);
+
+    // Fetch inventory items when component mounts
+    useEffect(() => {
+        const fetchInventoryItems = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { headers:{'Authorization':token},withCredentials: true });
+                
+                setInventoryItems(response.data.data);
+            } catch (error) {
+                console.error('Error fetching inventory:', error);
+            }
+        };
+
+        fetchInventoryItems();
+    }, []);
 
     const calculateTotals = (updatedItems) => {
         const newSubTotal = updatedItems.reduce((acc, item) => acc + (item.qty * item.price || 0), 0);
@@ -29,37 +46,70 @@ const AddInvoice = () => {
     const handleItemChange = (index, field, value) => {
         const updatedItems = [...items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
+
+        // If changing item name, update available stock
+        if (field === 'itemName') {
+            const selectedInventoryItem = inventoryItems.find(inv => inv.item === value);
+            updatedItems[index].availableStock = selectedInventoryItem ? selectedInventoryItem.stockRemain : 0;
+        }
+
+        // Validate quantity against available stock
+        if (field === 'qty') {
+            const availableStock = updatedItems[index].availableStock || 0;
+            if (Number(value) > availableStock) {
+                alert(`Only ${availableStock} items available in stock`);
+                updatedItems[index].qty = availableStock.toString();
+            }
+        }
+
         setItems(updatedItems);
         calculateTotals(updatedItems);
     };
 
     const addMoreItem = () => {
-        setItems([...items, { itemName: '', qty: null, price: null, tax: null }]);
+        setItems([...items, { itemName: '', qty: '', price: '', tax: '', availableStock: 0 }]);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setPopupVisible(true);
-        const invoiceData = {
-            name: customer,
-            items,
-            paid,
-            date
-        };
-
+        
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/add-invoice`, invoiceData, { headers:{'Authorization':token},withCredentials: true });
+            const invoiceData = {
+                name: customer,
+                items: items.map(item => ({
+                    itemName: item.itemName,
+                    qty: Number(item.qty),
+                    price: Number(item.price),
+                    tax: Number(item.tax)
+                })),
+                paid,
+                date
+            };
+            console.log(invoiceData);
+            
+
+            const response = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/add-invoice`, 
+                invoiceData, 
+                { 
+                    headers: {'Authorization': token},
+                    withCredentials: true 
+                }
+            );
+
             if (response.status === 200) {   
+                setPopupVisible(true);
+                // Reset form
                 setCustomer('');
-                setItems([{ itemName: '', qty: null, price: null, tax: null }]);
+                setItems([{ itemName: '', qty: '', price: '', tax: '', availableStock: 0 }]);
                 setPaid(false);
                 setDate('');
                 setSubTotal(0);
                 setGrandTotal(0);
-                
             }
         } catch (error) {
             console.error('Error adding invoice:', error);
+            alert(error.response?.data?.message || 'Failed to add invoice');
         }
     };
 
@@ -87,15 +137,23 @@ const AddInvoice = () => {
                     className="sm:w-1/4 w-4/5 text-center h-10 m-3 rounded-2xl pr-4 bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
                 />
                 {items.map((item, index) => (
-                    <div key={index}>
-                        <input
-                            type="text"
-                            placeholder="Item Name"
+                    <div key={index} className="flex items-center">
+                        <select
                             value={item.itemName}
                             onChange={(e) => handleItemChange(index, 'itemName', e.target.value)}
                             required
                             className="sm:w-1/5 w-2/4 text-center h-10 m-3 rounded-2xl bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
-                        />
+                        >
+                            <option value="">Select Item</option>
+                            {inventoryItems.map((invItem) => (
+                                <option 
+                                    key={invItem._id} 
+                                    value={invItem.item}
+                                >
+                                    {invItem.item} (Stock: {invItem.stockRemain})
+                                </option>
+                            ))}
+                        </select>
                         <input
                             type="number"
                             placeholder="Qty"
@@ -103,6 +161,7 @@ const AddInvoice = () => {
                             onChange={(e) => handleItemChange(index, 'qty', e.target.value)}
                             required
                             min="1"
+                            max={item.availableStock}
                             className="sm:w-1/5 w-2/6 text-center h-10 m-3 rounded-2xl bg-[#2b2b2e] shadow-xl font-poppins font-normal text-white"
                         />
                         <input
