@@ -18,7 +18,7 @@ function Sales() {
         try {
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-sale?timeFilter=alltime`, {headers:{'Authorization':token}, withCredentials: true });
             if (response.data.success) {
-                setSales(response.data.data);
+                setSales(response.data.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
             }
         } catch (error) {
             console.error('Failed to fetch sales:', error);
