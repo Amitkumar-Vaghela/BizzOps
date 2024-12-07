@@ -2,6 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Invoice } from "../models/invoice.model.js";
+import { Inventory } from "../models/inventory.model.js";
 
 const addInvoice = asyncHandler(async(req, res) => {
     const { name, items, paid, date } = req.body;
@@ -13,6 +14,30 @@ const addInvoice = asyncHandler(async(req, res) => {
 
     if (!owner) {
         throw new ApiError(401, "Unauthorized request");
+    }
+
+    // First, check inventory for each item
+    for (const item of items) {
+        const inventoryItem = await Inventory.findOne({ 
+            owner, 
+            item: item.itemName 
+        });
+
+        if (!inventoryItem) {
+            throw new ApiError(404, `Inventory item not found: ${item.itemName}`);
+        }
+
+        if (inventoryItem.stockRemain < item.qty) {
+            throw new ApiError(400, `Insufficient inventory for ${item.itemName}. Available: ${inventoryItem.stockRemain}, Requested: ${item.qty}`);
+        }
+    }
+
+    // If we've made it this far, reduce inventory for each item
+    for (const item of items) {
+        await Inventory.findOneAndUpdate(
+            { owner, item: item.itemName },
+            { $inc: { stockRemain: -item.qty } }
+        );
     }
 
     // Calculate subTotal and grandTotal for all items
