@@ -15,6 +15,7 @@ import CustomerPage from "./pages/CustomerPage.jsx";
 import StaffPage from "./pages/SatffPage.jsx";
 import Notes from "./components/Note/Note.jsx";
 import Customizes from "./components/Customize/Customize.jsx";
+import Demo from "./components/Demo.jsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" element={<Signin />} />
         <Route path="/register" element={<Signup />} />
         <Route path="/Customizes" element={<Customizes />}/>
+        <Route path="/demo" element={<Demo />}/>
         
         {/* Protected Routes */}
         <Route path="/dashboard" element={<ProtectedRoute element={<DashboardPage />} />} />

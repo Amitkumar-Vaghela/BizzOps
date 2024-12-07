@@ -25,7 +25,7 @@ function Landing() {
                     <h3 className="sm:text-xl text-lg sm:w-auto w-full text-white font-font4 font-normal mt-5">Manage Your Business, Smarter and Faster with</h3>
                     <h1 className="sm:text-9xl text-7xl text-white font-poppins font-bold">BizzOps</h1>
                     <p className="text-md font-poppins sm:text-white text-zinc-400 font-normal mt-5">BizzOps is the ultimate business management platform, featuring a real-time dashboard, comprehensive reports, and insightful analysis tools. Streamline inventory, finance, and staff management to enhance efficiency and make informed decisions for your business success.</p>
-                    <button className="mt-5 bg-gradient-to-r from-blue-300 to-indigo-300 text-gray-700-400 font-medium font-poppins px-6 py-3 rounded-full hover:bg-gradient-to-bl transition">Request a Demo</button>
+                    <button onClick={()=>{navigate('/Demo')}} className="mt-5 bg-gradient-to-r from-blue-300 to-indigo-300 text-gray-700-400 font-medium font-poppins px-6 py-3 rounded-full hover:bg-gradient-to-bl transition">Request a Demo</button>
                     <h4 className="mt-5 text-lg font-poppins text-white font-normal">Trusted by Businesses Worldwide</h4>
                     <p className="text-sm font-poppins text-zinc-400 mt-2">Join thousands of businesses who have transformed their operations with BizzOps. Start streamlining your business today!</p>
                 </div>
