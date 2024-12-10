@@ -3,6 +3,8 @@ import { Card, Typography } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpAZ, faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+const token = localStorage.getItem('accessToken')
+import * as XLSX from "xlsx";
 
 function InventoryTable({ inventoryItems, onUpdateInventory }) {
     const [newQty, setNewQty] = useState(0);
@@ -74,10 +76,50 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
         }
     };
 
+    const fetchAndDownload = async () => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { headers:{'Authorization':token},withCredentials: true });
+            const inventoryData = response.data.data;
+            
+            if (!inventoryData || inventoryData.length === 0) {
+                alert("No data to download");
+                return;
+            }
+
+            // Transform data if necessary
+            const formattedData = inventoryData.map(item => ({
+                Item: item.item,
+                Category: item.category,
+                StockRemaining: item.stockRemain,
+                Date: new Date(item.date).toLocaleDateString(),
+                LastModified: new Date(item.updatedAt).toLocaleString(),
+            }));
+
+            // Convert data to Excel
+            const worksheet = XLSX.utils.json_to_sheet(formattedData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Inventory");
+
+            // Export Excel file
+            XLSX.writeFile(workbook, "Inventory.xlsx");
+        } catch (error) {
+            console.error("Error fetching or downloading inventory data:", error);
+            alert("Failed to download the file.");
+        }
+    };
+
     return (
         <>
             <div className="w-full bg-[#28282B] shadow-md rounded-lg p-6">
-                <h2 className="text-base font-poppins font-semibold mb-4 text-white">Inventory Records</h2>
+                <div className="flex gap-10 h-20 items-center">
+                    <h2 className="text-base font-poppins font-semibold mb-4 text-white">Inventory Records</h2>
+                    <button
+                        onClick={fetchAndDownload}
+                        className="bg-white h-1/2 text-black py-2 px-4 rounded-xl"
+                    >
+                        Download
+                    </button>
+                </div>
                 <div className="overflow-x-auto">
                     <table className="min-w-full ">
                         <thead>
