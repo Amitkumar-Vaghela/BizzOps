@@ -1,12 +1,55 @@
 import React from 'react';
+import axios from 'axios';
+const token = localStorage.getItem('accessToken')
+import * as XLSX from "xlsx";
+
 function SalesTable({ sales }) {
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString();
     };
+    const fetchAndDownload = async () => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-sale?timeFilter=alltime`, { headers: { 'Authorization': token }, withCredentials: true });
+            const salesData = response.data.data;
+
+            if (!salesData || salesData.length === 0) {
+                alert("No data to download");
+                return;
+            }
+
+            // Transform data if necessary
+            const formattedData = salesData.map(item => ({
+                Product: item.productName,
+                Price: item.price,
+                ProfitPercent: item.profitInPercent,
+                Qty: item.qty,
+                Date: new Date(item.date).toLocaleDateString(),
+            }));
+
+            // Convert data to Excel
+            const worksheet = XLSX.utils.json_to_sheet(formattedData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Inventory");
+
+            // Export Excel file
+            XLSX.writeFile(workbook, "Sales.xlsx");
+        } catch (error) {
+            console.error("Error fetching or downloading inventory data:", error);
+            alert("Failed to download the file.");
+        }
+    };
 
     return (
         <div className="w-full bg-[#28282B] shadow-md rounded-lg p-6">
-            <h2 className="text-base font-poppins font-semibold mb-4 text-white">Sales Records</h2>
+            <div className="flex gap-10 h-20 items-center">
+                <h2 className="text-base font-poppins font-semibold mb-4 text-white">Sales Records</h2>
+                <button
+                    onClick={fetchAndDownload}
+                    className="bg-white h-1/2 text-black py-2 px-4 rounded-xl"
+                >
+                    Download
+                </button>
+            </div>
             <div className="overflow-x-auto">
                 <table className="min-w-full ">
                     <thead>
