@@ -29,12 +29,12 @@ function SalesTable({ sales }) {
             // Convert data to Excel
             const worksheet = XLSX.utils.json_to_sheet(formattedData);
             const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Inventory");
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sales");
 
             // Export Excel file
             XLSX.writeFile(workbook, "Sales.xlsx");
         } catch (error) {
-            console.error("Error fetching or downloading inventory data:", error);
+            console.error("Error fetching or downloading sales data:", error);
             alert("Failed to download the file.");
         }
     };

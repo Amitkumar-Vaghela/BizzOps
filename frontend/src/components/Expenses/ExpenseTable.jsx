@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
 const token = localStorage.getItem('accessToken')
+import * as XLSX from "xlsx";
 
 function ExpenseTable() {
     const [expense, setExpense] = useState([]); 
@@ -20,13 +21,49 @@ function ExpenseTable() {
         }
     };
 
+    const fetchAndDownload = async () => {
+        try {
+            const response = await axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/expense/get-expense`,
+                { headers: { Authorization: token }, withCredentials: true }
+            );
+            const expenseData = response.data.data.expense;
+    
+            const formattedData = expenseData.map(item => ({
+                Name: item.name,
+                Expense: `${item.expAmount} Rs`,
+                Description: item.description,
+                Date: new Date(item.date).toLocaleDateString(),
+            }));
+    
+            // Create Excel file
+            const worksheet = XLSX.utils.json_to_sheet(formattedData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Expense");
+    
+            XLSX.writeFile(workbook, "Expense.xlsx");
+        } catch (error) {
+            console.error("Error fetching or downloading Expense data:", error);
+            alert("Failed to download the file.");
+        }
+    };
+    
+
     useEffect(() => {
         getExpense();
     }, []);
 
     return (
         <div className="w-full bg-[#28282B] shadow-md rounded-lg p-6">
-            <h2 className="text-base font-poppins font-semibold mb-4 text-white">Expense Records</h2>
+            <div className="flex gap-10 h-20 items-center">
+                <h2 className="text-base font-poppins font-semibold mb-4 text-white">Expense Records</h2>
+                <button
+                    onClick={fetchAndDownload}
+                    className="bg-white h-1/2 text-black py-2 px-4 rounded-xl"
+                >
+                    Download
+                </button>
+            </div>
             <div className="overflow-x-auto">
                 <table className="min-w-full">
                     <thead>
