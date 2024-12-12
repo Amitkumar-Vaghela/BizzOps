@@ -84,8 +84,10 @@ const InvoiceTable = () => {
 
         doc.text("Pay To:", 150, 60);
         doc.text(`${userDetails.businessName}`, 150, 65);
-        doc.text(`N/A`, 150, 70);
-
+        doc.text(`${userDetails.phoneNo}`, 150, 70);
+        doc.text(`${userDetails.address || "N/A"}`, 150, 75);
+        console.log(userDetails.phoneNo);
+        
         // Table Header
         const tableColumn = ["Item", "Qty", "tax(%)" ,"Price", "Total"];
         const tableRows = invoice.items.map((item) => [
