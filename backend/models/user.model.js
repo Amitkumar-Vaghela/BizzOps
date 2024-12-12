@@ -22,7 +22,15 @@ const userSchema = new Schema({
     businessName: {
         type: String,
         required: true
-    }
+    },
+    // phoneNo:{
+    //     type: Number,
+    //     required: true
+    // },
+    // address : {
+    //     type: String,
+    //     required: true
+    // }
 }, { timestamps: true })
 
 
