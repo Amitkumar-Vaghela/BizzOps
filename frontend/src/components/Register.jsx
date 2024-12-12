@@ -11,12 +11,14 @@ function Register() {
     const [email, setEmail] = useState("");
     const [businessName, setBusinessName] = useState("");
     const [password, setPassword] = useState("");
+    const [phoneNo, setPhoneNo] = useState(null);
+    const [address, setAddress] = useState("");
     const [showPopup, setShowPopup] = useState(false);
     const [errorPopup, setErrorPopup] = useState("");
 
     async function handleRegister(e) {
         e.preventDefault();
-        const data = { name, email, businessName, password };
+        const data = { name, email, businessName, password, phoneNo, address };
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/register`, data, {
@@ -84,6 +86,28 @@ function Register() {
                             required
                             value={businessName}
                             onChange={(e) => setBusinessName(e.target.value)}
+                            className="w-full p-3 pl-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
+                        />
+                    </div>
+                    <div className="relative mb-4">
+                        <FontAwesomeIcon icon={faBriefcase} className="absolute left-3 top-4 text-zinc-300" />
+                        <input
+                            type="text"
+                            placeholder="Phone No"
+                            required
+                            value={phoneNo}
+                            onChange={(e) => setPhoneNo(e.target.value)}
+                            className="w-full p-3 pl-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
+                        />
+                    </div>
+                    <div className="relative mb-4">
+                        <FontAwesomeIcon icon={faBriefcase} className="absolute left-3 top-4 text-zinc-300" />
+                        <input
+                            type="text"
+                            placeholder="Address"
+                            required
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
                             className="w-full p-3 pl-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
                         />
                     </div>
