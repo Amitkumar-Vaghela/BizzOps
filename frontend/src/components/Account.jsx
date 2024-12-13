@@ -27,7 +27,6 @@ function Account() {
             if (response.data.statusCode === 200) {
                 setUserDetails(response.data.data);
                 setNewDetails(response.data.data); // Initialize new details
-                console.log(newDetails);
                 
             }
         } catch (error) {
@@ -37,7 +36,7 @@ function Account() {
 
     const handleEditAccount = async (e) => {
         e.preventDefault();
-        if (!newDetails.businessName || !newDetails.email || !newDetails.name) {
+        if (!newDetails.businessName || !newDetails.email || !newDetails.name || !newDetails.phoneNo || !newDetails.address) {
             setMessage("All fields are required");
             return;
         }
@@ -146,7 +145,7 @@ function Account() {
 
             {isEditPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#28282B] sm:w-2/12 w-3/4 rounded-3xl p-6">
+                    <div className="bg-[#28282B] sm:w-3/12 w-3/4 rounded-3xl p-6">
                         <h2 className="text-sm font-poppins text-white font-semibold text-center mb-5">Edit Account</h2>
                         <form onSubmit={handleEditAccount}>
                             <label className='pl-1 text-xs font-poppins text-zinc-500 font-thin m-2'>Business Name</label>
@@ -174,6 +173,24 @@ function Account() {
                                 required
                                 value={newDetails.name}
                                 onChange={(e) => setNewDetails({ ...newDetails, name: e.target.value })}
+                                className="w-full text-sm p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl text-white font-poppins font-normal placeholder-gray-700 rounded-2xl"
+                            />
+                            <label className='pl-1 text-xs font-poppins text-zinc-500 font-thin m-2'>Phone no</label>
+                            <input
+                                type="text"
+                                placeholder="Phone No"
+                                required
+                                value={newDetails.phoneNo}
+                                onChange={(e) => setNewDetails({ ...newDetails, phoneNo: e.target.value })}
+                                className="w-full text-sm p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl text-white font-poppins font-normal placeholder-gray-700 rounded-2xl"
+                            />
+                            <label className='pl-1 text-xs font-poppins text-zinc-500 font-thin m-2'>Address</label>
+                            <input
+                                type="text"
+                                placeholder="Address"
+                                required
+                                value={newDetails.address}
+                                onChange={(e) => setNewDetails({ ...newDetails, address: e.target.value })}
                                 className="w-full text-sm p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl text-white font-poppins font-normal placeholder-gray-700 rounded-2xl"
                             />
                             <div className="mt-4 flex justify-end gap-4">
