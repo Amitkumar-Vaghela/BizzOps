@@ -27,6 +27,7 @@ function Register() {
 
             if (response.status === 201) {
                 console.log(response.data.message);
+                console.log(response);
                 setShowPopup(true);
 
                 setTimeout(() => {

@@ -14,7 +14,9 @@ function Account() {
     const [userDetails, setUserDetails] = useState({
         businessName: '',
         email: '',
-        name: ''
+        name: '',
+        phoneNo: '',
+        address: '',
     });
     const [newDetails, setNewDetails] = useState({ ...userDetails });
     const [message, setMessage] = useState('');
@@ -25,6 +27,8 @@ function Account() {
             if (response.data.statusCode === 200) {
                 setUserDetails(response.data.data);
                 setNewDetails(response.data.data); // Initialize new details
+                console.log(newDetails);
+                
             }
         } catch (error) {
             console.error("Error while fetching data", error.response?.data || error.message);
@@ -108,11 +112,13 @@ function Account() {
 
             {isPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-[#28282B] sm:w-2/12 w-3/4 rounded-3xl p-6">
+                    <div className="bg-[#28282B] sm:w-3/12 w-3/4 rounded-3xl p-6">
                         <h2 className="text-sm text-white font-semibold text-center">Account</h2>
                         <h2 className="text-3xl text-white font-bold text-center m-4">{userDetails.businessName}</h2>
                         <p className="mt-2 text-center m-2 text-white text-lg">{userDetails.email}</p>
-                        <p className="mt-2 text-center m-2 mb-10 text-white text-lg">{userDetails.name}</p>
+                        <p className="mt-2 text-center m-2 text-white text-lg">{userDetails.name}</p>
+                        <p className="mt-2 text-center m-2 text-white text-lg">{userDetails.phoneNo}</p>
+                        <p className="mt-2 text-center m-2 mb-10 text-white text-lg">{userDetails.address}</p>
                         {/* {message && <p className="text-red-500 text-center">{message}</p>} */}
                         <div className="mt-4 flex justify-end gap-4">
                             <button

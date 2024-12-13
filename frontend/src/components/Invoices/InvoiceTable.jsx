@@ -86,7 +86,6 @@ const InvoiceTable = () => {
         doc.text(`${userDetails.businessName}`, 150, 65);
         doc.text(`${userDetails.phoneNo}`, 150, 70);
         doc.text(`${userDetails.address || "N/A"}`, 150, 75);
-        console.log(userDetails.phoneNo);
         
         // Table Header
         const tableColumn = ["Item", "Qty", "tax(%)" ,"Price", "Total"];
@@ -131,7 +130,7 @@ const InvoiceTable = () => {
         doc.setFontSize(10);
         doc.setFont("helvetica", "normal");
         doc.text(
-            `Note: If you have any questions concerning this invoice, contact ${userDetails.businessName} at [PHONE NUMBER] or ${userDetails.email}`,
+            `Note: If you have any questions concerning this invoice, contact ${userDetails.businessName} at ${userDetails.phoneNo} or ${userDetails.email}`,
             10,
             finalY + 30,
             { maxWidth: 190 }
