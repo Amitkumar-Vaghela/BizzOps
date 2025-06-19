@@ -10,19 +10,37 @@ const app = express();
 
 // CORS configuration
 // const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [];
+// const allowedOrigins = process.env.CORS_ORIGIN
+//   ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
+//   : [];
+// app.use(cors({
+//     origin: function (origin, callback) {
+//         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//             callback(null, true);
+//         } else {
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     },
+//     credentials: true
+// }));
+
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
   : [];
-app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true
-}));
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.error("CORS Blocked Origin:", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 
 // Middleware
 app.use(express.json({ limit: '16kb' }));
