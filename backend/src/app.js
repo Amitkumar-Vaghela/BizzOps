@@ -41,6 +41,7 @@ import staffRouter from '../routes/staff.routes.js';
 import expenseRouter from "../routes/expense.routes.js";
 import notesRouter from "../routes/notes.routes.js";
 import ordersRouter from "../routes/orders.routes.js";
+import agentRoutes from "../routes/agents.routes.js"
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/inventory", inventoryRouter);
@@ -51,6 +52,7 @@ app.use("/api/v1/staff", staffRouter);
 app.use("/api/v1/expense", expenseRouter);
 app.use("/api/v1/orders", ordersRouter);
 app.use("/api/v1/notes", notesRouter);
+app.use("/api/v1/agent", agentRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {

@@ -349,6 +349,181 @@ const getDailyTotalCostValuePast30Days = asyncHandler(async (req, res) => {
 });
 
 
+import Groq from 'groq-sdk';
+
+// Initialize Groq client
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY, // Make sure to add this to your .env file
+});
+
+// Helper function to process and structure sales data for context
+const prepareSalesContext = (salesData) => {
+  // Group data by product
+  const productSummary = salesData.reduce((acc, sale) => {
+    const productId = sale.product;
+    const productName = sale.productName || 'Unknown Product';
+    
+    if (!acc[productId]) {
+      acc[productId] = {
+        productName,
+        totalSales: 0,
+        totalProfit: 0,
+        totalQty: 0,
+        totalCost: 0,
+        avgProfitPercent: 0,
+        transactions: 0,
+        priceRange: { min: Infinity, max: 0 }
+      };
+    }
+    
+    acc[productId].totalSales += sale.sale || 0;
+    acc[productId].totalProfit += sale.profit || 0;
+    acc[productId].totalQty += sale.qty || 0;
+    acc[productId].totalCost += sale.cost || 0;
+    acc[productId].transactions += 1;
+    acc[productId].avgProfitPercent += sale.profitInPercent || 0;
+    
+    if (sale.price < acc[productId].priceRange.min) acc[productId].priceRange.min = sale.price;
+    if (sale.price > acc[productId].priceRange.max) acc[productId].priceRange.max = sale.price;
+    
+    return acc;
+  }, {});
+
+  // Calculate averages
+  Object.keys(productSummary).forEach(productId => {
+    const product = productSummary[productId];
+    product.avgProfitPercent = product.avgProfitPercent / product.transactions;
+  });
+
+  // Overall summary
+  const overallSummary = {
+    totalRevenue: salesData.reduce((sum, sale) => sum + (sale.sale || 0), 0),
+    totalProfit: salesData.reduce((sum, sale) => sum + (sale.profit || 0), 0),
+    totalTransactions: salesData.length,
+    totalQuantitySold: salesData.reduce((sum, sale) => sum + (sale.qty || 0), 0),
+    avgProfitMargin: salesData.reduce((sum, sale) => sum + (sale.profitInPercent || 0), 0) / salesData.length,
+    dateRange: {
+      earliest: new Date(Math.min(...salesData.map(sale => new Date(sale.date)))),
+      latest: new Date(Math.max(...salesData.map(sale => new Date(sale.date))))
+    }
+  };
+
+  return {
+    productSummary,
+    overallSummary,
+    rawData: salesData
+  };
+};
+
+// RAG Query handler
+export const querySalesData = async (req, res) => {
+  try {
+    const { query, timeFilter = 'alltime' } = req.body;
+    
+    if (!query) {
+      return res.status(400).json({
+        success: false,
+        message: "Query is required"
+      });
+    }
+
+    // Fetch sales data (reuse your existing getSales logic)
+    const salesData = await Sales.find({ owner: req.user._id })
+      .sort({ createdAt: -1 });
+
+    if (!salesData || salesData.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No sales data found"
+      });
+    }
+
+    // Prepare structured context
+    const salesContext = prepareSalesContext(salesData);
+    
+    // Create context string for the AI
+    const contextString = `
+SALES DATA SUMMARY:
+===================
+
+OVERALL METRICS:
+- Total Revenue: $${salesContext.overallSummary.totalRevenue.toLocaleString()}
+- Total Profit: $${salesContext.overallSummary.totalProfit.toLocaleString()}
+- Total Transactions: ${salesContext.overallSummary.totalTransactions}
+- Total Quantity Sold: ${salesContext.overallSummary.totalQuantitySold}
+- Average Profit Margin: ${salesContext.overallSummary.avgProfitMargin.toFixed(2)}%
+- Date Range: ${salesContext.overallSummary.dateRange.earliest.toDateString()} to ${salesContext.overallSummary.dateRange.latest.toDateString()}
+
+PRODUCT BREAKDOWN:
+${Object.entries(salesContext.productSummary).map(([productId, product]) => `
+- ${product.productName} (ID: ${productId}):
+  * Total Sales: $${product.totalSales.toLocaleString()}
+  * Total Profit: $${product.totalProfit.toLocaleString()}
+  * Quantity Sold: ${product.totalQty}
+  * Transactions: ${product.transactions}
+  * Avg Profit %: ${product.avgProfitPercent.toFixed(2)}%
+  * Price Range: $${product.priceRange.min} - $${product.priceRange.max}
+`).join('')}
+
+RECENT TRANSACTIONS (Last 10):
+${salesData.slice(0, 10).map(sale => `
+- Date: ${new Date(sale.date).toDateString()}
+  Product: ${sale.productName || 'Unknown'}
+  Price: $${sale.price}
+  Quantity: ${sale.qty}
+  Sale: $${sale.sale || 'N/A'}
+  Profit: $${sale.profit || 'N/A'} (${sale.profitInPercent}%)
+`).join('')}
+    `;
+
+    // Query Groq API
+    const completion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: `You are a sales data analyst. Use the provided sales data to answer questions accurately. 
+          Provide specific numbers, insights, and actionable recommendations when possible. 
+          Format your response clearly with bullet points or sections when appropriate.
+          If asked about trends, calculate percentages and provide comparative analysis.
+          Always base your answers strictly on the provided data.`
+        },
+        {
+          role: "user",
+          content: `Based on this sales data:\n\n${contextString}\n\nQuestion: ${query}`
+        }
+      ],
+      model: "llama3-8b-8192",
+      temperature: 0.1,
+      max_tokens: 1000,
+    });
+
+    const aiResponse = completion.choices[0]?.message?.content;
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        query,
+        response: aiResponse,
+        dataContext: {
+          totalTransactions: salesContext.overallSummary.totalTransactions,
+          totalRevenue: salesContext.overallSummary.totalRevenue,
+          totalProfit: salesContext.overallSummary.totalProfit,
+          dateRange: salesContext.overallSummary.dateRange
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('RAG Query Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: "Error processing query",
+      error: error.message
+    });
+  }
+};
+
+
 
 export { 
     addSale,
@@ -360,7 +535,7 @@ export {
     getTotalProfitValueLast30Days,
     getDailyTotalSalesValuePast30Days,
     getDailyProfitLast30Days,
-    getDailyTotalCostValuePast30Days,
-    getTotalProfitValueAllTime,
+    getDailyTotalCostValuePast30Days,       
+    getTotalProfitValueAllTime,          
     getTotalCostValueAllTime
 };

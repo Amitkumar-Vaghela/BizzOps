@@ -206,7 +206,6 @@ function Dashboard() {
                             </div>
                         </div>
                     </div>
-
                     <div className="gap-10 m-10 sm:flex sm:justify-center sm:items-center">
 
                         <div className="sm:w-2/4 sm:mt-4 bg-[#232325] shadow-lg rounded-3xl">

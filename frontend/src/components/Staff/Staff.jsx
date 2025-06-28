@@ -8,6 +8,8 @@ import CustomBtn from "../CustomBtn.jsx";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Account from "../Account.jsx";
+import StaffRAGComponent from "./StaffRAGComponent.jsx";
+
 const token = localStorage.getItem('accessToken');
 
 function Staff() {
@@ -58,6 +60,7 @@ function Staff() {
 
     return (
         <>
+            <StaffRAGComponent />
             <div className="flex min-h-screen">
                 <Sidebar />
                 <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] sm:w-5/6 bg-[#141415]">

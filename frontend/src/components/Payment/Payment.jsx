@@ -9,6 +9,8 @@ import { faArrowLeft, faDollar, faMoneyBill } from "@fortawesome/free-solid-svg-
 import axios from "axios";
 import Account from "../Account.jsx";
 import ClipLoader from "react-spinners/ClipLoader";
+import InvoiceRAGComponent from "../Invoices/InvoiceRAGComponent.jsx";
+
 const token = localStorage.getItem('accessToken')
 
 function Payment() {
@@ -33,6 +35,7 @@ function Payment() {
 
     return (
         <>
+            <InvoiceRAGComponent />
             <div className="flex min-h-screen">
                 <Sidebar />
                 <div id="infoCards" className=" overflow-y-auto h-[calc(100vh)] sm:w-5/6 bg-[#141415]">

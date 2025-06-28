@@ -8,11 +8,14 @@ import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faBackward } from "@fortawesome/free-solid-svg-icons";
 import Account from "../Account.jsx";
+import ExpenseRAGComponent from "./ExpenseRAGComponent.jsx";
 
 function Expense() {
     const navigate = useNavigate()
 
     return (
+        <>
+        <ExpenseRAGComponent />
         <div className="flex min-h-screen">
             <Sidebar />
             <div id="infoCards" className="overflow-y-auto h-[calc(100vh)] sm:w-5/6 bg-[#141415]">
@@ -30,6 +33,7 @@ function Expense() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

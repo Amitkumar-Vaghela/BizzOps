@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addSale,getSales, getTotalProfitValueLast30Days, getTotalProfitValueAllTime ,getDailyTotalSalesValuePast30Days, getTotalProfitValueOneDay, getTotalSalesValueAllTime, getTotalSalesValueLast30Days, getTotalSalesValueOneDay, getDailyProfitLast30Days, getDailyTotalCostValuePast30Days, getTotalCostValueAllTime } from "../controllers/sales.controller.js";
+import { addSale,getSales, getTotalProfitValueLast30Days, getTotalProfitValueAllTime ,getDailyTotalSalesValuePast30Days, getTotalProfitValueOneDay, getTotalSalesValueAllTime, getTotalSalesValueLast30Days, getTotalSalesValueOneDay, getDailyProfitLast30Days, getDailyTotalCostValuePast30Days, getTotalCostValueAllTime, querySalesData } from "../controllers/sales.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router()
@@ -16,5 +16,7 @@ router.route('/get-total-last30Day-profit').get(verifyJWT, getTotalProfitValueLa
 router.route('/get-daily-sale-30Day').get(verifyJWT, getDailyTotalSalesValuePast30Days)
 router.route('/get-daily-profit-30Day').get(verifyJWT, getDailyProfitLast30Days)
 router.route('/get-daily-cost-30Day').get(verifyJWT, getDailyTotalCostValuePast30Days)
+
+router.route('/query').post(verifyJWT, querySalesData);
 
 export default router
