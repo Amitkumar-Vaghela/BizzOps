@@ -320,7 +320,7 @@ Please provide:
 
 
 
-import { ImageInventoryAgent, handleImageUpload } from "../../agents/src/tools.js";
+import { ImageInventoryAgent, handleImageUpload } from "../agents/tools.js";
 const imageInventoryAgent = new ImageInventoryAgent();
 
 // Handle inventory queries with image processing

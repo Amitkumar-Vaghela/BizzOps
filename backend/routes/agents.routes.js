@@ -1,71 +1,42 @@
-// routes/agent.routes.js
 import { Router } from "express";
 import {
+    createAgent,
+    getAgents,
+    getAgentById,
+    updateAgent,
+    deleteAgent,
+    getAgentsByType,
+    processAgentQuery,
+    processAgentImageQuery,
+    getAgentUsage,
+    toggleAgentStatus,
     processInventoryQuery,
-    executeInventoryOperation,
-    analyzeInventory,
-    getStockRecommendations,
-    predictInventoryNeeds,
-    optimizeInventoryLayout,
-    generateInventoryReport,
-    getInventoryInsights,
-    addInventoryItemWithAgent,
-    updateStockWithAgent
+    processImageQuery
 } from "../controllers/agents.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-
-import { ImageInventoryAgent } from "../../agents/src/tools.js";
-const inventoryAgent = new ImageInventoryAgent()
-export const inventoryAgentHandler = async (req, res) => {
-    try {
-        const { query, authToken, context } = req.body;
-
-        // Validate required fields
-        if (!query) {
-            return res.status(400).json({
-                success: false,
-                message: 'Query is required'
-            });
-        }
-
-        if (!authToken) {
-            return res.status(400).json({
-                success: false,
-                message: 'Authentication token is required'
-            });
-        }
-
-        // Process the query using the inventory agent
-        const result = await inventoryAgent.processQuery(query, authToken, context);
-
-        return res.status(200).json(result);
-    } catch (error) {
-        console.error('Inventory Agent API Error:', error);
-        return res.status(500).json({
-            success: false,
-            message: 'Internal server error',
-            error: error.message
-        });
-    }
-};
+import { handleImageUpload } from "../agents/tools.js";
 
 const router = Router();
 
-// Core agent endpoints
-router.route('/inventory/query').post(verifyJWT, processInventoryQuery);
-router.route('/inventory/execute').post(verifyJWT, executeInventoryOperation);
+// Apply authentication middleware to all routes
+router.use(verifyJWT);
 
-// Analysis and insights endpoints
-router.route('/inventory/analyze').get(verifyJWT, analyzeInventory);
-router.route('/inventory/recommendations').post(verifyJWT, getStockRecommendations);
-router.route('/inventory/predictions').post(verifyJWT, predictInventoryNeeds);
-router.route('/inventory/optimize-layout').get(verifyJWT, optimizeInventoryLayout);
-router.route('/inventory/report').post(verifyJWT, generateInventoryReport);
-router.route('/inventory/insights').get(verifyJWT, getInventoryInsights);
+// CRUD operations for agents
+router.post("/", createAgent);                          // Create new agent
+router.get("/", getAgents);                             // Get all user's agents
+router.get("/:agentId", getAgentById);                  // Get specific agent
+router.put("/:agentId", updateAgent);                   // Update agent
+router.delete("/:agentId", deleteAgent);                // Delete agent
 
-// Direct operation endpoints (using agent)
-router.route('/inventory/add-item-agent').post(verifyJWT, addInventoryItemWithAgent);
-router.route('/inventory/update-stock-agent').post(verifyJWT, updateStockWithAgent);
-router.route('/inventory-agent').post(inventoryAgentHandler);
+// Agent operations
+router.get("/type/:type", getAgentsByType);             // Get agents by type
+router.post("/:agentId/query", processAgentQuery);      // Process query with specific agent
+router.post("/:agentId/image", handleImageUpload, processAgentImageQuery); // Process image with agent
+router.get("/:agentId/usage", getAgentUsage);           // Get agent usage statistics
+router.patch("/:agentId/toggle", toggleAgentStatus);    // Toggle agent active status
+
+// Legacy inventory agent endpoints (for backward compatibility)
+router.post("/inventory/query", processInventoryQuery); // Process inventory query
+router.post("/inventory/image", handleImageUpload, processImageQuery); // Process inventory image
 
 export default router;

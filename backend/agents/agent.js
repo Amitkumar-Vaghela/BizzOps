@@ -1,4 +1,3 @@
-// agent/src/agent.js
 import axios from 'axios';
 
 class InventoryAgent {
@@ -31,7 +30,7 @@ class InventoryAgent {
                     headers: {
                         'Authorization': `Bearer ${this.openRouterApiKey}`,
                         'Content-Type': 'application/json',
-                        'HTTP-Referer': 'https://bizzops.com',
+                        'HTTP-Referer': 'https://bizzops.vercel.app',
                         'X-Title': 'BizzOps Inventory Agent'
                     }
                 }

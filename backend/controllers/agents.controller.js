@@ -1,13 +1,335 @@
-// controllers/agent.controller.js
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { Inventory } from "../models/inventory.model.js";
-import { InventoryAgent } from "../../agents/src/agent.js";
+import { Agent } from "../models/agent.model.js";
+import { InventoryAgent } from "../agents/agent.js";
+import { ImageInventoryAgent } from "../agents/tools.js";
 
-// Initialize the LangChain agent
-const inventoryAgent = new InventoryAgent();
+// Create a new agent
+const createAgent = asyncHandler(async (req, res) => {
+    const { name, type, description, capabilities, apiKey, model, temperature, maxTokens, systemPrompt, config } = req.body;
 
+    if (!name || !type || !apiKey) {
+        throw new ApiError(400, "Name, type, and API key are required");
+    }
+
+    // Check if agent with same name already exists for this user
+    const existingAgent = await Agent.findOne({ 
+        name: name.trim(), 
+        owner: req.user._id 
+    });
+
+    if (existingAgent) {
+        throw new ApiError(409, "Agent with this name already exists");
+    }
+
+    const agent = await Agent.create({
+        name: name.trim(),
+        type,
+        description: description?.trim(),
+        capabilities: capabilities || [],
+        apiKey,
+        model: model || "anthropic/claude-3.5-sonnet",
+        temperature: temperature || 0.7,
+        maxTokens: maxTokens || 1000,
+        systemPrompt: systemPrompt?.trim(),
+        config: config || {},
+        owner: req.user._id
+    });
+
+    const createdAgent = await Agent.findById(agent._id).select("-apiKey");
+
+    if (!createdAgent) {
+        throw new ApiError(500, "Something went wrong while creating the agent");
+    }
+
+    return res.status(201).json(
+        new ApiResponse(201, createdAgent, "Agent created successfully")
+    );
+});
+
+// Get all agents for the current user
+const getAgents = asyncHandler(async (req, res) => {
+    const { type, isActive, page = 1, limit = 10 } = req.query;
+
+    const options = {
+        page: parseInt(page),
+        limit: parseInt(limit)
+    };
+
+    if (type) options.type = type;
+    if (isActive !== undefined) options.isActive = isActive === 'true';
+
+    const result = await Agent.getUserAgents(req.user._id, options);
+
+    // Remove API keys from response
+    result.docs = result.docs.map(agent => {
+        const { apiKey, ...agentWithoutKey } = agent;
+        return agentWithoutKey;
+    });
+
+    return res.status(200).json(
+        new ApiResponse(200, result, "Agents retrieved successfully")
+    );
+});
+
+// Get a specific agent by ID
+const getAgentById = asyncHandler(async (req, res) => {
+    const { agentId } = req.params;
+
+    const agent = await Agent.findOne({ 
+        _id: agentId, 
+        owner: req.user._id 
+    }).select("-apiKey");
+
+    if (!agent) {
+        throw new ApiError(404, "Agent not found");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, agent, "Agent retrieved successfully")
+    );
+});
+
+// Update an agent
+const updateAgent = asyncHandler(async (req, res) => {
+    const { agentId } = req.params;
+    const updates = req.body;
+
+    // Remove fields that shouldn't be updated directly
+    delete updates.owner;
+    delete updates.usage;
+    delete updates._id;
+
+    const agent = await Agent.findOne({ 
+        _id: agentId, 
+        owner: req.user._id 
+    });
+
+    if (!agent) {
+        throw new ApiError(404, "Agent not found");
+    }
+
+    // Check if name is being updated and if it conflicts
+    if (updates.name && updates.name !== agent.name) {
+        const existingAgent = await Agent.findOne({ 
+            name: updates.name.trim(), 
+            owner: req.user._id,
+            _id: { $ne: agentId }
+        });
+
+        if (existingAgent) {
+            throw new ApiError(409, "Agent with this name already exists");
+        }
+    }
+
+    // Update the agent
+    Object.keys(updates).forEach(key => {
+        if (updates[key] !== undefined) {
+            agent[key] = updates[key];
+        }
+    });
+
+    await agent.save();
+
+    const updatedAgent = await Agent.findById(agentId).select("-apiKey");
+
+    return res.status(200).json(
+        new ApiResponse(200, updatedAgent, "Agent updated successfully")
+    );
+});
+
+// Delete an agent
+const deleteAgent = asyncHandler(async (req, res) => {
+    const { agentId } = req.params;
+
+    const agent = await Agent.findOneAndDelete({ 
+        _id: agentId, 
+        owner: req.user._id 
+    });
+
+    if (!agent) {
+        throw new ApiError(404, "Agent not found");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, { deleted: true }, "Agent deleted successfully")
+    );
+});
+
+// Get agents by type
+const getAgentsByType = asyncHandler(async (req, res) => {
+    const { type } = req.params;
+
+    const agents = await Agent.getActiveAgentsByType(type, req.user._id);
+
+    // Remove API keys from response
+    const agentsWithoutKeys = agents.map(agent => {
+        const agentObj = agent.toObject();
+        delete agentObj.apiKey;
+        return agentObj;
+    });
+
+    return res.status(200).json(
+        new ApiResponse(200, agentsWithoutKeys, `${type} agents retrieved successfully`)
+    );
+});
+
+// Process a query with an agent
+const processAgentQuery = asyncHandler(async (req, res) => {
+    const { agentId } = req.params;
+    const { query, context } = req.body;
+
+    if (!query) {
+        throw new ApiError(400, "Query is required");
+    }
+
+    const agent = await Agent.findOne({ 
+        _id: agentId, 
+        owner: req.user._id,
+        isActive: true
+    });
+
+    if (!agent) {
+        throw new ApiError(404, "Agent not found or inactive");
+    }
+
+    try {
+        let result;
+
+        // Create appropriate agent instance based on type
+        switch (agent.type) {
+            case 'inventory':
+                const inventoryAgent = new InventoryAgent(agent.apiKey);
+                result = await inventoryAgent.processInventoryQuery(query, context);
+                break;
+            
+            default:
+                // For other types, use a generic implementation
+                result = {
+                    success: true,
+                    message: "Query processed successfully",
+                    data: { response: "Generic agent response processing not yet implemented" }
+                };
+        }
+
+        // Update usage statistics
+        await agent.updateUsage(result.success);
+
+        return res.status(200).json(
+            new ApiResponse(200, result, "Query processed successfully")
+        );
+
+    } catch (error) {
+        // Update usage statistics for failed query
+        await agent.updateUsage(false);
+        
+        throw new ApiError(500, `Error processing query: ${error.message}`);
+    }
+});
+
+// Process image query with agent
+const processAgentImageQuery = asyncHandler(async (req, res) => {
+    const { agentId } = req.params;
+    const { query } = req.body;
+
+    if (!req.file) {
+        throw new ApiError(400, "Image file is required");
+    }
+
+    const agent = await Agent.findOne({ 
+        _id: agentId, 
+        owner: req.user._id,
+        isActive: true
+    });
+
+    if (!agent) {
+        throw new ApiError(404, "Agent not found or inactive");
+    }
+
+    try {
+        let result;
+
+        // Currently only inventory agents support image processing
+        if (agent.type === 'inventory') {
+            const imageAgent = new ImageInventoryAgent();
+            const authToken = req.headers.authorization?.replace('Bearer ', '');
+            
+            result = await imageAgent.processImageQuery(
+                req.file.buffer,
+                query || "Process this image and extract inventory items",
+                authToken
+            );
+        } else {
+            throw new ApiError(400, "Image processing not supported for this agent type");
+        }
+
+        // Update usage statistics
+        await agent.updateUsage(result.success);
+
+        return res.status(200).json(
+            new ApiResponse(200, result, "Image query processed successfully")
+        );
+
+    } catch (error) {
+        // Update usage statistics for failed query
+        await agent.updateUsage(false);
+        
+        throw new ApiError(500, `Error processing image query: ${error.message}`);
+    }
+});
+
+// Get agent usage statistics
+const getAgentUsage = asyncHandler(async (req, res) => {
+    const { agentId } = req.params;
+
+    const agent = await Agent.findOne({ 
+        _id: agentId, 
+        owner: req.user._id 
+    }).select("name type usage createdAt");
+
+    if (!agent) {
+        throw new ApiError(404, "Agent not found");
+    }
+
+    const usageStats = {
+        agentId: agent._id,
+        name: agent.name,
+        type: agent.type,
+        createdAt: agent.createdAt,
+        usage: agent.usage,
+        successRate: agent.getSuccessRate()
+    };
+
+    return res.status(200).json(
+        new ApiResponse(200, usageStats, "Agent usage statistics retrieved successfully")
+    );
+});
+
+// Toggle agent active status
+const toggleAgentStatus = asyncHandler(async (req, res) => {
+    const { agentId } = req.params;
+
+    const agent = await Agent.findOne({ 
+        _id: agentId, 
+        owner: req.user._id 
+    });
+
+    if (!agent) {
+        throw new ApiError(404, "Agent not found");
+    }
+
+    agent.isActive = !agent.isActive;
+    await agent.save();
+
+    const updatedAgent = await Agent.findById(agentId).select("-apiKey");
+
+    return res.status(200).json(
+        new ApiResponse(200, updatedAgent, `Agent ${agent.isActive ? 'activated' : 'deactivated'} successfully`)
+    );
+});
+
+// Legacy inventory functions for backward compatibility
 const processInventoryQuery = asyncHandler(async (req, res) => {
     const { query, context } = req.body;
     const authToken = req.headers.authorization?.replace('Bearer ', '');
@@ -21,7 +343,9 @@ const processInventoryQuery = asyncHandler(async (req, res) => {
     }
 
     try {
-        const result = await inventoryAgent.processQuery(query, authToken, context);
+        // Use default inventory agent - you may want to get from environment or user settings
+        const inventoryAgent = new InventoryAgent(process.env.OPENROUTER_API_KEY);
+        const result = await inventoryAgent.processInventoryQuery(query, context);
         
         return res
             .status(200)
@@ -31,230 +355,45 @@ const processInventoryQuery = asyncHandler(async (req, res) => {
     }
 });
 
-const executeInventoryOperation = asyncHandler(async (req, res) => {
-    const { operation, parameters } = req.body;
+const processImageQuery = asyncHandler(async (req, res) => {
+    const { query } = req.body;
     const authToken = req.headers.authorization?.replace('Bearer ', '');
 
     if (!authToken) {
         throw new ApiError(401, "Authentication token required");
     }
 
-    if (!operation) {
-        throw new ApiError(400, "Operation is required");
+    if (!req.file) {
+        throw new ApiError(400, "Image file is required");
     }
 
     try {
-        const result = await inventoryAgent.executeInventoryOperation(operation, parameters, authToken);
-        
-        return res
-            .status(200)
-            .json(new ApiResponse(200, result, "Operation executed successfully"));
-    } catch (error) {
-        throw new ApiError(500, `Operation execution failed: ${error.message}`);
-    }
-});
-
-const analyzeInventory = asyncHandler(async (req, res) => {
-    const authToken = req.headers.authorization?.replace('Bearer ', '');
-
-    if (!authToken) {
-        throw new ApiError(401, "Authentication token required");
-    }
-
-    try {
-        const result = await inventoryAgent.processQuery(
-            "Analyze my inventory and provide comprehensive insights including stock levels, categories, and optimization opportunities.",
+        const imageAgent = new ImageInventoryAgent();
+        const result = await imageAgent.processImageQuery(
+            req.file.buffer,
+            query || "Process this image and extract inventory items",
             authToken
         );
         
         return res
             .status(200)
-            .json(new ApiResponse(200, result, "Inventory analysis completed"));
+            .json(new ApiResponse(200, result, "Image query processed successfully"));
     } catch (error) {
-        throw new ApiError(500, `Inventory analysis failed: ${error.message}`);
+        throw new ApiError(500, `Image processing failed: ${error.message}`);
     }
 });
-
-const getStockRecommendations = asyncHandler(async (req, res) => {
-    const { salesData } = req.body;
-    const authToken = req.headers.authorization?.replace('Bearer ', '');
-
-    if (!authToken) {
-        throw new ApiError(401, "Authentication token required");
-    }
-
-    try {
-        const query = salesData 
-            ? `Generate stock management recommendations based on my current inventory and this sales data: ${JSON.stringify(salesData)}`
-            : "Generate stock management recommendations for my inventory";
-            
-        const result = await inventoryAgent.processQuery(query, authToken);
-        
-        return res
-            .status(200)
-            .json(new ApiResponse(200, result, "Stock recommendations generated"));
-    } catch (error) {
-        throw new ApiError(500, `Recommendation generation failed: ${error.message}`);
-    }
-});
-
-const predictInventoryNeeds = asyncHandler(async (req, res) => {
-    const { historicalData } = req.body;
-    const authToken = req.headers.authorization?.replace('Bearer ', '');
-
-    if (!authToken) {
-        throw new ApiError(401, "Authentication token required");
-    }
-
-    try {
-        const query = historicalData
-            ? `Analyze my inventory and predict future needs based on this historical data: ${JSON.stringify(historicalData)}`
-            : "Analyze my inventory patterns and predict future inventory needs for the next 30 days";
-            
-        const result = await inventoryAgent.processQuery(query, authToken);
-        
-        return res
-            .status(200)
-            .json(new ApiResponse(200, result, "Inventory predictions generated"));
-    } catch (error) {
-        throw new ApiError(500, `Prediction failed: ${error.message}`);
-    }
-});
-
-const optimizeInventoryLayout = asyncHandler(async (req, res) => {
-    const authToken = req.headers.authorization?.replace('Bearer ', '');
-
-    if (!authToken) {
-        throw new ApiError(401, "Authentication token required");
-    }
-
-    try {
-        const result = await inventoryAgent.processQuery(
-            "Analyze my inventory and provide recommendations for optimizing warehouse layout, storage organization, and operational efficiency.",
-            authToken
-        );
-        
-        return res
-            .status(200)
-            .json(new ApiResponse(200, result, "Inventory layout optimization completed"));
-    } catch (error) {
-        throw new ApiError(500, `Layout optimization failed: ${error.message}`);
-    }
-});
-
-const generateInventoryReport = asyncHandler(async (req, res) => {
-    const { reportType = 'summary' } = req.body;
-    const authToken = req.headers.authorization?.replace('Bearer ', '');
-
-    if (!authToken) {
-        throw new ApiError(401, "Authentication token required");
-    }
-
-    if (!['summary', 'detailed', 'alerts'].includes(reportType)) {
-        throw new ApiError(400, "Invalid report type. Use: summary, detailed, or alerts");
-    }
-
-    try {
-        const result = await inventoryAgent.processQuery(
-            `Generate a ${reportType} inventory report with professional formatting and actionable insights.`,
-            authToken
-        );
-        
-        return res
-            .status(200)
-            .json(new ApiResponse(200, result, `${reportType} inventory report generated`));
-    } catch (error) {
-        throw new ApiError(500, `Report generation failed: ${error.message}`);
-    }
-});
-
-const getInventoryInsights = asyncHandler(async (req, res) => {
-    const authToken = req.headers.authorization?.replace('Bearer ', '');
-
-    if (!authToken) {
-        throw new ApiError(401, "Authentication token required");
-    }
-
-    try {
-        const result = await inventoryAgent.processQuery(
-            "Provide comprehensive inventory insights including key metrics, low stock alerts, category distribution, and actionable recommendations.",
-            authToken
-        );
-        
-        return res
-            .status(200)
-            .json(new ApiResponse(200, result, "Inventory insights generated"));
-    } catch (error) {
-        throw new ApiError(500, `Insights generation failed: ${error.message}`);
-    }
-});
-
-// New endpoints for direct operations
-const addInventoryItemWithAgent = asyncHandler(async (req, res) => {
-    const { item, category, stockRemain, date } = req.body;
-    const authToken = req.headers.authorization?.replace('Bearer ', '');
-
-    if (!authToken) {
-        throw new ApiError(401, "Authentication token required");
-    }
-
-    if (!item || !category || !stockRemain || !date) {
-        throw new ApiError(400, "All fields are required: item, category, stockRemain, date");
-    }
-
-    try {
-        const result = await inventoryAgent.executeInventoryOperation('ADD_ITEM', {
-            item,
-            category,
-            stockRemain,
-            date
-        }, authToken);
-        
-        return res
-            .status(200)
-            .json(new ApiResponse(200, result, "Item added successfully"));
-    } catch (error) {
-        throw new ApiError(500, `Failed to add item: ${error.message}`);
-    }
-});
-
-const updateStockWithAgent = asyncHandler(async (req, res) => {
-    const { product, newQty, operation } = req.body; // operation: 'add' or 'remove'
-    const authToken = req.headers.authorization?.replace('Bearer ', '');
-
-    if (!authToken) {
-        throw new ApiError(401, "Authentication token required");
-    }
-
-    if (!product || !newQty || !operation) {
-        throw new ApiError(400, "Product ID, quantity, and operation (add/remove) are required");
-    }
-
-    try {
-        const agentOperation = operation === 'add' ? 'ADD_STOCK' : 'REMOVE_STOCK';
-        const result = await inventoryAgent.executeInventoryOperation(agentOperation, {
-            product,
-            newQty
-        }, authToken);
-        
-        return res
-            .status(200)
-            .json(new ApiResponse(200, result, `Stock ${operation}ed successfully`));
-    } catch (error) {
-        throw new ApiError(500, `Failed to update stock: ${error.message}`);
-    }
-});
-
 
 export {
+    createAgent,
+    getAgents,
+    getAgentById,
+    updateAgent,
+    deleteAgent,
+    getAgentsByType,
+    processAgentQuery,
+    processAgentImageQuery,
+    getAgentUsage,
+    toggleAgentStatus,
     processInventoryQuery,
-    executeInventoryOperation,
-    analyzeInventory,
-    getStockRecommendations,
-    predictInventoryNeeds,
-    optimizeInventoryLayout,
-    generateInventoryReport,
-    getInventoryInsights,
-    addInventoryItemWithAgent,
-    updateStockWithAgent
+    processImageQuery
 };
