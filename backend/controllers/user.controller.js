@@ -251,11 +251,10 @@ const getActiveSessions = asyncHandler(async(req, res) => {
         throw new ApiError(404, "User not found");
     }
 
-    // Filter out inactive sessions and hide refresh tokens
+    // Hide refresh tokens and mark current session
     const currentSessionId = req.cookies?.sessionId || req.header('X-Session-ID') || req.header('sessionId');
     
     const activeSessions = user.activeSessions
-        .filter(session => session.isActive)
         .map(session => ({
             sessionId: session.sessionId,
             ipAddress: session.ipAddress,
@@ -273,6 +272,11 @@ const getActiveSessions = asyncHandler(async(req, res) => {
 const revokeSession = asyncHandler(async(req, res) => {
     const { sessionId } = req.params;
     const currentSessionId = req.cookies?.sessionId || req.header('X-Session-ID');
+
+    // Validate sessionId parameter
+    if (!sessionId) {
+        throw new ApiError(400, "Session ID is required");
+    }
 
     if (sessionId === currentSessionId) {
         throw new ApiError(400, "Cannot revoke current session. Please use logout instead.");

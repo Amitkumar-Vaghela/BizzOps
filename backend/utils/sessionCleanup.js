@@ -21,60 +21,59 @@ export const cleanupExpiredSessions = async () => {
     }
 };
 
-// Mark sessions as inactive instead of deleting them immediately
+// Mark sessions as inactive instead of deleting them immediately (7 days)
 export const markInactiveSessions = async () => {
     try {
         const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
         
+        // Remove sessions older than 7 days
         await User.updateMany(
-            { "activeSessions.lastActiveAt": { $lt: sevenDaysAgo } },
+            {},
             {
-                $set: {
-                    "activeSessions.$[session].isActive": false
+                $pull: {
+                    activeSessions: {
+                        lastActiveAt: { $lt: sevenDaysAgo }
+                    }
                 }
-            },
-            {
-                arrayFilters: [
-                    { "session.lastActiveAt": { $lt: sevenDaysAgo } }
-                ]
             }
         );
         
     } catch (error) {
-        console.error('Error marking inactive sessions:', error);
+        console.error('Error removing old sessions:', error);
     }
 };
 
 // Revoke sessions from other devices (keep current session)
 export const revokeOtherDeviceSessions = async (userId, currentSessionId) => {
     try {
+        // First check if the user exists
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // Remove all sessions except the current one
         const result = await User.findByIdAndUpdate(
             userId,
             {
-                $set: {
-                    "activeSessions.$[session].isActive": false
+                $pull: {
+                    activeSessions: { 
+                        sessionId: { $ne: currentSessionId }
+                    }
                 }
             },
-            {
-                arrayFilters: [
-                    { 
-                        "session.sessionId": { $ne: currentSessionId },
-                        "session.isActive": true
-                    }
-                ],
-                new: true
-            }
+            { new: true }
         );
         
         if (result) {
-            const remainingSessions = result.activeSessions.filter(session => session.isActive);
+            const remainingSessions = result.activeSessions.length;
             return {
                 success: true,
-                remainingSessions: remainingSessions.length,
+                remainingSessions: remainingSessions,
                 message: 'Other device sessions revoked successfully'
             };
         } else {
-            throw new Error('User not found');
+            throw new Error('Failed to revoke sessions');
         }
     } catch (error) {
         return {
@@ -87,11 +86,18 @@ export const revokeOtherDeviceSessions = async (userId, currentSessionId) => {
 // Revoke all sessions for a user (including current session)
 export const revokeAllUserSessions = async (userId) => {
     try {
+        // First check if the user exists
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // Remove all active sessions
         const result = await User.findByIdAndUpdate(
             userId,
             {
                 $set: {
-                    "activeSessions.$[].isActive": false
+                    activeSessions: []
                 }
             },
             { new: true }
@@ -103,7 +109,7 @@ export const revokeAllUserSessions = async (userId) => {
                 message: 'All sessions revoked successfully'
             };
         } else {
-            throw new Error('User not found');
+            throw new Error('Failed to revoke all sessions');
         }
     } catch (error) {
         return {
@@ -116,19 +122,27 @@ export const revokeAllUserSessions = async (userId) => {
 // Revoke a specific session
 export const revokeSpecificSession = async (userId, sessionId) => {
     try {
+        // First check if the user exists and has the session
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // Check if the session exists
+        const sessionExists = user.activeSessions.some(session => session.sessionId === sessionId);
+        if (!sessionExists) {
+            throw new Error('Session not found');
+        }
+
+        // Remove the specific session from the array
         const result = await User.findByIdAndUpdate(
             userId,
             {
-                $set: {
-                    "activeSessions.$[session].isActive": false
+                $pull: {
+                    activeSessions: { sessionId: sessionId }
                 }
             },
-            {
-                arrayFilters: [
-                    { "session.sessionId": sessionId }
-                ],
-                new: true
-            }
+            { new: true }
         );
         
         if (result) {
@@ -137,7 +151,7 @@ export const revokeSpecificSession = async (userId, sessionId) => {
                 message: 'Session revoked successfully'
             };
         } else {
-            throw new Error('User not found');
+            throw new Error('Failed to revoke session');
         }
     } catch (error) {
         return {
@@ -156,16 +170,6 @@ export const getSessionStatistics = async () => {
                 $group: {
                     _id: null,
                     totalSessions: { $sum: 1 },
-                    activeSessions: {
-                        $sum: {
-                            $cond: [{ $eq: ["$activeSessions.isActive", true] }, 1, 0]
-                        }
-                    },
-                    inactiveSessions: {
-                        $sum: {
-                            $cond: [{ $eq: ["$activeSessions.isActive", false] }, 1, 0]
-                        }
-                    },
                     uniqueUsers: { $addToSet: "$_id" }
                 }
             },
@@ -173,8 +177,6 @@ export const getSessionStatistics = async () => {
                 $project: {
                     _id: 0,
                     totalSessions: 1,
-                    activeSessions: 1,
-                    inactiveSessions: 1,
                     uniqueUsersWithSessions: { $size: "$uniqueUsers" }
                 }
             }
@@ -184,8 +186,6 @@ export const getSessionStatistics = async () => {
         
         return result[0] || {
             totalSessions: 0,
-            activeSessions: 0,
-            inactiveSessions: 0,
             uniqueUsersWithSessions: 0
         };
     } catch (error) {
