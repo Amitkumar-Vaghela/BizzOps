@@ -19,6 +19,7 @@ import {
   CreditCard,
   FileText
 } from 'lucide-react';
+import VoiceInput from '../VoiceInput/VoiceInput.jsx';
 
 const token = localStorage.getItem('accessToken');
 
@@ -29,6 +30,7 @@ const InvoiceRAGComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const [useVoiceInput, setUseVoiceInput] = useState(false);
 
   const timelineOptions = [
     { value: 'today', label: 'Today' },
@@ -284,6 +286,50 @@ const InvoiceRAGComponent = () => {
                   <RefreshCw className="w-5 h-5" />
                 </button>
               </div>
+
+              {/* Voice Input Toggle */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="voiceInputToggle"
+                  checked={useVoiceInput}
+                  onChange={(e) => setUseVoiceInput(e.target.checked)}
+                  className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label htmlFor="voiceInputToggle" className="text-sm text-white">
+                  Enable voice input
+                </label>
+              </div>
+
+              {/* Voice Input Component */}
+              {useVoiceInput && (
+                <div className="mt-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border-2 border-purple-200">
+                  <div className="text-sm font-medium text-gray-700 mb-2">
+                    🎙️ Voice Input - Speak in any language
+                  </div>
+                  <VoiceInput 
+                    onTranscript={(voiceQuery) => {
+                      setQuery(voiceQuery);
+                      setTimeout(() => {
+                        if (voiceQuery.trim()) {
+                          handleSubmit({ preventDefault: () => {} });
+                        }
+                      }, 500);
+                    }}
+                    onError={(error) => {
+                      setError(`Voice input error: ${error}`);
+                    }}
+                    placeholder="Ask about your invoices using voice..."
+                    className="mb-4"
+                  />
+                  <div className="text-xs text-purple-600 flex flex-wrap gap-2">
+                    <span>💡 Examples:</span>
+                    <span className="bg-white px-2 py-1 rounded">मेरे invoices कैसे हैं?</span>
+                    <span className="bg-white px-2 py-1 rounded">What&apos;s my payment status?</span>
+                    <span className="bg-white px-2 py-1 rounded">আমার বিল কত?</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
-  MessageSquare, 
   Send, 
   Calendar, 
   Search, 
   Loader2, 
-  PieChart, 
-  TrendingDown, 
   DollarSign, 
   Receipt,
   Clock,
@@ -14,10 +11,9 @@ import {
   AlertCircle,
   Copy,
   RefreshCw,
-  CreditCard,
-  Target,
   Calculator
 } from 'lucide-react';
+import VoiceInput from '../VoiceInput/VoiceInput.jsx';
 
 const ExpenseRAGComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +22,7 @@ const ExpenseRAGComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const [useVoiceInput, setUseVoiceInput] = useState(false);
 
   // Get token from localStorage (you might want to use a more secure method)
   const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
@@ -284,6 +281,51 @@ const ExpenseRAGComponent = () => {
                   <RefreshCw className="w-5 h-5" />
                 </button>
               </div>
+
+              {/* Voice Input Toggle */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="voiceInputToggle"
+                  checked={useVoiceInput}
+                  onChange={(e) => setUseVoiceInput(e.target.checked)}
+                  className="w-5 h-5 text-red-600 border-gray-300 rounded focus:ring-red-500"
+                />
+                <label htmlFor="voiceInputToggle" className="text-sm text-gray-700">
+                  🎤 Enable Voice Input (Hindi, English & Indian languages)
+                </label>
+              </div>
+
+              {/* Voice Input Component */}
+              {useVoiceInput && (
+                <div className="mt-4 p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-lg border-2 border-red-200">
+                  <div className="text-sm font-medium text-gray-700 mb-2">
+                    🎙️ Voice Input - Speak in any language
+                  </div>
+                  <VoiceInput 
+                    onTranscript={(voiceQuery) => {
+                      setQuery(voiceQuery);
+                      // Automatically submit when voice input is complete
+                      setTimeout(() => {
+                        if (voiceQuery.trim()) {
+                          handleSubmit({ preventDefault: () => {} });
+                        }
+                      }, 500);
+                    }}
+                    onError={(error) => {
+                      setError(`Voice input error: ${error}`);
+                    }}
+                    placeholder="Ask about your expenses using voice..."
+                    className="mb-4"
+                  />
+                  <div className="text-xs text-red-600 flex flex-wrap gap-2">
+                    <span>💡 Examples:</span>
+                    <span className="bg-white px-2 py-1 rounded">मेरे expenses कितने हैं?</span>
+                    <span className="bg-white px-2 py-1 rounded">What are my top expenses?</span>
+                    <span className="bg-white px-2 py-1 rounded">আমার খরচ কত?</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -370,7 +412,7 @@ const ExpenseRAGComponent = () => {
                 <div className="mt-6 pt-4 border-t border-gray-200">
                   <div className="flex items-center gap-2 text-sm text-gray-500">
                     <Search className="w-4 h-4" />
-                    <span>Query: "{response.query}"</span>
+                    <span>Query: &quot;{response.query}&quot;</span>
                     <span>•</span>
                     <Calendar className="w-4 h-4" />
                     <span>Period: {timelineOptions.find(t => t.value === timeline)?.label}</span>

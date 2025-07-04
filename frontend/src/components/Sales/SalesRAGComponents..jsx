@@ -15,6 +15,8 @@ import {
   Copy,
   RefreshCw
 } from 'lucide-react';
+import VoiceInput from '../VoiceInput/VoiceInput.jsx';
+
 const token = localStorage.getItem('accessToken');
 
 const SalesRAGComponent = () => {
@@ -24,6 +26,7 @@ const SalesRAGComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const [useVoiceInput, setUseVoiceInput] = useState(false);
 
   const timelineOptions = [
     { value: 'today', label: 'Today' },
@@ -279,6 +282,50 @@ const SalesRAGComponent = () => {
                   <RefreshCw className="w-5 h-5" />
                 </button>
               </div>
+
+              {/* Voice Input Toggle */}
+              <div className="flex items-center gap-2 mt-4">
+                <input
+                  type="checkbox"
+                  id="voiceInputToggle"
+                  checked={useVoiceInput}
+                  onChange={(e) => setUseVoiceInput(e.target.checked)}
+                  className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label htmlFor="voiceInputToggle" className="text-sm text-white">
+                  🎤 Enable Voice Input (Hindi, English & Indian languages)
+                </label>
+              </div>
+
+              {/* Voice Input Component */}
+              {useVoiceInput && (
+                <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border-2 border-blue-200">
+                  <div className="text-sm font-medium text-gray-700 mb-2">
+                    🎙️ Voice Input - Speak in any language
+                  </div>
+                  <VoiceInput 
+                    onTranscript={(voiceQuery) => {
+                      setQuery(voiceQuery);
+                      setTimeout(() => {
+                        if (voiceQuery.trim()) {
+                          handleSubmit({ preventDefault: () => {} });
+                        }
+                      }, 500);
+                    }}
+                    onError={(error) => {
+                      setError(`Voice input error: ${error}`);
+                    }}
+                    placeholder="Ask about your sales using voice..."
+                    className="mb-4"
+                  />
+                  <div className="text-xs text-blue-600 flex flex-wrap gap-2">
+                    <span>💡 Examples:</span>
+                    <span className="bg-white px-2 py-1 rounded">मेरी sales कितनी है?</span>
+                    <span className="bg-white px-2 py-1 rounded">What&apos;s my revenue?</span>
+                    <span className="bg-white px-2 py-1 rounded">আমার বিক্রয় কত?</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

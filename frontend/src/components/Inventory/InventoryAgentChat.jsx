@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useRef } from 'react';
 import { MessageCircle, X, Send, Bot, User, Loader2, TrendingUp, TrendingDown, AlertTriangle, Package, BarChart3, Camera, Upload, CheckCircle, XCircle, Info } from 'lucide-react';
+import VoiceInput from '../VoiceInput/VoiceInput.jsx';
 
 // Response Formatter Components
 const JSONResponseFormatter = ({ data }) => (
@@ -140,6 +142,7 @@ const InventoryAgentChat = ({ authToken }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [useVoiceInput, setUseVoiceInput] = useState(false);
   const fileInputRef = useRef(null);
 
   // Function to extract the actual response content from the agent
@@ -467,6 +470,50 @@ const InventoryAgentChat = ({ authToken }) => {
 
             {/* Input Area */}
             <div className="border-t bg-white p-4">
+              {/* Voice Input Toggle */}
+              <div className="flex items-center gap-2 mb-3">
+                <input
+                  type="checkbox"
+                  id="voiceInputToggle"
+                  checked={useVoiceInput}
+                  onChange={(e) => setUseVoiceInput(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label htmlFor="voiceInputToggle" className="text-sm text-gray-700">
+                  🎤 Enable Voice Input
+                </label>
+              </div>
+
+              {/* Voice Input Component */}
+              {useVoiceInput && (
+                <div className="mb-3 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-green-200">
+                  <div className="text-xs font-medium text-gray-600 mb-2">
+                    🎙️ Voice Input - Ask about inventory in any language
+                  </div>
+                  <VoiceInput 
+                    onTranscript={(voiceQuery) => {
+                      setInputMessage(voiceQuery);
+                      // Auto-send the message after voice input
+                      setTimeout(() => {
+                        if (voiceQuery.trim()) {
+                          sendMessage();
+                        }
+                      }, 500);
+                    }}
+                    onError={(error) => {
+                      console.error('Voice input error:', error);
+                    }}
+                    placeholder="Ask about your inventory using voice..."
+                    className="mb-2"
+                  />
+                  <div className="text-xs text-green-600 flex flex-wrap gap-1">
+                    <span>💡 Try:</span>
+                    <span className="bg-white px-1 py-0.5 rounded text-xs">मेरे inventory में क्या है?</span>
+                    <span className="bg-white px-1 py-0.5 rounded text-xs">What&apos;s my stock level?</span>
+                  </div>
+                </div>
+              )}
+
               {/* Image Preview */}
               {imagePreview && (
                 <div className="mb-3 flex items-center gap-3 p-2 bg-blue-50 rounded-lg">

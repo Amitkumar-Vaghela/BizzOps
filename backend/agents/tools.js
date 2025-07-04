@@ -9,7 +9,6 @@ import multer from "multer";
 
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:8000";
 
-// Configure OpenRouter model with vision capabilities
 const model = new ChatOpenAI({
   model: "anthropic/claude-3.5-sonnet", // or "openai/gpt-4-vision-preview", "google/gemini-pro-vision"
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -24,11 +23,10 @@ const model = new ChatOpenAI({
   maxTokens: 1000,
 });
 
-// Configure multer for image upload
 const storage = multer.memoryStorage();
 const upload = multer({ 
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
@@ -38,7 +36,6 @@ const upload = multer({
   }
 });
 
-// Utility function for API calls
 const fetchJson = async (url, method, body, authToken) => {
   const controller = new AbortController();
   const signal = controller.signal;
@@ -62,26 +59,19 @@ const fetchJson = async (url, method, body, authToken) => {
   return res.json();
 };
 
-// Function to detect MIME type from buffer
 const detectMimeType = (buffer) => {
   const signature = buffer.slice(0, 4).toString('hex');
-  
   if (signature.startsWith('ffd8ff')) return 'image/jpeg';
   if (signature.startsWith('89504e47')) return 'image/png';
   if (signature.startsWith('47494638')) return 'image/gif';
   if (signature.startsWith('52494646')) return 'image/webp';
-  
-  return 'image/jpeg'; // Default fallback
+  return 'image/jpeg';
 };
 
-// Function to extract text from image using OpenRouter
 const extractTextFromImage = async (imageBuffer) => {
   try {
-    // Convert buffer to base64
     const base64Image = imageBuffer.toString('base64');
     const mimeType = detectMimeType(imageBuffer);
-    
-    // Use OpenRouter's vision model for text extraction - proper format for OpenAI-compatible API
     const response = await model.invoke([
       {
         role: "user",
@@ -99,12 +89,9 @@ const extractTextFromImage = async (imageBuffer) => {
         ]
       }
     ]);
-
     return response.content || "No text detected in image";
   } catch (error) {
     console.error("Error extracting text from image:", error);
-    
-    // Fallback: Try with direct OpenRouter API call if LangChain fails
     try {
       const fallbackResponse = await extractTextWithDirectAPI(imageBuffer);
       return fallbackResponse;
@@ -114,11 +101,9 @@ const extractTextFromImage = async (imageBuffer) => {
   }
 };
 
-// Fallback function for direct OpenRouter API call
 const extractTextWithDirectAPI = async (imageBuffer) => {
   const base64Image = imageBuffer.toString('base64');
   const mimeType = detectMimeType(imageBuffer);
-  
   const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -128,7 +113,7 @@ const extractTextWithDirectAPI = async (imageBuffer) => {
       'X-Title': 'Inventory Management Agent'
     },
     body: JSON.stringify({
-      model: 'anthropic/claude-3.5-sonnet', // or another vision model
+      model: 'anthropic/claude-3.5-sonnet',
       messages: [
         {
           role: 'user',
@@ -159,18 +144,14 @@ const extractTextWithDirectAPI = async (imageBuffer) => {
   return data.choices[0]?.message?.content || "No text detected in image";
 };
 
-// Function to parse extracted text into structured data
 const parseExtractedText = (extractedText) => {
   try {
     const lines = extractedText.split('\n').filter(line => line.trim());
     const items = [];
-    
-    // First try to parse structured format
     for (const line of lines) {
       const itemMatch = line.match(/Item:\s*(.+?)(?:,|$)/i);
       const quantityMatch = line.match(/Quantity:\s*(\d+)/i);
       const categoryMatch = line.match(/Category:\s*(.+?)(?:,|$)/i);
-      
       if (itemMatch && quantityMatch) {
         items.push({
           item: itemMatch[1].trim(),
@@ -179,30 +160,23 @@ const parseExtractedText = (extractedText) => {
         });
       }
     }
-    
-    // Enhanced parsing - look for patterns like "5x Laptop", "10 phones", etc.
     if (items.length === 0) {
       const patterns = [
-        /(\d+)x?\s+([a-zA-Z\s]+)/gi, // "5x laptop", "10 phones"
-        /([a-zA-Z\s]+):\s*(\d+)/gi,  // "laptop: 5", "phone: 10"
-        /(\d+)\s+([a-zA-Z\s]+)/gi    // "5 laptop", "10 phone"
+        /(\d+)x?\s+([a-zA-Z\s]+)/gi,
+        /([a-zA-Z\s]+):\s*(\d+)/gi,
+        /(\d+)\s+([a-zA-Z\s]+)/gi
       ];
-      
       for (const pattern of patterns) {
         let match;
         while ((match = pattern.exec(extractedText)) !== null) {
           let quantity, item;
-          
           if (pattern.source.includes('([a-zA-Z\\s]+):\\s*(\\d+)')) {
-            // For "item: quantity" pattern
             item = match[1].trim();
             quantity = parseInt(match[2]);
           } else {
-            // For "quantity item" patterns
             quantity = parseInt(match[1]);
             item = match[2] ? match[2].trim() : match[1].trim();
           }
-          
           if (quantity > 0 && item.length > 1) {
             items.push({
               item: item,
@@ -214,31 +188,25 @@ const parseExtractedText = (extractedText) => {
         if (items.length > 0) break;
       }
     }
-    
-    // If still no items found, try to extract from natural language
     if (items.length === 0) {
       const words = extractedText.toLowerCase().split(/\s+/);
       const numbers = extractedText.match(/\d+/g);
-      
       if (numbers && numbers.length > 0) {
-        // Simple fallback: assume first number is quantity and try to find item name
         const quantity = parseInt(numbers[0]);
         const itemWords = words.filter(word => 
           word.length > 2 && 
           !word.match(/^\d+$/) && 
           !['the', 'and', 'or', 'of', 'in', 'on', 'at', 'to', 'for'].includes(word)
         );
-        
         if (itemWords.length > 0 && quantity > 0) {
           items.push({
-            item: itemWords.slice(0, 3).join(' '), // Take first few words as item name
+            item: itemWords.slice(0, 3).join(' '),
             quantity: quantity,
             category: "General"
           });
         }
       }
     }
-    
     return items;
   } catch (error) {
     console.error("Error parsing extracted text:", error);
@@ -246,15 +214,10 @@ const parseExtractedText = (extractedText) => {
   }
 };
 
-// Tool for processing image and adding items to inventory
 const processImageAndAddItemsTool = tool(async ({ imageBuffer, authToken }) => {
   try {
-    // Extract text from image
     const extractedText = await extractTextFromImage(imageBuffer);
-    
-    // Parse extracted text into structured data
     const parsedItems = parseExtractedText(extractedText);
-    
     if (parsedItems.length === 0) {
       return {
         success: false,
@@ -263,8 +226,6 @@ const processImageAndAddItemsTool = tool(async ({ imageBuffer, authToken }) => {
         error: "No parseable items found"
       };
     }
-    
-    // Add each item to inventory
     const results = [];
     for (const item of parsedItems) {
       try {
@@ -274,7 +235,6 @@ const processImageAndAddItemsTool = tool(async ({ imageBuffer, authToken }) => {
           stockRemain: item.quantity,
           date: new Date().toISOString().split('T')[0]
         }, authToken);
-        
         results.push({
           success: true,
           item: item.item,
@@ -290,10 +250,8 @@ const processImageAndAddItemsTool = tool(async ({ imageBuffer, authToken }) => {
         });
       }
     }
-    
     const successCount = results.filter(r => r.success).length;
     const failedCount = results.length - successCount;
-    
     return {
       success: successCount > 0,
       message: `✅ Successfully added ${successCount} items to inventory${failedCount > 0 ? ` (${failedCount} failed)` : ''}`,
@@ -306,7 +264,6 @@ const processImageAndAddItemsTool = tool(async ({ imageBuffer, authToken }) => {
         failed: failedCount
       }
     };
-    
   } catch (error) {
     return {
       success: false,
@@ -323,11 +280,9 @@ const processImageAndAddItemsTool = tool(async ({ imageBuffer, authToken }) => {
   }),
 });
 
-// Tool for getting inventory
 const getInventoryTool = tool(async ({ authToken }) => {
   try {
     const result = await fetchJson(`${API_BASE_URL}/api/v1/inventory/get-item`, "GET", null, authToken);
-    
     if (result && result.data && result.data.length > 0) {
       return {
         success: true,
@@ -364,14 +319,12 @@ const getInventoryTool = tool(async ({ authToken }) => {
   }),
 });
 
-// Tool for adding stock to existing items
 const addStockTool = tool(async ({ product, newQty, authToken }) => {
   try {
     const result = await fetchJson(`${API_BASE_URL}/api/v1/inventory/add-stock`, "POST", {
       product,
       newQty
     }, authToken);
-    
     return {
       success: true,
       message: `✅ Successfully added ${newQty} units to ${product}`,
@@ -394,7 +347,6 @@ const addStockTool = tool(async ({ product, newQty, authToken }) => {
   }),
 });
 
-// Create the agent with simplified tools
 const agent = createReactAgent({
   llm: model,
   tools: [
@@ -438,7 +390,6 @@ For inventory queries:
 Always be helpful and provide clear guidance on how to use the image processing features with OpenRouter.`
 });
 
-// Enhanced Agent interface with image processing
 class ImageInventoryAgent {
   constructor() {
     this.agent = agent;
@@ -452,21 +403,15 @@ class ImageInventoryAgent {
           content: `${query}\n\nAuth Token: ${authToken}\n\nImage uploaded for processing via OpenRouter.`
         }
       ];
-
-      // Process image and add items
       const imageResult = await processImageAndAddItemsTool.invoke({
         imageBuffer,
         authToken
       });
-
-      // Let the agent format the response
       const agentQuery = `Process this image result and provide a formatted response: ${JSON.stringify(imageResult)}`;
       const result = await this.agent.invoke({ 
         messages: [{ role: "user", content: agentQuery }] 
       });
-      
       const finalMessage = result.messages[result.messages.length - 1];
-      
       return { 
         success: imageResult.success, 
         response: finalMessage.content || imageResult.message,
@@ -492,11 +437,8 @@ class ImageInventoryAgent {
           content: `${query}${context ? `\n\nContext: ${JSON.stringify(context)}` : ''}\n\nAuth Token: ${authToken}`
         }
       ];
-
       const result = await this.agent.invoke({ messages });
-      
       const finalMessage = result.messages[result.messages.length - 1];
-      
       return { 
         success: true, 
         response: finalMessage.content || "Operation completed successfully",
@@ -514,10 +456,8 @@ class ImageInventoryAgent {
   }
 }
 
-// Express middleware for handling image uploads
 const handleImageUpload = upload.single('image');
 
-// Export everything needed
 export { 
   ImageInventoryAgent, 
   handleImageUpload,

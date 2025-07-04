@@ -18,6 +18,8 @@ import {
   ShoppingCart,
   Target
 } from 'lucide-react';
+import VoiceInput from '../VoiceInput/VoiceInput.jsx';
+
 const token = localStorage.getItem('accessToken');
 
 
@@ -28,6 +30,7 @@ const OrderRAGComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const [useVoiceInput, setUseVoiceInput] = useState(false);
 
   const timelineOptions = [
     { value: 'today', label: 'Today' },
@@ -298,6 +301,56 @@ const OrderRAGComponent = () => {
                   <RefreshCw className="w-5 h-5" />
                 </button>
               </div>
+
+              {/* Voice Input Toggle */}
+              <div>
+                <label className="flex items-center cursor-pointer">
+                  <span className="text-sm font-medium text-gray-700 mr-3">
+                    Use Voice Input
+                  </span>
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={useVoiceInput}
+                      onChange={() => setUseVoiceInput(!useVoiceInput)}
+                      className="sr-only"
+                    />
+                    <div className={`w-10 h-6 rounded-full ${useVoiceInput ? 'bg-green-500' : 'bg-gray-300'}`}>
+                      <div className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-all duration-300 ${useVoiceInput ? 'translate-x-4' : 'translate-x-0'}`} />
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              {/* Voice Input Component */}
+              {useVoiceInput && (
+                <div className="mt-4 p-4 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border-2 border-orange-200">
+                  <div className="text-sm font-medium text-gray-700 mb-2">
+                    🎙️ Voice Input - Speak in any language
+                  </div>
+                  <VoiceInput 
+                    onTranscript={(voiceQuery) => {
+                      setQuery(voiceQuery);
+                      setTimeout(() => {
+                        if (voiceQuery.trim()) {
+                          handleSubmit({ preventDefault: () => {} });
+                        }
+                      }, 500);
+                    }}
+                    onError={(error) => {
+                      setError(`Voice input error: ${error}`);
+                    }}
+                    placeholder="Ask about your orders using voice..."
+                    className="mb-4"
+                  />
+                  <div className="text-xs text-orange-600 flex flex-wrap gap-2">
+                    <span>💡 Examples:</span>
+                    <span className="bg-white px-2 py-1 rounded">मेरे orders कैसे हैं?</span>
+                    <span className="bg-white px-2 py-1 rounded">What&apos;s my delivery status?</span>
+                    <span className="bg-white px-2 py-1 rounded">আমার অর্ডার কোথায়?</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
