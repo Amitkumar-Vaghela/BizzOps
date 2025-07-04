@@ -32,10 +32,10 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
       throw new ApiError(401, 'Invalid access token');
     }
 
-    // Verify session exists and is active
+    // Verify session exists
     if (sessionId) {
       const activeSession = user.activeSessions.find(
-        session => session.sessionId === sessionId && session.isActive
+        session => session.sessionId === sessionId
       );
 
       if (!activeSession) {

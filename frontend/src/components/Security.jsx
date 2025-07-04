@@ -57,13 +57,27 @@ const Security = ({ isVisible, onClose }) => {
 
     const revokeSession = async (sessionId) => {
         try {
+            setError(''); // Clear any previous errors
             const token = localStorage.getItem('accessToken');
             const currentSessionId = localStorage.getItem('sessionId');
+            
+            if (!token) {
+                setError('No authentication token found. Please login again.');
+                return;
+            }
+
+            if (!sessionId) {
+                setError('Invalid session ID');
+                return;
+            }
             
             const headers = { 'Authorization': token };
             if (currentSessionId) {
                 headers['X-Session-ID'] = currentSessionId;
             }
+
+            console.log('Revoking session:', sessionId);
+            console.log('Current session:', currentSessionId);
 
             const response = await axios.delete(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/sessions/${sessionId}`,
@@ -73,26 +87,42 @@ const Security = ({ isVisible, onClose }) => {
                 }
             );
 
+            console.log('Revoke response:', response.data);
+
             if (response.data.statusCode === 200) {
-                setSessions(sessions.filter(session => session.sessionId !== sessionId));
+                // Remove the revoked session from state
+                setSessions(prevSessions => prevSessions.filter(session => session.sessionId !== sessionId));
                 setShowConfirmModal(false);
                 setSessionToRevoke(null);
+                
+                // Show success message briefly
+                setError('Session revoked successfully');
+                setTimeout(() => setError(''), 3000);
             }
         } catch (err) {
-            setError('Failed to revoke session');
             console.error('Error revoking session:', err);
+            const errorMessage = err.response?.data?.message || 'Failed to revoke session';
+            setError(errorMessage);
         }
     };
 
     const revokeAllSessions = async () => {
         try {
+            setError(''); // Clear any previous errors
             const token = localStorage.getItem('accessToken');
             const currentSessionId = localStorage.getItem('sessionId');
+            
+            if (!token) {
+                setError('No authentication token found. Please login again.');
+                return;
+            }
             
             const headers = { 'Authorization': token };
             if (currentSessionId) {
                 headers['X-Session-ID'] = currentSessionId;
             }
+
+            console.log('Revoking all other sessions');
 
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/sessions/revoke-all`,
@@ -103,13 +133,21 @@ const Security = ({ isVisible, onClose }) => {
                 }
             );
 
+            console.log('Revoke all response:', response.data);
+
             if (response.data.statusCode === 200) {
-                setSessions(sessions.filter(session => session.isCurrent));
+                // Keep only the current session
+                setSessions(prevSessions => prevSessions.filter(session => session.isCurrent));
                 setShowRevokeAllModal(false);
+                
+                // Show success message briefly
+                setError('All other sessions revoked successfully');
+                setTimeout(() => setError(''), 3000);
             }
         } catch (err) {
-            setError('Failed to revoke all sessions');
             console.error('Error revoking all sessions:', err);
+            const errorMessage = err.response?.data?.message || 'Failed to revoke all sessions';
+            setError(errorMessage);
         }
     };
 
@@ -226,8 +264,15 @@ const Security = ({ isVisible, onClose }) => {
                     </div>
 
                     {error && (
-                        <div className="bg-red-500 bg-opacity-20 border border-red-500 text-red-300 px-4 py-3 rounded-lg mb-4">
-                            <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+                        <div className={`px-4 py-3 rounded-lg mb-4 ${
+                            error.includes('successfully') 
+                                ? 'bg-green-500 bg-opacity-20 border border-green-500 text-green-300' 
+                                : 'bg-red-500 bg-opacity-20 border border-red-500 text-red-300'
+                        }`}>
+                            <FontAwesomeIcon 
+                                icon={error.includes('successfully') ? faCheckCircle : faExclamationTriangle} 
+                                className="mr-2" 
+                            />
                             {error}
                         </div>
                     )}
