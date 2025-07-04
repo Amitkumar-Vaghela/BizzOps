@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { generalLimiter } from '../middlewares/rateLimiter.js';
 
 // Load environment variables
 dotenv.config();
@@ -31,6 +32,20 @@ app.use(express.json({ limit: '16kb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); 
 app.use(cookieParser());
+
+// Configure trust proxy more securely
+// In development, we don't need proxy trust
+// In production, configure this based on your specific proxy setup
+if (process.env.NODE_ENV === 'production') {
+    // Configure trust proxy for production (adjust based on your setup)
+    app.set('trust proxy', 1); // Trust first proxy
+} else {
+    // In development, don't trust proxy
+    app.set('trust proxy', false);
+}
+
+// Apply rate limiting
+app.use(generalLimiter);
 
 import userRouter from "../routes/user.routes.js";
 import inventoryRouter from "../routes/inventory.routes.js";

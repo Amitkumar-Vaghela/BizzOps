@@ -4,7 +4,7 @@ class InventoryAgent {
     constructor(apiKey) {
         this.openRouterApiKey = apiKey;
         this.baseUrl = 'https://openrouter.ai/api/v1/chat/completions';
-        this.modelName = 'anthropic/claude-3.5-sonnet';
+        this.modelName = 'google/gemini-pro-1.5-exp'; 
     }
 
     async callOpenRouter(prompt) {

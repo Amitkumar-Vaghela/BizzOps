@@ -30,7 +30,43 @@ const userSchema = new Schema({
     address : {
         type: String,
         required: true
-    }
+    },
+    activeSessions: [{
+        sessionId: {
+            type: String,
+            required: true
+        },
+        refreshToken: {
+            type: String,
+            required: true
+        },
+        ipAddress: {
+            type: String,
+            required: true
+        },
+        userAgent: {
+            type: String,
+            required: true
+        },
+        deviceInfo: {
+            browser: String,
+            os: String,
+            device: String,
+            deviceType: String
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
+        },
+        lastActiveAt: {
+            type: Date,
+            default: Date.now
+        },
+        isActive: {
+            type: Boolean,
+            default: true
+        }
+    }]
 }, { timestamps: true })
 
 

@@ -18,6 +18,8 @@ import {
   Phone,
   Mail
 } from 'lucide-react';
+import VoiceInput from '../VoiceInput/VoiceInput.jsx';
+
 const token = localStorage.getItem('accessToken');
 
 const StaffRAGComponent = () => {
@@ -26,6 +28,7 @@ const StaffRAGComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const [useVoiceInput, setUseVoiceInput] = useState(false);
 
   const exampleQueries = [
     "Who are my highest paid staff members?",
@@ -252,6 +255,42 @@ const StaffRAGComponent = () => {
                   <RefreshCw className="w-5 h-5" />
                 </button>
               </div>
+
+              {/* Voice Input Toggle */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="voiceInputToggle"
+                  checked={useVoiceInput}
+                  onChange={(e) => setUseVoiceInput(e.target.checked)}
+                  className="w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                />
+                <label htmlFor="voiceInputToggle" className="text-sm text-gray-700">
+                  Enable Voice Input
+                </label>
+              </div>
+
+              {/* Voice Input Component */}
+              {useVoiceInput && (
+                <div className="mt-4">
+                  <VoiceInput 
+                    onTranscript={(voiceQuery) => {
+                      setQuery(voiceQuery);
+                      // Automatically submit when voice input is complete
+                      setTimeout(() => {
+                        if (voiceQuery.trim()) {
+                          handleSubmit({ preventDefault: () => {} });
+                        }
+                      }, 500);
+                    }}
+                    onError={(error) => {
+                      setError(`Voice input error: ${error}`);
+                    }}
+                    placeholder="Ask anything about your staff using voice..."
+                    className="mb-4"
+                  />
+                </div>
+              )}
             </div>
           </div>
 

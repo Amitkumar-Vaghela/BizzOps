@@ -23,11 +23,17 @@ function Login() {
             });
 
             if (response.status === 200) {
-                const { accessToken } = response.data.data;
+                const { accessToken, sessionId } = response.data.data;
 
                 if (accessToken) {
-                    localStorage.setItem("accessToken",accessToken);
+                    localStorage.setItem("accessToken", accessToken);
                 }
+                
+                if (sessionId) {
+                    localStorage.setItem("sessionId", sessionId);
+                    console.log("Session ID stored:", sessionId);
+                }
+                
                 const isSuccess = true;
 
                 if (isSuccess) {
