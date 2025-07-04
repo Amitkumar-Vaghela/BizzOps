@@ -21,6 +21,7 @@ const Security = ({ isVisible, onClose }) => {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [sessionToRevoke, setSessionToRevoke] = useState(null);
     const [showRevokeAllModal, setShowRevokeAllModal] = useState(false);
+    const [showLogoutAllModal, setShowLogoutAllModal] = useState(false);
 
     const fetchActiveSessions = useCallback(async () => {
         setLoading(true);
@@ -29,21 +30,11 @@ const Security = ({ isVisible, onClose }) => {
         const token = localStorage.getItem('accessToken');
         const sessionId = localStorage.getItem('sessionId');
         
-        console.log('Frontend Debug - localStorage values:', {
-            token: token ? 'Present' : 'Missing',
-            sessionId: sessionId || 'Missing'
-        });
-        
         try {
             const headers = { 'Authorization': token };
             if (sessionId) {
                 headers['X-Session-ID'] = sessionId;
-                console.log('Frontend: Sending sessionId in header:', sessionId);
-            } else {
-                console.log('Frontend: No sessionId found in localStorage');
             }
-            
-            console.log('Frontend: Request headers:', headers);
 
             const response = await axios.get(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/sessions`,
@@ -72,7 +63,6 @@ const Security = ({ isVisible, onClose }) => {
             const headers = { 'Authorization': token };
             if (currentSessionId) {
                 headers['X-Session-ID'] = currentSessionId;
-                console.log('Frontend: Sending sessionId in revoke header:', currentSessionId);
             }
 
             const response = await axios.delete(
@@ -102,7 +92,6 @@ const Security = ({ isVisible, onClose }) => {
             const headers = { 'Authorization': token };
             if (currentSessionId) {
                 headers['X-Session-ID'] = currentSessionId;
-                console.log('Frontend: Sending sessionId in revoke-all header:', currentSessionId);
             }
 
             const response = await axios.post(
@@ -121,6 +110,40 @@ const Security = ({ isVisible, onClose }) => {
         } catch (err) {
             setError('Failed to revoke all sessions');
             console.error('Error revoking all sessions:', err);
+        }
+    };
+
+    const logoutFromAllDevices = async () => {
+        try {
+            const token = localStorage.getItem('accessToken');
+            const currentSessionId = localStorage.getItem('sessionId');
+            
+            const headers = { 'Authorization': token };
+            if (currentSessionId) {
+                headers['X-Session-ID'] = currentSessionId;
+            }
+
+            const response = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/logout-all-devices`,
+                {},
+                {
+                    headers,
+                    withCredentials: true
+                }
+            );
+
+            if (response.data.statusCode === 200) {
+                // Clear local storage and redirect to login
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                localStorage.removeItem('sessionId');
+                
+                // Redirect to login or refresh page
+                window.location.href = '/signin';
+            }
+        } catch (err) {
+            setError('Failed to logout from all devices');
+            console.error('Error logging out from all devices:', err);
         }
     };
 
@@ -419,16 +442,19 @@ const Security = ({ isVisible, onClose }) => {
                             Refresh Sessions
                         </button>
                         
+                        {/* Logout from all devices button */}
+                        <button
+                            onClick={() => setShowLogoutAllModal(true)}
+                            className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg font-poppins transition-colors"
+                        >
+                            Logout from All Devices
+                        </button>
+                        
                         {/* Debug button - remove in production */}
                         <button
                             onClick={() => {
                                 const token = localStorage.getItem('accessToken');
                                 const sessionId = localStorage.getItem('sessionId');
-                                console.log('=== Frontend Debug Info ===');
-                                console.log('AccessToken:', token ? `${token.substring(0, 20)}...` : 'Missing');
-                                console.log('SessionId:', sessionId || 'Missing');
-                                console.log('Backend URL:', import.meta.env.VITE_BACKEND_URL);
-                                console.log('===========================');
                                 alert(`SessionId: ${sessionId || 'Missing'}\nToken: ${token ? 'Present' : 'Missing'}`);
                             }}
                             className="w-full bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg font-poppins transition-colors text-sm"
@@ -515,6 +541,37 @@ const Security = ({ isVisible, onClose }) => {
                                     className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg font-poppins transition-colors"
                                 >
                                     Revoke All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Logout All Devices Modal */}
+            {showLogoutAllModal && (
+                <div className="fixed inset-0 flex items-center justify-center z-60 bg-black bg-opacity-70">
+                    <div className="bg-[#28282B] rounded-xl p-6 w-80">
+                        <div className="text-center">
+                            <FontAwesomeIcon icon={faExclamationTriangle} className="text-red-400 text-3xl mb-4" />
+                            <h3 className="text-white text-lg font-semibold font-poppins mb-2">
+                                Logout from All Devices
+                            </h3>
+                            <p className="text-gray-300 text-sm font-poppins mb-6">
+                                This will log you out from all devices including this one. You will need to log in again. This action cannot be undone.
+                            </p>
+                            <div className="flex space-x-3">
+                                <button
+                                    onClick={() => setShowLogoutAllModal(false)}
+                                    className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg font-poppins transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={logoutFromAllDevices}
+                                    className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg font-poppins transition-colors"
+                                >
+                                    Logout All
                                 </button>
                             </div>
                         </div>
