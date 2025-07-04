@@ -9,7 +9,9 @@ import {
     updateAccountDetails,
     getActiveSessions,
     revokeSession,
-    revokeAllSessions
+    revokeAllSessions,
+    getSessionStatistics,
+    logoutFromAllDevices
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { authLimiter, sessionLimiter } from "../middlewares/rateLimiter.js";
@@ -30,5 +32,7 @@ router.route('/update-account').post(verifyJWT,updateAccountDetails)
 router.route('/sessions').get(verifyJWT, sessionLimiter, getActiveSessions)
 router.route('/sessions/:sessionId').delete(verifyJWT, sessionLimiter, revokeSession)
 router.route('/sessions/revoke-all').post(verifyJWT, sessionLimiter, revokeAllSessions)
+router.route('/sessions/statistics').get(verifyJWT, getSessionStatistics)
+router.route('/logout-all-devices').post(verifyJWT, sessionLimiter, logoutFromAllDevices)
 
 export default router
