@@ -1,9 +1,7 @@
 #!/bin/bash
-# Script to add voice input to all RAG components
 
-echo "🚀 Adding Voice Input to all RAG Components..."
+echo "Adding Voice Input to all RAG Components..."
 
-# Array of RAG component paths
 components=(
   "frontend/src/components/Staff/StaffRAGComponent.jsx"
   "frontend/src/components/Sales/SalesRAGComponents..jsx" 
@@ -12,7 +10,6 @@ components=(
   "frontend/src/components/Expenses/ExpenseRAGComponent.jsx"
 )
 
-# Voice input integration code snippet
 voice_import='import VoiceInput from "../VoiceInput/VoiceInput.jsx";'
 voice_state='const [useVoiceInput, setUseVoiceInput] = useState(false);'
 
@@ -56,8 +53,8 @@ voice_toggle='
               )}
 '
 
-echo "✨ Voice Input component created at: frontend/src/components/VoiceInput/VoiceInput.jsx"
-echo "📊 Multi-language support includes:"
+echo "Voice Input component created at: frontend/src/components/VoiceInput/VoiceInput.jsx"
+echo "Multi-language support includes:"
 echo "   - English (US, India)"
 echo "   - Hindi (हिंदी)"
 echo "   - Bengali (বাংলা)"
@@ -73,16 +70,16 @@ echo "1. Add import: $voice_import"
 echo "2. Add state: $voice_state"
 echo "3. Add voice toggle section after your query input"
 echo ""
-echo "🎯 Your BizzOps platform now supports:"
+echo " Your BizzOps platform now supports:"
 echo "   ✅ Voice commands in multiple Indian languages"
 echo "   ✅ Automatic speech-to-text conversion"
 echo "   ✅ Text-to-speech for responses"
 echo "   ✅ Real-time voice recognition"
 echo "   ✅ Free and open-source solution"
 echo ""
-echo "🚀 Users can now say things like:"
+echo "Users can now say things like:"
 echo "   - 'मेरी staff की salary कितनी है?' (Hindi)"
 echo "   - 'What's my total revenue?' (English)"
 echo "   - 'আমার বিক্রয় কত?' (Bengali)"
 echo ""
-echo "Voice Input integration ready! 🎉🎙️"
+echo "Voice Input integration ready! "

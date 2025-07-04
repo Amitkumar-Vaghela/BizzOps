@@ -1,9 +1,10 @@
-import { faPencil, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faSignOut, faUser, faShield } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
+import Security from "./Security";
 const token = localStorage.getItem('accessToken');
 
 function Account() {
@@ -11,6 +12,7 @@ function Account() {
     const navigate = useNavigate();
     const [isPopupVisible, setPopupVisible] = useState(false);
     const [isEditPopupVisible, setEditPopupVisible] = useState(false);
+    const [isSecurityVisible, setSecurityVisible] = useState(false);
     const [userDetails, setUserDetails] = useState({
         businessName: '',
         email: '',
@@ -68,6 +70,7 @@ function Account() {
             if (response.data.statusCode === 200) {
                 console.log("User logged out");
                 localStorage.removeItem('accessToken');
+                localStorage.removeItem('sessionId');
                 logout()
                 navigate('/');
             }
@@ -118,7 +121,19 @@ function Account() {
                         <p className="mt-2 text-center m-2 text-white text-lg">{userDetails.name}</p>
                         <p className="mt-2 text-center m-2 text-white text-lg">{userDetails.phoneNo}</p>
                         <p className="mt-2 text-center m-2 mb-10 text-white text-lg">{userDetails.address}</p>
-                        {/* {message && <p className="text-red-500 text-center">{message}</p>} */}
+                        {message && <p className="text-red-500 text-center">{message}</p>}
+                        
+                        {/* Security Button */}
+                        <div className="mb-4 flex justify-center">
+                            <button
+                                onClick={() => { setSecurityVisible(true); handleClosePopup(); }}
+                                className="flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all font-poppins text-sm"
+                            >
+                                <FontAwesomeIcon icon={faShield} className="mr-2" />
+                                Security & Sessions
+                            </button>
+                        </div>
+                        
                         <div className="mt-4 flex justify-end gap-4">
                             <button
                                 onClick={() => { handleEditOpen(); handleClosePopup(); }}
@@ -136,12 +151,19 @@ function Account() {
                                 onClick={handleLogOut}
                                 className="text-[#f84242] font-normal hover:text-[#b64141] font-poppins"
                             >
+                                <FontAwesomeIcon icon={faSignOut} className="mr-2" />
                                 Sign Out
                             </button>
                         </div>
                     </div>
                 </div>
             )}
+
+            {/* Security Component */}
+            <Security 
+                isVisible={isSecurityVisible} 
+                onClose={() => setSecurityVisible(false)} 
+            />
 
             {isEditPopupVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
