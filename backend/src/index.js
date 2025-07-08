@@ -81,7 +81,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Vercel serverless function handler
-export default async function handler(req, res) {
+const handler = async (req, res) => {
     try {
         await connectToDatabase();
         return app(req, res);
@@ -95,4 +95,6 @@ export default async function handler(req, res) {
             message: 'Internal server error' 
         });
     }
-}
+};
+
+export default handler;
