@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import logo from '../assets/logo2.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
 
@@ -12,9 +12,12 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorPopup, setErrorPopup] = useState("")
+    const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     async function handleLogin(e) {
         e.preventDefault();
+        setIsLoading(true);
         const data = { email, password };
 
         try {
@@ -56,8 +59,14 @@ function Login() {
                 setErrorPopup("");
             }, 2000);
             console.error("Error during login:", error.response?.data || error.message);
+        } finally {
+            setIsLoading(false);
         }
     }
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     return (
         <>
@@ -75,26 +84,44 @@ function Login() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl text-white font-medium rounded-2xl placeholder-zinc-300"
+                                disabled={isLoading}
                             />
                         </div>
                         <div className="relative mb-4">
                             <FontAwesomeIcon icon={faLock} className="absolute left-3 top-4 text-zinc-300" />
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 placeholder="Password"
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full p-3 pl-10 mb-4 bg-[#2b2b2e] shadow-xl rounded-2xl font-medium text-white placeholder-zinc-300"
+                                className="w-full p-3 pl-10 pr-10 mb-4 bg-[#2b2b2e] shadow-xl rounded-2xl font-medium text-white placeholder-zinc-300"
+                                disabled={isLoading}
                             />
+                            <button
+                                type="button"
+                                onClick={togglePasswordVisibility}
+                                className="absolute right-3 top-4 text-zinc-300 hover:text-white transition-colors"
+                                disabled={isLoading}
+                            >
+                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="absolute right-4 text-zinc-300"/>
+                            </button>
                         </div>
                         <div className='relative mb-4' onClick={() => navigate('/register')}>
                             <p className='text-xs ml-2 font-font4 font-medium text-zinc-300'>
-                                Don’t have an account? <span className="text-zinc-200 font-bold underline cursor-pointer">Sign up</span>
+                                Don't have an account? <span className="text-zinc-200 font-bold underline cursor-pointer">Sign up</span>
                             </p>
                         </div>
-                        <button type="submit" className="w-2/5 py-3 bg-white text-black font-poppins font-bold rounded-full hover:bg-gray-200 transition-all duration-500 hover:scale-110">
-                            Login
+                        <button 
+                            type="submit" 
+                            disabled={isLoading}
+                            className={`w-2/5 py-3 font-poppins font-bold rounded-full transition-all duration-500 ${
+                                isLoading 
+                                    ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+                                    : 'bg-white text-black hover:bg-gray-200 hover:scale-110'
+                            }`}
+                        >
+                            {isLoading ? 'Signing In...' : 'Login'}
                         </button>
                     </form>
                 </div>
