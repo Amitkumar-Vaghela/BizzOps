@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faEnvelope, faBriefcase, faLock, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faEnvelope, faBriefcase, faLock, faCheck, faEye, faEyeSlash, faPhone, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/logo2.png'; // Ensure the logo path is correct
 import { useNavigate } from 'react-router-dom';
 
@@ -15,9 +15,12 @@ function Register() {
     const [address, setAddress] = useState("");
     const [showPopup, setShowPopup] = useState(false);
     const [errorPopup, setErrorPopup] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     async function handleRegister(e) {
         e.preventDefault();
+        setIsLoading(true);
         const data = { name, email, businessName, password, phoneNo, address };
 
         try {
@@ -48,8 +51,14 @@ function Register() {
                 setErrorPopup("");
             }, 2000);
             console.error("Error during registration:", errorMessage);
+        } finally {
+            setIsLoading(false);
         }
     }
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     return (
         <div className="w-full h-screen sm:flex justify-center items-center bg-[#141415]">
@@ -66,6 +75,7 @@ function Register() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="w-full p-3 pl-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
+                            disabled={isLoading}
                         />
                     </div>
                     <div className="relative mb-4">
@@ -77,6 +87,7 @@ function Register() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full p-3 pl-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
+                            disabled={isLoading}
                         />
                     </div>
                     <div className="relative mb-4">
@@ -88,21 +99,23 @@ function Register() {
                             value={businessName}
                             onChange={(e) => setBusinessName(e.target.value)}
                             className="w-full p-3 pl-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
+                            disabled={isLoading}
                         />
                     </div>
                     <div className="relative mb-4">
-                        <FontAwesomeIcon icon={faBriefcase} className="absolute left-3 top-4 text-zinc-300" />
+                        <FontAwesomeIcon icon={faPhone} className="absolute left-3 top-4 text-zinc-300" />
                         <input
-                            type="text"
+                            type="tel"
                             placeholder="Phone No"
                             required
                             value={phoneNo}
                             onChange={(e) => setPhoneNo(e.target.value)}
                             className="w-full p-3 pl-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
+                            disabled={isLoading}
                         />
                     </div>
                     <div className="relative mb-4">
-                        <FontAwesomeIcon icon={faBriefcase} className="absolute left-3 top-4 text-zinc-300" />
+                        <FontAwesomeIcon icon={faMapMarkerAlt} className="absolute left-3 top-4 text-zinc-300" />
                         <input
                             type="text"
                             placeholder="Address"
@@ -110,26 +123,44 @@ function Register() {
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                             className="w-full p-3 pl-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
+                            disabled={isLoading}
                         />
                     </div>
                     <div className="relative">
                         <FontAwesomeIcon icon={faLock} className="absolute left-3 top-4 text-zinc-300" />
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Password"
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-3 pl-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
+                            className="w-full p-3 pl-10 pr-10 mb-4 text-white rounded-2xl bg-[#2b2b2e] shadow-xl placeholder-zinc-300"
+                            disabled={isLoading}
                         />
+                        <button
+                            type="button"
+                            onClick={togglePasswordVisibility}
+                            className="absolute right-3 top-4 text-zinc-300 hover:text-white transition-colors"
+                            disabled={isLoading}
+                        >
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="absolute right-4 text-zinc-300" />
+                        </button>
                     </div>
                     <div className='relative mb-4' onClick={() => navigate('/login')}>
                         <p className='text-xs ml-2 font-font4 font-medium text-zinc-200'>
                             Already have an account? <span className="text-zinc-300 font-bold underline cursor-pointer">Sign in</span>
                         </p>
                     </div>
-                    <button type="submit" className="w-2/5 py-3 bg-white text-black font-poppins font-bold rounded-full hover:bg-gray-200 transition-all duration-500 hover:scale-110">
-                        Register
+                    <button 
+                        type="submit" 
+                        disabled={isLoading}
+                        className={`w-2/5 py-3 font-poppins font-bold rounded-full transition-all duration-500 ${
+                            isLoading 
+                                ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+                                : 'bg-white text-black hover:bg-gray-200 hover:scale-110'
+                        }`}
+                    >
+                        {isLoading ? 'Registering...' : 'Register'}
                     </button>
                 </form>
             </div>
