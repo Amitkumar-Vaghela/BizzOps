@@ -10,8 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Account from "../Account.jsx";
 import StaffRAGComponent from "./StaffRAGComponent.jsx";
 
-const token = localStorage.getItem('accessToken');
-
 function Staff() {
     const navigate = useNavigate();
     const [staffItems, setStaffItems] = useState([]);
@@ -19,7 +17,7 @@ function Staff() {
 
     const fetchStaff = useCallback(async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/staff/get-staff`, {headers:{'Authorization':token} ,withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/staff/get-staff`, { withCredentials: true });
             if (response.data.statusCode === 200 && response.data.success) {
                 setStaffItems(response.data.data.staff);
             } else {
@@ -47,7 +45,7 @@ function Staff() {
             const response = await axios.post(
                 endpoint,
                 { staff: staffId, amount: newAmount },
-                { headers:{'Authorization':token},withCredentials: true }
+                { withCredentials: true }
             );
 
             if (response.data.statusCode === 200) {

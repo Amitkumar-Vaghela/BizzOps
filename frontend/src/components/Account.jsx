@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
 import Security from "./Security";
-const token = localStorage.getItem('accessToken');
 
 function Account() {
     const {logout} = useAuth()
@@ -25,10 +24,10 @@ function Account() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/get-details`, {headers:{'Authorization': token}, withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/get-details`, { withCredentials: true });
             if (response.data.statusCode === 200) {
                 setUserDetails(response.data.data);
-                setNewDetails(response.data.data); // Initialize new details
+                setNewDetails(response.data.data);
                 
             }
         } catch (error) {
@@ -47,9 +46,7 @@ function Account() {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/update-account`,
                 newDetails,
-                { headers:{
-                    'Authorization':token
-                },withCredentials: true }
+                { withCredentials: true }
             );
 
             if (response.data.statusCode === 200) {
@@ -66,7 +63,7 @@ function Account() {
 
     const handleLogOut = async () => {
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/logout`, {}, { headers:{'Authorization':token},withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/logout`, {}, { withCredentials: true });
             if (response.data.statusCode === 200) {
                 console.log("User logged out");
                 localStorage.removeItem('accessToken');

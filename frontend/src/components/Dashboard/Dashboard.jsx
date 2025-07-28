@@ -13,8 +13,6 @@ import Account from "../Account.jsx";
 import Customize from "../Customize/Customize.jsx";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const token = localStorage.getItem('accessToken');
-
 
 function Dashboard() {
 
@@ -36,88 +34,49 @@ function Dashboard() {
     const fetchData = async () => {
         try {
             const totalSaleResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-alltime-sale`, {
-                headers: {
-                    'Authorization': token // Include the token in the Authorization header
-                },
-                withCredentials: true // This ensures cookies are sent with the request
+                withCredentials: true
             });
 
             const totalProfitResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-alltime-profit`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
 
             const totalCostResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-alltime-cost`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
 
             const totalExpenseResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/expense/get-alltime-expense`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
 
             const todaySaleResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-oneday-sale`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
 
             const todayProfitResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-one-profit`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
 
             const monthSaleResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-last30Day-sale`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
 
             const monthProfitResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-total-last30Day-profit`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
             const orderResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/count-order`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
             const pendingOrderResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/get-pending-order`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
             const invoicesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/count-invoice`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
             const unpaidInvoicesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/unpaid-invoice`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
             const customersResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/customer/count-customer`, {
-                headers: {
-                    'Authorization': token
-                },
                 withCredentials: true
             });
 

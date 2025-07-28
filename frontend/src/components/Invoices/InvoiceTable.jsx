@@ -5,7 +5,6 @@ import { faEllipsis, faDownload } from '@fortawesome/free-solid-svg-icons';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-const token = localStorage.getItem('accessToken')
 
 const InvoiceTable = () => {
     const [invoices, setInvoices] = useState([]);
@@ -15,7 +14,7 @@ const InvoiceTable = () => {
 
     const fetchInvoices = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/get-invoice`, { headers: { 'Authorization': token }, withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/get-invoice`, { withCredentials: true });
             setInvoices(response.data.data.invoice.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
         } catch (error) {
             console.error('Error fetching invoices:', error);
@@ -23,7 +22,7 @@ const InvoiceTable = () => {
     };
     const fetchData = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/get-details`, { headers: { 'Authorization': token }, withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/get-details`, { withCredentials: true });
             if (response.data.statusCode === 200) {
                 setUserDetails(response.data.data);
             }
@@ -52,7 +51,7 @@ const InvoiceTable = () => {
 
         try {
             await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/invoices/${selectedInvoice._id}/toggle-paid`, {},
-                { headers: { 'Authorization': token }, withCredentials: true });
+                { withCredentials: true });
 
             await fetchInvoices();
             closeModal();

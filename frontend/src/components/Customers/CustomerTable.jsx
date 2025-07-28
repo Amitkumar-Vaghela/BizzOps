@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-const token = localStorage.getItem('accessToken');
 
 function CustomerTable() {
     const [customers, setCustomers] = useState([])
@@ -14,7 +11,7 @@ function CustomerTable() {
 
     const getCustomers = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/customer/get-customer`, { headers:{'Authorization':token},withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/customer/get-customer`, { withCredentials: true });
             if (response.data.statusCode === 200) {
                 setCustomers(response.data.data.customers);
             }

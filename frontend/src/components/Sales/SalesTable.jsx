@@ -1,6 +1,4 @@
-import React from 'react';
 import axios from 'axios';
-const token = localStorage.getItem('accessToken')
 import * as XLSX from "xlsx";
 
 function SalesTable({ sales }) {
@@ -9,7 +7,7 @@ function SalesTable({ sales }) {
     };
     const fetchAndDownload = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-sale?timeFilter=alltime`, { headers: { 'Authorization': token }, withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-sale?timeFilter=alltime`, { withCredentials: true });
             const salesData = response.data.data;
 
             if (!salesData || salesData.length === 0) {

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-const token = localStorage.getItem('accessToken')
 
 function AddStaff({ onStaffAdded }) {
     const [name, setName] = useState('');
@@ -19,7 +18,7 @@ function AddStaff({ onStaffAdded }) {
             debitCreditHistory: Number(salary)
         };
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/staff/add-staff`, data, { headers:{'Authorization':token},withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/staff/add-staff`, data, { withCredentials: true });
             if (response.data.statusCode === 200) {
                 onStaffAdded(response.data.data);
                 setPopupVisible(true);

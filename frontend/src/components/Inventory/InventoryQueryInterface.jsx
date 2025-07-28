@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { MessageSquare, Search, BarChart3, Loader2, AlertCircle } from 'lucide-react';
-
-
-const token = localStorage.getItem('token');
+import axios from 'axios';
 
 const InventoryQueryInterface = () => {
   const [query, setQuery] = useState('');
@@ -34,16 +32,12 @@ const InventoryQueryInterface = () => {
 
     try {
       
-      const res = await fetch('http://localhost:8000/api/v1/inventory/query', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ query })
-      });
+      const res = await axios.post('http://localhost:8000/api/v1/inventory/query', {
+         query},
+         {withCredentials : true}
+      );
 
-      const data = await res.json();
+      const data = await res.data;
 
       if (data.success) {
         setResponse(data.data.response);

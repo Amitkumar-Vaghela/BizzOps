@@ -1,11 +1,7 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import { Card, Typography } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUpAZ, faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-const token = localStorage.getItem('accessToken')
 import * as XLSX from "xlsx";
 
 function InventoryTable({ inventoryItems, onUpdateInventory }) {
@@ -80,7 +76,7 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
 
     const fetchAndDownload = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { headers:{'Authorization':token},withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { withCredentials: true });
             const inventoryData = response.data.data;
             
             if (!inventoryData || inventoryData.length === 0) {

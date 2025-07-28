@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-const token = localStorage.getItem('accessToken');
 
 function AddSales({ addNewSale }) {
     const navigate = useNavigate()
@@ -15,7 +14,7 @@ function AddSales({ addNewSale }) {
 
     const fetchInventory = useCallback(async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { headers:{'Authorization':token},withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { withCredentials: true });
             setInventory(response.data.data);
         } catch (error) {
             console.error('Failed to fetch inventory items:', error);
@@ -31,7 +30,7 @@ function AddSales({ addNewSale }) {
         const data = { product, price, profitInPercent, qty, date };
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/add-sale`, data, {headers:{'Authorization':token}, withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/add-sale`, data, { withCredentials: true });
 
             if (response.status === 201) {
                 console.log("Product added to sales");

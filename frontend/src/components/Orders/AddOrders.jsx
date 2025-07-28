@@ -1,7 +1,6 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
-const token = localStorage.getItem('accessToken')
 
 function AddOrders() {
     const [item, setItem] = useState('')
@@ -16,7 +15,7 @@ function AddOrders() {
         e.preventDefault()
         const data = { item, qty, price, dateToDilivery, profitInPercent, done }
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/add-order`, data, {headers:{'Authorization':token} ,withCredentials: true })
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/add-order`, data, {withCredentials: true })
             if (response.data.statusCode === 201) {
                 console.log("expense added successfully");
                 console.log(done);

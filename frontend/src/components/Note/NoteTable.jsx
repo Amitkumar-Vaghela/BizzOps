@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-const token = localStorage.getItem('accessToken')
 
 function NoteTable() {
     const [notes, setNotes] = useState([]);
@@ -11,7 +10,7 @@ function NoteTable() {
 
     const getNotes = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/notes/get-notes`, {headers:{'Authorization':token} ,withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/notes/get-notes`, {withCredentials: true });
             if (response.data.statusCode === 200) {
                 setNotes(response.data.data.notes);
             }
@@ -24,7 +23,7 @@ function NoteTable() {
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/notes/delete-notes`, 
                 { noteId }, 
-                { headers:{'Authorization':token},withCredentials: true }
+                { withCredentials: true }
             );
             if (response.data.statusCode === 200) {
                 closeModal();

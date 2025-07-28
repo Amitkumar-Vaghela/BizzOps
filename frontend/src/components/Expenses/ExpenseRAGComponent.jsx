@@ -14,6 +14,7 @@ import {
   Calculator
 } from 'lucide-react';
 import VoiceInput from '../VoiceInput/VoiceInput.jsx';
+import axios from 'axios';
 
 const ExpenseRAGComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,9 +24,6 @@ const ExpenseRAGComponent = () => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
   const [useVoiceInput, setUseVoiceInput] = useState(false);
-
-  // Get token from localStorage (you might want to use a more secure method)
-  const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
   const timelineOptions = [
     { value: 'today', label: 'Today' },
@@ -56,19 +54,14 @@ const ExpenseRAGComponent = () => {
     setResponse(null);
 
     try {
-      const res = await fetch('http://localhost:8000/api/v1/expense/query', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ 
-          query: query.trim(),
-          timeFilter: timeline 
-        })
+      const res = await axios.post('http://localhost:8000/api/v1/expense/query', {
+        query: query.trim(),
+        timeFilter: timeline
+      }, {
+        withCredentials: true
       });
 
-      const data = await res.json();
+      const data = await res.data;
 
       if (data.success) {
         setResponse(data.data);

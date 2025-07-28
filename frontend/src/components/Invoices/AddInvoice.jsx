@@ -3,11 +3,9 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-const token = localStorage.getItem('accessToken');
 
 const AddInvoice = () => {
     const navigate = useNavigate();
-    const token = localStorage.getItem('accessToken');
     const [customer, setCustomer] = useState('');
     const [items, setItems] = useState([{ itemName: '', qty: '', price: '', tax: '', availableStock: 0 }]);
     const [paid, setPaid] = useState(false);
@@ -21,7 +19,7 @@ const AddInvoice = () => {
     useEffect(() => {
         const fetchInventoryItems = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { headers:{'Authorization':token},withCredentials: true });
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { withCredentials: true });
                 
                 setInventoryItems(response.data.data);
             } catch (error) {

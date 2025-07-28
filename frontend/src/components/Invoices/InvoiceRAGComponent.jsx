@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  MessageSquare, 
-  Send, 
-  Calendar, 
-  Search, 
-  Loader2, 
-  BarChart3, 
-  TrendingUp, 
-  DollarSign, 
-  Package,
-  Clock,
+import axios from 'axios';
+import {
+  Send,
+  Calendar,
+  Search,
+  Loader2,
+  DollarSign,
   CheckCircle,
   AlertCircle,
   Copy,
@@ -20,8 +16,6 @@ import {
   FileText
 } from 'lucide-react';
 import VoiceInput from '../VoiceInput/VoiceInput.jsx';
-
-const token = localStorage.getItem('accessToken');
 
 const InvoiceRAGComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,19 +55,14 @@ const InvoiceRAGComponent = () => {
     setResponse(null);
 
     try {
-      const res = await fetch('http://localhost:8000/api/v1/invoice/query-invoice', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ 
-          query: query.trim(),
-          timeFilter: timeline 
-        })
+      const res = await axios.post('http://localhost:8000/api/v1/invoice/query-invoice', {
+        query: query.trim(),
+        timeFilter: timeline
+      }, {
+        withCredentials: true
       });
 
-      const data = await res.json();
+      const data = await res.data;
 
       if (data.success) {
         setResponse(data.data);
@@ -109,7 +98,7 @@ const InvoiceRAGComponent = () => {
 
     lines.forEach((line, index) => {
       const trimmed = line.trim();
-      
+
       if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
         // Bold headers
         if (inList && currentList.length > 0) {
@@ -307,12 +296,12 @@ const InvoiceRAGComponent = () => {
                   <div className="text-sm font-medium text-gray-700 mb-2">
                     🎙️ Voice Input - Speak in any language
                   </div>
-                  <VoiceInput 
+                  <VoiceInput
                     onTranscript={(voiceQuery) => {
                       setQuery(voiceQuery);
                       setTimeout(() => {
                         if (voiceQuery.trim()) {
-                          handleSubmit({ preventDefault: () => {} });
+                          handleSubmit({ preventDefault: () => { } });
                         }
                       }, 500);
                     }}
@@ -407,7 +396,7 @@ const InvoiceRAGComponent = () => {
                     <Copy className="w-4 h-4" />
                   </button>
                 </div>
-                
+
                 <div className="prose prose-sm max-w-none">
                   {formatResponse(response.response)}
                 </div>

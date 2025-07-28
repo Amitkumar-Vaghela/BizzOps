@@ -11,8 +11,6 @@ import Account from "../Account.jsx";
 import ClipLoader from "react-spinners/ClipLoader";
 import InvoiceRAGComponent from "../Invoices/InvoiceRAGComponent.jsx";
 
-const token = localStorage.getItem('accessToken')
-
 function Payment() {
     
     const navigate = useNavigate()
@@ -20,9 +18,9 @@ function Payment() {
     const [unPaid, setUnPaid] = useState(0)
     const fetchInvoices = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/paid-invoice`, {headers:{'Authorization':token} ,withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/paid-invoice`, {withCredentials: true });
             setPaid(response.data.data.totalPaidAmount)
-            const unpaidResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/unpaid-invoice`, {headers:{'Authorization':token} ,withCredentials: true })
+            const unpaidResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/unpaid-invoice`, {withCredentials: true })
             setUnPaid(unpaidResponse.data.data.totalUnpaidAmount)
         } catch (error) {
             console.error('Error fetching invoices:', error);

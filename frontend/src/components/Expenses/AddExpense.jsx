@@ -1,7 +1,5 @@
 import axios from "axios";
-import React from "react";
 import { useState } from "react";
-const token = localStorage.getItem('accessToken')
 
 function AddExpense(){
     const [name, setName] = useState('')
@@ -14,7 +12,7 @@ function AddExpense(){
         e.preventDefault()
         const data = {name,expAmount,description,date}
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/expense/add-expense`,data,{headers:{'Authorization':token},withCredentials:true})
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/expense/add-expense`,data,{withCredentials:true})
             if(response.data.statusCode === 200 ){
                 console.log("expense added successfully");
                 setPopupVisible(true);

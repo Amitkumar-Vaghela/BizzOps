@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-    faShield, 
-    faDesktop, 
-    faMobileAlt, 
-    faTabletAlt, 
-    faTrash, 
+import {
+    faShield,
+    faDesktop,
+    faMobileAlt,
+    faTabletAlt,
+    faTrash,
     faTimes,
     faExclamationTriangle,
     faCheckCircle,
@@ -26,21 +26,17 @@ const Security = ({ isVisible, onClose }) => {
     const fetchActiveSessions = useCallback(async () => {
         setLoading(true);
         setError('');
-        
-        const token = localStorage.getItem('accessToken');
-        const sessionId = localStorage.getItem('sessionId');
-        
-        try {
-            const headers = { 'Authorization': token };
-            if (sessionId) {
-                headers['X-Session-ID'] = sessionId;
-            }
 
+        const sessionId = localStorage.getItem('sessionId');
+        const headers = {};
+        if (sessionId) headers['X-Session-ID'] = sessionId;
+
+        try {
             const response = await axios.get(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/sessions`,
                 {
                     headers,
-                    withCredentials: true
+                    withCredentials: true,
                 }
             );
 
@@ -53,31 +49,14 @@ const Security = ({ isVisible, onClose }) => {
         } finally {
             setLoading(false);
         }
-    }, []); 
+    }, []);
 
     const revokeSession = async (sessionId) => {
         try {
-            setError(''); // Clear any previous errors
-            const token = localStorage.getItem('accessToken');
+            setError('');
             const currentSessionId = localStorage.getItem('sessionId');
-            
-            if (!token) {
-                setError('No authentication token found. Please login again.');
-                return;
-            }
-
-            if (!sessionId) {
-                setError('Invalid session ID');
-                return;
-            }
-            
-            const headers = { 'Authorization': token };
-            if (currentSessionId) {
-                headers['X-Session-ID'] = currentSessionId;
-            }
-
-            console.log('Revoking session:', sessionId);
-            console.log('Current session:', currentSessionId);
+            const headers = {};
+            if (currentSessionId) headers['X-Session-ID'] = currentSessionId;
 
             const response = await axios.delete(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/sessions/${sessionId}`,
@@ -87,42 +66,25 @@ const Security = ({ isVisible, onClose }) => {
                 }
             );
 
-            console.log('Revoke response:', response.data);
-
             if (response.data.statusCode === 200) {
-                // Remove the revoked session from state
-                setSessions(prevSessions => prevSessions.filter(session => session.sessionId !== sessionId));
+                setSessions(prev => prev.filter(session => session.sessionId !== sessionId));
                 setShowConfirmModal(false);
                 setSessionToRevoke(null);
-                
-                // Show success message briefly
                 setError('Session revoked successfully');
                 setTimeout(() => setError(''), 3000);
             }
         } catch (err) {
             console.error('Error revoking session:', err);
-            const errorMessage = err.response?.data?.message || 'Failed to revoke session';
-            setError(errorMessage);
+            setError(err.response?.data?.message || 'Failed to revoke session');
         }
     };
 
     const revokeAllSessions = async () => {
         try {
-            setError(''); // Clear any previous errors
-            const token = localStorage.getItem('accessToken');
+            setError('');
             const currentSessionId = localStorage.getItem('sessionId');
-            
-            if (!token) {
-                setError('No authentication token found. Please login again.');
-                return;
-            }
-            
-            const headers = { 'Authorization': token };
-            if (currentSessionId) {
-                headers['X-Session-ID'] = currentSessionId;
-            }
-
-            console.log('Revoking all other sessions');
+            const headers = {};
+            if (currentSessionId) headers['X-Session-ID'] = currentSessionId;
 
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/sessions/revoke-all`,
@@ -133,33 +95,23 @@ const Security = ({ isVisible, onClose }) => {
                 }
             );
 
-            console.log('Revoke all response:', response.data);
-
             if (response.data.statusCode === 200) {
-                // Keep only the current session
-                setSessions(prevSessions => prevSessions.filter(session => session.isCurrent));
+                setSessions(prev => prev.filter(session => session.isCurrent));
                 setShowRevokeAllModal(false);
-                
-                // Show success message briefly
                 setError('All other sessions revoked successfully');
                 setTimeout(() => setError(''), 3000);
             }
         } catch (err) {
             console.error('Error revoking all sessions:', err);
-            const errorMessage = err.response?.data?.message || 'Failed to revoke all sessions';
-            setError(errorMessage);
+            setError(err.response?.data?.message || 'Failed to revoke all sessions');
         }
     };
 
     const logoutFromAllDevices = async () => {
         try {
-            const token = localStorage.getItem('accessToken');
             const currentSessionId = localStorage.getItem('sessionId');
-            
-            const headers = { 'Authorization': token };
-            if (currentSessionId) {
-                headers['X-Session-ID'] = currentSessionId;
-            }
+            const headers = {};
+            if (currentSessionId) headers['X-Session-ID'] = currentSessionId;
 
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/logout-all-devices`,
@@ -171,12 +123,9 @@ const Security = ({ isVisible, onClose }) => {
             );
 
             if (response.data.statusCode === 200) {
-                // Clear local storage and redirect to login
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
                 localStorage.removeItem('sessionId');
-                
-                // Redirect to login or refresh page
                 window.location.href = '/signin';
             }
         } catch (err) {
@@ -187,38 +136,30 @@ const Security = ({ isVisible, onClose }) => {
 
     const getDeviceIcon = (deviceType) => {
         switch (deviceType?.toLowerCase()) {
-            case 'mobile':
-                return faMobileAlt;
-            case 'tablet':
-                return faTabletAlt;
-            case 'desktop':
-            default:
-                return faDesktop;
+            case 'mobile': return faMobileAlt;
+            case 'tablet': return faTabletAlt;
+            default: return faDesktop;
         }
     };
 
     const getBrowserIcon = (browserName) => {
         const browser = browserName?.toLowerCase() || '';
-        
         if (browser.includes('chrome')) return '🌐';
         if (browser.includes('firefox')) return '🦊';
         if (browser.includes('safari')) return '🧭';
         if (browser.includes('edge')) return '🔷';
         if (browser.includes('opera')) return '🎭';
         if (browser.includes('brave')) return '🦁';
-        
         return '🌐';
     };
 
     const getOSIcon = (osName) => {
         const os = osName?.toLowerCase() || '';
-        
         if (os.includes('windows')) return '🪟';
         if (os.includes('mac')) return '🍎';
         if (os.includes('linux')) return '🐧';
         if (os.includes('android')) return '🤖';
         if (os.includes('ios')) return '📱';
-        
         return '💻';
     };
 
@@ -233,15 +174,11 @@ const Security = ({ isVisible, onClose }) => {
     };
 
     const getLocationFromIP = (ip) => {
-        // In a real application, you might want to use a geolocation API
-        // For now, we'll just show the IP
         return ip === '::1' || ip === '127.0.0.1' ? 'Local Device' : ip;
     };
 
     useEffect(() => {
-        if (isVisible) {
-            fetchActiveSessions();
-        }
+        if (isVisible) fetchActiveSessions();
     }, [isVisible, fetchActiveSessions]);
 
     if (!isVisible) return null;
@@ -264,14 +201,13 @@ const Security = ({ isVisible, onClose }) => {
                     </div>
 
                     {error && (
-                        <div className={`px-4 py-3 rounded-lg mb-4 ${
-                            error.includes('successfully') 
-                                ? 'bg-green-500 bg-opacity-20 border border-green-500 text-green-300' 
+                        <div className={`px-4 py-3 rounded-lg mb-4 ${error.includes('successfully')
+                                ? 'bg-green-500 bg-opacity-20 border border-green-500 text-green-300'
                                 : 'bg-red-500 bg-opacity-20 border border-red-500 text-red-300'
-                        }`}>
-                            <FontAwesomeIcon 
-                                icon={error.includes('successfully') ? faCheckCircle : faExclamationTriangle} 
-                                className="mr-2" 
+                            }`}>
+                            <FontAwesomeIcon
+                                icon={error.includes('successfully') ? faCheckCircle : faExclamationTriangle}
+                                className="mr-2"
                             />
                             {error}
                         </div>
@@ -294,8 +230,8 @@ const Security = ({ isVisible, onClose }) => {
                                             {currentSession.deviceInfo?.browser || 'Unknown Browser'}
                                         </p>
                                         <p className="text-gray-300 text-sm font-poppins">
-                                            {getOSIcon(currentSession.deviceInfo?.osName)} {currentSession.deviceInfo?.os} • 
-                                            <span className="capitalize ml-1">{currentSession.deviceInfo?.deviceType}</span> • 
+                                            {getOSIcon(currentSession.deviceInfo?.osName)} {currentSession.deviceInfo?.os} •
+                                            <span className="capitalize ml-1">{currentSession.deviceInfo?.deviceType}</span> •
                                             <span className="ml-1">{getLocationFromIP(currentSession.ipAddress)}</span>
                                         </p>
                                     </div>
@@ -353,7 +289,7 @@ const Security = ({ isVisible, onClose }) => {
                                         <div className="flex justify-between items-start">
                                             <div className="flex items-start space-x-4">
                                                 <div className="text-3xl">
-                                                    <FontAwesomeIcon 
+                                                    <FontAwesomeIcon
                                                         icon={getDeviceIcon(session.deviceInfo?.deviceType)}
                                                         className="text-green-400"
                                                     />
@@ -371,7 +307,7 @@ const Security = ({ isVisible, onClose }) => {
                                                             Current Device
                                                         </span>
                                                     </div>
-                                                    
+
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
                                                         <div className="bg-[#1a1a1a] rounded-lg p-3">
                                                             <p className="text-gray-400 text-xs font-poppins mb-1">Operating System</p>
@@ -382,7 +318,7 @@ const Security = ({ isVisible, onClose }) => {
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div className="bg-[#1a1a1a] rounded-lg p-3">
                                                             <p className="text-gray-400 text-xs font-poppins mb-1">Device Type</p>
                                                             <div className="flex items-center">
@@ -397,7 +333,7 @@ const Security = ({ isVisible, onClose }) => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div className="space-y-1">
                                                         <p className="text-gray-300 text-sm font-poppins">
                                                             <span className="text-gray-500">Location:</span> {getLocationFromIP(session.ipAddress)}
@@ -414,7 +350,7 @@ const Security = ({ isVisible, onClose }) => {
                                         </div>
                                     </div>
                                 ))}
-                                
+
                                 {/* Other Sessions */}
                                 {sessions.filter(session => !session.isCurrent).map((session) => (
                                     <div
@@ -424,8 +360,8 @@ const Security = ({ isVisible, onClose }) => {
                                         <div className="flex justify-between items-start">
                                             <div className="flex items-start space-x-4">
                                                 <div className="text-2xl text-blue-400">
-                                                    <FontAwesomeIcon 
-                                                        icon={getDeviceIcon(session.deviceInfo?.deviceType)} 
+                                                    <FontAwesomeIcon
+                                                        icon={getDeviceIcon(session.deviceInfo?.deviceType)}
                                                     />
                                                 </div>
                                                 <div className="flex-1">
@@ -439,12 +375,12 @@ const Security = ({ isVisible, onClose }) => {
                                                     </div>
                                                     <div className="space-y-1">
                                                         <p className="text-gray-300 text-sm font-poppins">
-                                                            <span className="text-gray-500">OS:</span> 
+                                                            <span className="text-gray-500">OS:</span>
                                                             <span className="ml-1">{getOSIcon(session.deviceInfo?.osName)}</span>
                                                             <span className="ml-1">{session.deviceInfo?.os || 'Unknown'}</span>
                                                         </p>
                                                         <p className="text-gray-300 text-sm font-poppins">
-                                                            <span className="text-gray-500">Device:</span> 
+                                                            <span className="text-gray-500">Device:</span>
                                                             <span className="ml-1 capitalize">{session.deviceInfo?.deviceType || 'Unknown'}</span>
                                                             {session.deviceInfo?.architecture && (
                                                                 <span className="ml-1 text-gray-400">({session.deviceInfo.architecture})</span>
@@ -486,7 +422,7 @@ const Security = ({ isVisible, onClose }) => {
                         >
                             Refresh Sessions
                         </button>
-                        
+
                         {/* Logout from all devices button */}
                         <button
                             onClick={() => setShowLogoutAllModal(true)}
@@ -494,7 +430,7 @@ const Security = ({ isVisible, onClose }) => {
                         >
                             Logout from All Devices
                         </button>
-                        
+
                         {/* Debug button - remove in production */}
                         <button
                             onClick={() => {

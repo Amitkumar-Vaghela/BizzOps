@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import AddExpense from "./AddExpense.jsx";
 import ExpenseTable from "./ExpenseTable.jsx";
 import Sidebar from '../Sidebar.jsx';
 import CustomBtn from "../CustomBtn.jsx";
-import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faBackward } from "@fortawesome/free-solid-svg-icons";
 import Account from "../Account.jsx";

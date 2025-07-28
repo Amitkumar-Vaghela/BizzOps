@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useRef } from 'react';
 import { MessageCircle, X, Send, Bot, User, Loader2, TrendingUp, TrendingDown, AlertTriangle, Package, BarChart3, Camera, Upload, CheckCircle, XCircle, Info } from 'lucide-react';
 import VoiceInput from '../VoiceInput/VoiceInput.jsx';

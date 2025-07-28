@@ -19,8 +19,7 @@ import {
   Target
 } from 'lucide-react';
 import VoiceInput from '../VoiceInput/VoiceInput.jsx';
-
-const token = localStorage.getItem('accessToken');
+import axios from 'axios';
 
 
 const OrderRAGComponent = () => {
@@ -62,19 +61,14 @@ const OrderRAGComponent = () => {
 
     try {
       
-      const res = await fetch('http://localhost:8000/api/v1/orders/query', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ 
+      const res = await axios.post('http://localhost:8000/api/v1/orders/query', {
           query: query.trim(),
           timeFilter: timeline 
-        })
-      });
+        },
+        {withCredentials : true}
+      );
 
-      const data = await res.json();
+      const data = await res.data;
 
       if (data.success) {
         setResponse(data.data);

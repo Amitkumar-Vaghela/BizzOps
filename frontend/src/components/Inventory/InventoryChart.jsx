@@ -2,7 +2,6 @@ import  { useEffect, useState } from "react";
 import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
-const token = localStorage.getItem('accessToken')
 const InventoryChart = () => {
   const [inventoryData, setInventoryData] = useState([]);
   const [error, setError] = useState("");
@@ -15,7 +14,7 @@ const InventoryChart = () => {
         throw new Error("Access token not found. Please login again.");
       }
 
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { headers:{'Authorization':token},withCredentials: true });
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { withCredentials: true });
 
       if (response.status === 200) {
         setInventoryData(response.data.data);

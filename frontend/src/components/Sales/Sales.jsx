@@ -7,9 +7,8 @@ import Sidebar from '../Sidebar.jsx';
 import CustomBtn from "../CustomBtn.jsx";
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBackward } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Account from "../Account.jsx";
-const token = localStorage.getItem('accessToken');
 
 function Sales() {
     const navigate = useNavigate()
@@ -17,7 +16,7 @@ function Sales() {
 
     const fetchSales = useCallback(async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-sale?timeFilter=alltime`, {headers:{'Authorization':token}, withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/sales/get-sale?timeFilter=alltime`, { withCredentials: true });
             if (response.data.success) {
                 setSales(response.data.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
             }
