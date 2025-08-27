@@ -109,21 +109,32 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const loggedInUser = await User.findById(user._id).select("-password -activeSessions.refreshToken");
 
+    // Updated cookie options for better security and cross-origin support
     const options = {
         httpOnly: true,
-        secure: true
+        secure: process.env.NODE_ENV === 'production', // Only secure in production
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // For cross-origin in production
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        path: '/'
+    };
+
+    const refreshTokenOptions = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        path: '/'
     };
 
     return res
         .status(200)
         .cookie('accessToken', accessToken, options)
-        .cookie('refreshToken', refreshToken, options)
+        .cookie('refreshToken', refreshToken, refreshTokenOptions)
         .cookie('sessionId', sessionId, options)
         .json(new ApiResponse(200, { 
-            user: loggedInUser, 
-            accessToken, 
-            refreshToken,
-            sessionId 
+            user: loggedInUser,
+            message: "Login successful"
+            // Don't send tokens in response body when using cookies
         }, "User logged in successfully"));
 });
 
@@ -155,45 +166,70 @@ const logoutUser = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200, {}, "User Logged Out"))
 });
 
-const refreshAccessToken = asyncHandler(async(req,res)=>{
-    const incomingRequestToken = req.cookies.refreshToken || req.body.refreshToken
-    if(!incomingRequestToken){
-        throw new ApiError(400,"Unauthorized Request")
+const refreshAccessToken = asyncHandler(async(req, res) => {
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken;
+    
+    if (!incomingRefreshToken) {
+        throw new ApiError(401, "Refresh token not found");
     }
 
     try {
-        const decodedToken = jwt.verify(incomingRequestToken,process.env.REFRESH_TOKEN_SECRET)
-
-        const user = await User.findById(decodedToken._id)
-        if(!user){
-            throw new ApiError(400,"Invalid Refresh Token")
+        const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+        const user = await User.findById(decodedToken._id);
+        
+        if (!user) {
+            throw new ApiError(401, "Invalid refresh token");
         }
 
         // Find the session with this refresh token
         const activeSession = user.activeSessions.find(
-            session => session.refreshToken === incomingRequestToken && session.isActive
+            session => session.refreshToken === incomingRefreshToken && session.isActive
         );
 
-        if(!activeSession){
-            throw new ApiError(400,"Refresh token is expired or used")
+        if (!activeSession) {
+            throw new ApiError(401, "Refresh token is expired or used");
         }
 
-        const {accessToken, refreshToken: newRefreshToken} = await generateAccessRefreshToken(user._id, activeSession.sessionId)
+        const { accessToken, refreshToken: newRefreshToken } = await generateAccessRefreshToken(user._id, activeSession.sessionId);
 
         const options = {
-            httpOnly:true,
-            secure:true
-        }
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 24 * 60 * 60 * 1000,
+            path: '/'
+        };
+
+        const refreshTokenOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            path: '/'
+        };
 
         return res
-        .status(200)
-        .cookie("accessToken",accessToken,options)
-        .cookie("refreshToken",newRefreshToken,options)
-        .json(new ApiResponse(200,{accessToken, refreshToken:newRefreshToken}, "AccessToken refreshed Successfully"))
+            .status(200)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", newRefreshToken, refreshTokenOptions)
+            .json(new ApiResponse(200, { message: "Access token refreshed" }, "Access token refreshed successfully"));
     } catch (error) {
-        throw new ApiError(400,error.message || "error while refreshing token")
+        // Clear cookies on error
+        const clearOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            path: '/'
+        };
+        
+        res.clearCookie('accessToken', clearOptions);
+        res.clearCookie('refreshToken', clearOptions);
+        res.clearCookie('sessionId', clearOptions);
+        
+        throw new ApiError(401, error.message || "Invalid refresh token");
     }
 });
+
 
 const changePassword = asyncHandler(async(req,res)=>{
     const {oldPassword, newPassword} = req.body
