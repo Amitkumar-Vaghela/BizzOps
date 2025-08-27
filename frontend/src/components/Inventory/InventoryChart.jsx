@@ -8,12 +8,6 @@ const InventoryChart = () => {
 
   const fetchInventoryData = async () => {
     try {
-      const accessToken = localStorage.getItem("accessToken"); 
-
-      if (!accessToken) {
-        throw new Error("Access token not found. Please login again.");
-      }
-
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/get-item`, { withCredentials: true });
 
       if (response.status === 200) {
