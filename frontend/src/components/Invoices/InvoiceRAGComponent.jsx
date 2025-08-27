@@ -55,7 +55,7 @@ const InvoiceRAGComponent = () => {
     setResponse(null);
 
     try {
-      const res = await axios.post('http://localhost:8000/api/v1/invoice/query-invoice', {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/invoice/query-invoice`, {
         query: query.trim(),
         timeFilter: timeline
       }, {

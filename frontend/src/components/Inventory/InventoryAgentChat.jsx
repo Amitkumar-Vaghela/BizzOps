@@ -222,7 +222,7 @@ const InventoryAgentChat = ({ authToken }) => {
     setIsLoading(true);
 
     try {
-      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
+      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || `${import.meta.env.VITE_BACKEND_URL}`;
       
       // Create FormData for image upload
       const formData = new FormData();

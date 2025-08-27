@@ -51,7 +51,7 @@ const StaffRAGComponent = () => {
     setResponse(null);
 
     try {
-      const res = await axios.post('http://localhost:8000/api/v1/staff/query', { 
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/staff/query`, { 
           query: query.trim()
         },
         { withCredentials : true}

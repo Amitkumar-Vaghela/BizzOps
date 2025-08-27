@@ -18,7 +18,7 @@ function InventoryTable({ inventoryItems, onUpdateInventory }) {
 
     const deleteInventory = async (itemId) => {
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/inventory/delete-item', { product: itemId }, { withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/inventory/delete-item`, { product: itemId }, { withCredentials: true });
             if (response.status === 200) {
                 console.log("Deleted");
                 setLocalInventory((prevItems) => prevItems.filter(item => item._id !== itemId));

@@ -61,7 +61,7 @@ const OrderRAGComponent = () => {
 
     try {
       
-      const res = await axios.post('http://localhost:8000/api/v1/orders/query', {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/orders/query`, {
           query: query.trim(),
           timeFilter: timeline 
         },
